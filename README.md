@@ -1,3 +1,4 @@
 ## soundload_ (Work in progress)
 
-Desktop app for downloading tracks from soundcloud.com
+Desktop application build with electron
+Download soundcloud stream to mp3.
