@@ -1,3 +1,4 @@
-## soundload_
+## soundload_ (Work in progress)
 
-Just a tool for downloading tracks from soundcloud.com
+Desktop app for downloading tracks from soundcloud.com. 
+Build with Electron.
