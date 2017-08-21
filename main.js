@@ -16,14 +16,18 @@ var dialog = electron.dialog;
 var request = require('request');
 var config = require('./config');
 var Store = require('./store').init();
-var MainWindow;
 
+//env
 var debug = /--debug/.test(process.argv[2]);
 var outputPath = Store.get('output_path');
 
-//global store object
+//global store instance
 global.store = Store;
 
+//main window
+var mwin;
+
+//devtools
 if (process.env.NODE_ENV === 'development' && debug) {
   require('electron-reload')(path.resolve(__dirname), {
     electron: require('electron')
@@ -32,41 +36,38 @@ if (process.env.NODE_ENV === 'development' && debug) {
 
 function createWindow(opts) {
   var opts = opts || {};
+  var screenSize = electron.screen.getPrimaryDisplay().size;
 
-  MainWindow = new BrowserWindow({
-    defaultEncoding: 'utf-8',
-    autoHideMenuBar: true,
-    useContentSize: true,
-    show: false,
-    center: true,
-    minHeight: 350,
-    minWidth: 628,
-    height: 497,
-    width: 955
+  //create a BrowserWindow
+  mwin = new BrowserWindow({
+    width: screenSize.width / 2,
+    height: screenSize.height
   });
 
-  MainWindow.loadURL(`file://${__dirname}/index.html`);
+  //load index.html
+  mwin.loadURL(`file://${__dirname}/index.html`);
 
+  //devtools
   if (process.env.NODE_ENV === 'development') {
-    if (process.env.NODE_ENV === 'development') {
-      MainWindow.openDevTools();
-      ipcMain.on('inspect-element', function(event, coords) {
-        if (MainWindow) {
-          MainWindow.inspectElement(coords.x, coords.y);
+
+    mwin.openDevTools();
+
+    ipcMain.on('inspect-element', function(event, coords) {
+        if (mwin) {
+          mwin.inspectElement(coords.x, coords.y);
         }
-      });
-    }
+      })
   }
 }
 
 ipcMain.on('set-output-path', function(event) {
-  if(!MainWindow) return;
-  dialog.showOpenDialog(MainWindow, {
+  if(!mwin) return;
+  dialog.showOpenDialog(mwin, {
     properties: ['openDirectory']
   }, function(outputPath) {
     if(!outputPath) return;
     store.set('output_path', outputPath[0]);
-    MainWindow.webContents.send('set-output-path-reply', store.get('output_path'))
+    mwin.webContents.send('set-output-path-reply', store.get('output_path'))
   });
 });
 
@@ -116,17 +117,21 @@ ipcMain.on('download-file', function(event, fileData) {
     })
 });
 
+app.on('open-url', function(event, url) {
+  if(!url) return;
+  app.openUrl(url);
+})
+
 app.on('window-all-closed', function() {
   if (process.platform !== 'darwin') app.quit();
 });
 
 app.on('ready', function() {
   createWindow();
-  MainWindow.show();
 });
 
 app.on('activate', function() {
-  if (MainWindow === null) {
+  if (mwin === null) {
     createWindow();
   }
 })

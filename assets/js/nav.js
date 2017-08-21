@@ -1,18 +1,8 @@
-var storage = require('electron-json-storage')
+'use strict';
 
-// Default to the view that was active the last time the app was open
-storage.get('activeMusicFolder', function(err, id) {
-  if (err) return console.error(err)
-
-  if (id && id.length) {
-    showMainContent();
-    var section = $("#" + id);
-    if (section) section.click();
-  } else {
-    activateDefaultSection();
-  }
-})
-
+/**
+ * handles click events from menu items
+ */
 function handleSectionTrigger(event) {
   var $target = $(event.target);
   hideAllSectionsAndDeselectButtons();
@@ -25,15 +15,24 @@ function handleSectionTrigger(event) {
   $("#" + sectionId).addClass('is-shown');
 }
 
+/**
+ * activates the default section
+ */
 function activateDefaultSection() {
   $('a[href="#home"]').click();
 }
 
+/**
+ * shows the main content
+ */
 function showMainContent() {
   $body.removeClass('is-menu-visible');
   $('.js-section').addClass('is-shown');
 }
 
+/**
+ * hide all sections
+ */
 function hideAllSectionsAndDeselectButtons() {
   var sections = $('.js-section');
   sections.each(function(idx, section) {
@@ -43,6 +42,9 @@ function hideAllSectionsAndDeselectButtons() {
   $('.nav-button.is-selected').removeClass('is-selected');
 }
 
+/**
+ * menu events
+ */
 var $menu = $('#menu');
 var $body = $('body');
 

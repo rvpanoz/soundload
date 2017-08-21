@@ -2925,15 +2925,13 @@ ol, ul {
 }
 
 .error-msg {
-  position: fixed;
-  top: 40px;
-  left: 15px;
-  width: 85%;
   color: red;
 }
 
-/*form .actions {
-  position: relative;
-  top: 85px;
-  left: 0;
-}*/
+.pull-left {
+  float: left;
+}
+
+.pull-right {
+  float: right;
+}

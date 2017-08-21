@@ -15,8 +15,8 @@ var StoreModule = {
     var outputPath = store.get('output_path');
 
     if(!outputPath) {
-      //store to app.getPath('userData')
-      store.set('output_path', path.join(app.getPath('home'), app.getName()))
+      //default store path: app.getPath('userData')
+      store.set('output_path', path.join(app.getPath('music')));
     }
 
     return store;
