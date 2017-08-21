@@ -1,0 +1,33 @@
+{
+  "name": "noize",
+  "version": "1.0.0",
+  "description": "Download tracks from soundcloud",
+  "main": "main.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=development npm run start-dev",
+    "start-dev": "electron . --debug",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "soundcloud",
+    "electron",
+    "javascript"
+  ],
+  "author": "rvpanoz@gmail.com",
+  "license": "ISC",
+  "devDependencies": {
+    "cross-env": "3.1.4",
+    "electron-prebuilt": "^1.4.13",
+    "electron-reload": "^1.2.1"
+  },
+  "dependencies": {
+    "electron-builder": "^19.22.1",
+    "electron-json-storage": "^3.0.7",
+    "handlebars": "^4.0.10",
+    "jquery": "^3.1.1",
+    "lodash": "^4.17.4",
+    "moment": "^2.17.1",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1"
+  }
+}

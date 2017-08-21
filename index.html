@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>Noize</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- css -->
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <!-- imports -->
+  <link rel="import" href="templates/home.html">
+  <link rel="import" href="templates/about.html">
+</head>
+
+<body>
+  <!-- Wrapper -->
+  <div id="wrapper">
+
+    <!-- Header -->
+    <header id="header">
+      <div class="inner">
+        <nav>
+          <ul>
+            <li><a href="#menu">Menu</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <div id="main">
+      <div class="inner content row"></div>
+    </div>
+  </div>
+
+  <!-- Menu -->
+  <nav id="menu">
+    <h2>Menu</h2>
+    <ul>
+      <li>
+        <a href="#home" class="nav-button" data-section="home" id="home-button">Home</a>
+      </li>
+      <li>
+        <a href="#settings" class="nav-button" data-section="settings">Settings</a>
+      </li>
+    </ul>
+  </nav>
+
+  <script>
+    window.$ = require('jquery');
+    require('./assets/js/imports');
+    require('./assets/js/nav');
+    require('./renderer-process/home');
+  </script>
+</body>
+
+</html>
