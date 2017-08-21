@@ -20,8 +20,23 @@ var MainWindow;
 var debug = /--debug/.test(process.argv[2]);
 var timeout = 1000000;
 
+var musicDir = app.getPath('home');
+var outputPath = path.join(musicDir, app.getName());
+config.outputPath = outputPath;
+
+if(!fs.existsSync(outputPath)) {
+  //create folder to store the files in user's home dir
+  try {
+    fs.mkdir(outputPath, function(err, dirPath) {
+      if(err) throw err;
+    });
+  } catch (e) {
+    throw new Error(e);
+  }
+}
+
 if (process.env.NODE_ENV === 'development') {
-  require('electron-reload')(path.resolve(__dirname, 'renderer-process'), {
+  require('electron-reload')(path.resolve(__dirname), {
     electron: require('electron')
   });
 }
@@ -30,15 +45,15 @@ function createWindow(opts) {
   var opts = opts || {};
 
   MainWindow = new BrowserWindow({
-    autoHideMenuBar: true,
     defaultEncoding: 'utf-8',
+    autoHideMenuBar: true,
     useContentSize: true,
+    show: false,
+    center: true,
     minHeight: 350,
     minWidth: 628,
-    height: 800,
-    center: true,
-    width: 766,
-    show: false
+    height: 1024,
+    width: 1280
   });
 
   MainWindow.loadURL(`file://${__dirname}/index.html`);
@@ -53,7 +68,7 @@ function createWindow(opts) {
 ipcMain.on('download-file', function(event, fileData) {
   var now = Date.now().toString(), downloaded = 0, len = 0, progress = 0;
   var fileName = fileData.title || `track-${now.substr(0, 7)}`;
-  var filePath = path.join(`${__dirname}/output`, fileName + '.mp3');
+  var filePath = path.join(`${config.outputPath}`, fileName + '.mp3');
   var url = `${config.baseUrl}/tracks/${fileData.id}/stream?client_id=${config.client_id}`;
 
   request(url)

@@ -1,5 +1,5 @@
 {
-  "name": "noize",
+  "name": "soundload",
   "version": "1.0.0",
   "description": "Download tracks from soundcloud",
   "main": "main.js",
