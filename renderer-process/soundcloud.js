@@ -16,11 +16,19 @@ module.exports = {
         url: resolveUrl,
         json: true
       })
+      .on('response', function(reply) {
+        var replyobj = reply.toJSON();
+        var statusCode = parseInt(replyobj.statusCode);
+        if(statusCode === 404) {
+          ipcRenderer.send('download-file-error');
+          this.abort();
+        }
+      })
       .then(function(data) {
         ipcRenderer.send('download-file', data);
       })
       .catch(function(err) {
-        console.log(err);
+        ipcRenderer.send('download-file-error', err);
       });
   },
   validate: function(soundcloudUrl) {

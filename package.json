@@ -6,7 +6,12 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development npm run start-dev",
     "start-dev": "electron . --debug",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "build": {
+    "appId": "soundload"
   },
   "keywords": [
     "soundcloud",
@@ -23,6 +28,7 @@
   "dependencies": {
     "electron-builder": "^19.22.1",
     "electron-json-storage": "^3.0.7",
+    "electron-store": "^1.2.0",
     "handlebars": "^4.0.10",
     "jquery": "^3.1.1",
     "lodash": "^4.17.4",

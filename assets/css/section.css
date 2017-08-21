@@ -5,8 +5,7 @@
   position: absolute;
   width: 100%;
   left: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
   color: #000;
   pointer-events: none;
   visibility: hidden;
@@ -14,6 +13,20 @@
   transform: translateX(-20px);
   transition: visibility 0s .12s linear , opacity .12s ease-in, transform .12s ease-in;
 }
+
+form {
+  margin: 1em 0 2em 0 !important;
+}
+
+label {
+  margin: 0 !important;
+}
+
+.section > .section-content {
+  position: relative;
+  width: 85%;
+}
+
 .section.is-shown {
   pointer-events: auto;
   visibility: visible;
