@@ -20,7 +20,7 @@ if(output_path) {
 
 ipcRenderer.on('set-output-path-reply', function(event, folderPath) {
   output_dir.val(folderPath);
-  $('a[href="home"]').click();
+  $('a[href="#home"]').click();
 });
 
 apply_btn.on('click', function(e) {

@@ -15,17 +15,21 @@ var error = $('.error-msg');
 var progress = $('.progress-wrap');
 var fileSize;
 
+ipcRenderer.on('download-file', function(event, fileData) {
+  console.log(fileData);
+});
+
 ipcRenderer.on('download-file-reply', (event, response) => {
   $('span.size').text(`Download completed!`);
 });
 
-ipcRenderer.on('on-response-reply', function(event, size) {
+ipcRenderer.on('on-response-reply', function(event, size, data) {
   fileSize = size;
 });
 
-ipcRenderer.on('download-file-error', function(event) {
+ipcRenderer.on('download-file-error', function(event, errorMsg) {
   url.focus();
-  error.text('Invalid URL or URL is empty');
+  error.text(errorMsg);
   progress.css({
     width: "0%"
   });

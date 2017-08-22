@@ -17,10 +17,26 @@ module.exports = {
         json: true
       })
       .on('response', function(reply) {
-        var replyobj = reply.toJSON();
+        var error, replyobj = reply.toJSON();
         var statusCode = parseInt(replyobj.statusCode);
-        if(statusCode === 404) {
-          ipcRenderer.send('download-file-error');
+        switch (statusCode) {
+          case 200:
+            fileSize = parseInt(reply.headers['content-length'], 10);
+            len = fileSize.toFixed(2);
+            ipcRenderer.send('on-response-reply', (len / 1000024).toFixed(2), replyobj);
+            break
+          case 401:
+            error = 'Unauthorized request.';
+            break;
+          case 404:
+            error = 'Page not found.';
+            break;
+          case 500:
+            error = 'Server error.'
+            break;
+        }
+        if (error) {
+          ipcRenderer.send('download-file-error', error);
           this.abort();
         }
       })

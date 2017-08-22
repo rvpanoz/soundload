@@ -49,23 +49,21 @@ function createWindow(opts) {
 
   //devtools
   if (process.env.NODE_ENV === 'development') {
-
     mwin.openDevTools();
-
     ipcMain.on('inspect-element', function(event, coords) {
-        if (mwin) {
-          mwin.inspectElement(coords.x, coords.y);
-        }
-      })
+      if (mwin) {
+        mwin.inspectElement(coords.x, coords.y);
+      }
+    })
   }
 }
 
 ipcMain.on('set-output-path', function(event) {
-  if(!mwin) return;
+  if (!mwin) return;
   dialog.showOpenDialog(mwin, {
     properties: ['openDirectory']
   }, function(outputPath) {
-    if(!outputPath) return;
+    if (!outputPath) return;
     store.set('output_path', outputPath[0]);
     mwin.webContents.send('set-output-path-reply', store.get('output_path'))
   });
@@ -86,39 +84,52 @@ ipcMain.on('download-file', function(event, fileData) {
 
   function continueRequest() {
     this.on('data', (chunk) => {
-      var c = chunk.length;
-      downloaded += c;
-      progress = (100 * downloaded / len).toFixed(2); //bytes
-      // console.info(`Downloaded ${progress}%`);
-      event.sender.send('progress-file-reply', progress);
-    })
-    .on('end', () => {
-      // console.info('Download completed!');
-      event.sender.send('download-file-reply');
-    })
-    .on('error', (err) => {
-      console.log(err);
-    })
-    .pipe(fs.createWriteStream(filePath))
+        var c = chunk.length;
+        downloaded += c;
+        progress = (100 * downloaded / len).toFixed(2);
+        event.sender.send('progress-file-reply', progress);
+      })
+      .on('end', () => {
+        event.sender.send('download-file-reply');
+      })
+      .on('error', (err) => {
+        console.log(err);
+      })
+      .pipe(fs.createWriteStream(filePath))
   }
 
   var r = request(streamUrl)
     .on('response', (reply) => {
+      var fileSize, statusCode, error;
       var replyobj = reply.toJSON();
-      var statusCode = parseInt(replyobj.statusCode);
-      if(statusCode === 404) {
-        event.sender.send('download-file-error');
-      } else {
-        var fileSize = parseInt(reply.headers['content-length'], 10);
-        len = fileSize.toFixed(2);
-        event.sender.send('on-response-reply', (len / 1000024).toFixed(2));
-        continueRequest.call(r);
+
+      statusCode = parseInt(replyobj.statusCode);
+      switch (statusCode) {
+        case 200:
+          fileSize = parseInt(reply.headers['content-length'], 10);
+          len = fileSize.toFixed(2);
+          event.sender.send('on-response-reply', (len / 1000024).toFixed(2), replyobj);
+          continueRequest.call(r);
+          break
+        case 401:
+          error = 'Unauthorized request.';
+          break;
+        case 404:
+          error = 'Page not found.';
+          break;
+        case 500:
+          error = 'Server error.'
+          break;
+      }
+      if (error) {
+        this.abort();
+        event.sender.send('download-file-error', error);
       }
     })
 });
 
-app.on('open-url', function(event, url) {
-  if(!url) return;
+ipcMain.on('open-url', function(event, url) {
+  if (!url) return;
   app.openUrl(url);
 })
 
