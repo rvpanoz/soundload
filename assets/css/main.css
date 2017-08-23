@@ -1396,7 +1396,7 @@ body.is-touch .tiles article .content {
 
 @media screen and (max-width: 736px) {
   #content-menu {
-    padding: 4em 0 0.1em 0;
+    padding: 0;
   }
   #content-menu nav {
     right: 0.5em;
@@ -1864,6 +1864,7 @@ input {
 }
 
 .details__info__meta {
+  color: #fff;
   padding: 40px;
 }
 
@@ -1876,7 +1877,7 @@ input {
 
 .details__header .details__info__name {
   color: white;
-  font-size: 36px;
+  font-size: 18px;
   font-weight: 100;
   padding: 0 0 10px 0;
 }
@@ -1896,6 +1897,10 @@ input {
   border-radius: 50%;
 }
 
+.details__header .details__navigation ul {
+    border: none;
+}
+
 .content__middle>.query {
   position: fixed;
   top: 0px;
@@ -1903,5 +1908,14 @@ input {
 }
 
 .header>.url-form {
-  margin-top: 30px;
+  margin-top: 3px;
+  width: 75%;
+}
+
+.details__header .details__navigation ul {
+    border: none;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #ddd;
 }

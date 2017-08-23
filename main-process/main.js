@@ -51,7 +51,7 @@ function createWindow(opts) {
 
   //create a BrowserWindow
   mwin = new BrowserWindow({
-    width: screenSize.width / 4,
+    width: screenSize.width / 2,
     height: screenSize.height / 1.5
   });
 
@@ -84,14 +84,12 @@ ipcMain.on('set-output-path', (event) => {
 
 ipcMain.on('get-soundcloud', (event, url) => {
   soundcloud.resolve(url, function(response) {
-    console.log(response);
     event.sender.send('get-soundcloud-reply', response);
   });
 });
 
-ipcMain.on('download-file', (event, fileData) => {
-  console.log('trackId:'+fileData.id);
-  // soundcloud.download(fileData.id);
+ipcMain.on('download-file', (event, fileName, trackId) => {
+  soundcloud.download(event, outputPath, fileName, trackId);
 });
 
 ipcMain.on('open-url', function(event, url) {

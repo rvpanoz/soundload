@@ -10,12 +10,14 @@ const ipcRenderer = require('electron').ipcRenderer;
 const config = require('../config');
 
 let $get = $('input[id="soundcloud-get"]');
+let $downloadBtn = $('button.download');
 let $url = $('input#soundcloud-url');
 let $details = $('.details');
 let $error = $('.error-msg');
+let $info = $('.details__info__msg');
 let $progress = $('.progress-wrap');
 
-let fileSize;
+let fileSize, fileName;
 
 let clear = function() {
   $details.removeClass('is-shown');
@@ -23,7 +25,6 @@ let clear = function() {
   $progress.css({
     width: "0%"
   });
-  $('span.size').text('');
 }
 
 let validate = function(url) {
@@ -37,17 +38,21 @@ let showError = function(error) {
 }
 
 let fillData = function(data) {
-  $details.find('.artwork > img').attr('src', data.artwork_url);
-  $details.find('.info > .title').text(data.title);
+  fileName = data.title;
+  $details.find('.details__img > img').attr('src', data.artwork_url);
+  $details.find('.details__img > img').attr('alt', data.title);
+  $details.find('.details__info__type').text(data.user.username);
+  $details.find('.details__info__name').text(data.title);
+  $details.find('input[type="hidden"]').val(data.id);
   $details.show();
 }
 
-ipcRenderer.on('download-file', (event, fileData) => {
-  console.log(fileData);
+ipcRenderer.on('download-file-reply', function(event) {
+  $info.text(`Download completed!`);
 });
 
-ipcRenderer.on('download-file-reply', (event, response) => {
-  $('span.size').text(`Download completed!`);
+ipcRenderer.on('on-response-reply', (event, trackSize) => {
+  fileSize = trackSize;
 });
 
 ipcRenderer.on('get-soundcloud-reply', function(event, fileData) {
@@ -61,10 +66,16 @@ ipcRenderer.on('download-file-error', function(event, errorMsg) {
 });
 
 ipcRenderer.on('progress-file-reply', (event, downloaded) => {
-  $('span.size').text(`Downloading ${downloaded}% of ${fileSize} MB`);
+  $info.text(`Downloading ${downloaded}% of ${fileSize} MB`);
   $progress.css({
     width: downloaded + "%"
   });
+});
+
+$downloadBtn.on('click', function(e) {
+    e.preventDefault();
+    let trackId = parseInt($('input[type="hidden"]').val());
+    ipcRenderer.send('download-file', fileName, trackId);
 });
 
 $get.on('click', function(e) {

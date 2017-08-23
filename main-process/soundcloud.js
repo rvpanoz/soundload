@@ -37,13 +37,13 @@ const Soundcloud = function() {
       });
   }
 
-  Soundcloud.prototype.download = function(trackId) {
+  Soundcloud.prototype.download = function(event, outputPath, fileName, trackId) {
     var now = Date.now().toString(),
       downloaded = 0,
       len = 0,
       progress = 0;
 
-    let fileName = `${app.getName()}-${now.substr(0, 7)}`;
+    var fileName = fileName || `${app.getName()}-${now.substr(0, 7)}`;
     let filePath = path.join(`${outputPath}`, fileName + '.mp3');
 
     //soundcloud url to get the stream
@@ -55,10 +55,10 @@ const Soundcloud = function() {
           let c = chunk.length;
           downloaded += c;
           progress = (100 * downloaded / len).toFixed(2);
-          ipcRenderer.send('progress-file-reply', progress);
+          event.sender.send('progress-file-reply', progress);
         })
         .on('end', () => {
-          ipcRenderer.send('download-file-reply');
+          event.sender.send('download-file-reply');
         })
         .on('error', (err) => {
           console.log(err);
@@ -76,7 +76,7 @@ const Soundcloud = function() {
           case 200:
             fileSize = parseInt(reply.headers['content-length'], 10);
             len = fileSize.toFixed(2);
-            ipcRenderer.send('on-response-reply', (len / 1000024).toFixed(2), replyobj);
+            event.sender.send('on-response-reply', (len / 1000024).toFixed(2), replyobj);
             continueRequest.call(r);
             break
           case 401:
@@ -91,7 +91,7 @@ const Soundcloud = function() {
         }
         if (error) {
           this.abort();
-          ipcRenderer.send('download-file-error', error);
+          event.sender.send('download-file-error', error);
         }
       })
   }
