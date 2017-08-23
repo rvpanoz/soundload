@@ -7,9 +7,8 @@ let links = $('link[rel="import"]');
 links.each(function (idx, link) {
   var link_import = $(link.import);
   var template = link_import.find('.page-template');
-  var content = $('.content');
-
-  $('.content').append(template.html());
+  var content = $('.content>.content__middle');
+  content.append(template.html());
 });
 
 $('body').on("contextmenu", function(e) {

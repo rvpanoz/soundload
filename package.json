@@ -2,7 +2,7 @@
   "name": "soundload",
   "version": "1.0.0",
   "description": "Download tracks from soundcloud",
-  "main": "main.js",
+  "main": "./main-process/main.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development npm run start-dev",
     "start-dev": "electron . --debug",

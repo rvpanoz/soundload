@@ -1,28 +1,28 @@
-/* Section ------------------ */
+/* Sections and Layout ------------------ */
 
+section.header {
+  background: #282828;
+  padding: 10px;
+  color: #aaaaaa;
+  border-bottom: 1px solid #181818;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
 
 .section {
   position: absolute;
   width: 100%;
   left: 0;
-  overflow: hidden;
   color: #000;
   pointer-events: none;
   visibility: hidden;
   opacity: 0;
   transform: translateX(-20px);
-  transition: visibility 0s .12s linear , opacity .12s ease-in, transform .12s ease-in;
+  transition: visibility 0s .12s linear, opacity .12s ease-in, transform .12s ease-in;
 }
 
-form {
-  margin: 1em 0 2em 0 !important;
-}
-
-label {
-  margin: 0 !important;
-}
-
-.section > .section-content {
+.section>.section-content {
   position: relative;
   width: 85%;
 }
@@ -32,12 +32,11 @@ label {
   visibility: visible;
   opacity: 1;
   transform: translateX(0);
-  transition: visibility 0s 0s linear , opacity .36s ease-out, transform .36s ease-out;
+  transition: visibility 0s 0s linear, opacity .36s ease-out, transform .36s ease-out;
 }
 
-.section h3,
-.section p {
-  color: hsl(0,0%,22%);
+.section h3, .section p {
+  color: hsl(0, 0%, 22%);
 }
 
 .section-wrapper {
@@ -45,8 +44,9 @@ label {
   max-width: 740px;
   margin: 0 auto;
   padding: 2rem 2rem 1rem 2rem;
-  border-bottom: 1px solid hsl(0,0%,88%);
+  border-bottom: 1px solid hsl(0, 0%, 88%);
 }
+
 @media (min-width: 940px) {
   .section-wrapper {
     padding-top: 4rem;
@@ -58,4 +58,47 @@ label {
   height: 32px;
   vertical-align: middle;
   margin-right: .5em;
+}
+
+.section>.header {
+  background: #282828;
+  padding: 10px;
+  color: #aaaaaa;
+  border-bottom: 1px solid #181818;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+.content .content__left {
+  width: 15%;
+}
+
+.content .content__middle {
+  width: 70%;
+}
+
+.content .content__right {
+  width: 15%;
+}
+
+@media (max-width: 1400px) {
+  .content>.content__left {
+    width: 20%;
+  }
+  .content>.content__middle {
+    width: 80%;
+  }
+  .content>.content__right {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .content__left {
+    width: 100%;
+  }
+  .content__middle {
+    width: 100%;
+  }
 }

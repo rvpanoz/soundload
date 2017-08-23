@@ -1,3 +1,5 @@
+//config
+
 'use strict';
 
 var config = {

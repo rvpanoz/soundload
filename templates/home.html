@@ -1,26 +1,31 @@
 <template class="page-template">
   <section id="home-section" class="section js-section">
-    <div class="section-header">
-      <h1>Soundload</h1>
-    </div>
-      <div class="section-content">
-        <form>
-          <div class="field first">
-            <input type="text" name="soundcloud-url" id="soundcloud-url" placeholder="Enter a soundcloud url">
-					</div>
-          <div class="pull-left">
-            <ul class="actions">
-              <li><input type="submit" id="soundcloud-download" value="Download" class="special"></li>
-            </ul>
-          </div>
-          <div class="pull-right">
-            <div class="error-msg"></div>
-          </div>
-
-				</form>
+      <!-- <div class="progress">
         <div style="text-align: center;"><span class="size"></div>
         <div class="progress-wrap progress">
           <div class="progress-bar progress"></span></div>
+        </div>
+      </div> -->
+      <div class="details">
+        <div class="details__header">
+          <div class="details__info">
+            <div class="details__img">
+              <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/g_eazy_propic.jpg" alt="G-Eazy">
+            </div>
+            <div class="details__info__meta">
+              <div class="details__info__type">Artist</div>
+              <div class="details__info__name">G-Eazy</div>
+              <div class="details__info__actions">
+                <button class="button-dark">
+                <i class="fa fa-download"></i>&nbsp;Download</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="details__download">
+          <div class="progress-wrap progress">
+            <div class="progress-bar progress"></span></div>
+          </div>
         </div>
       </div>
     </section>
