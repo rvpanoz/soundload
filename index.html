@@ -9,52 +9,65 @@
   <link rel="stylesheet" href="assets/css/main.css" />
   <!-- imports -->
   <link rel="import" href="templates/home.html">
-  <link rel="import" href="templates/settings.html">
 </head>
 
 <body>
-  <!-- Wrapper -->
   <div id="wrapper">
-
-    <!-- Header -->
-    <header id="header">
-      <div class="inner">
-        <nav>
-          <ul>
-            <li><a href="#menu">Menu</a></li>
-          </ul>
-        </nav>
+    <section class="header">
+      <div class="url-form">
+        <h1>Soundload</h1>
+        <form>
+          <div class="field first">
+            <input type="text" value="" name="soundcloud-url" id="soundcloud-url" placeholder="Enter a soundcloud url">
+          </div>
+          <div class="pull-left">
+            <ul class="actions">
+              <li><input type="submit" id="soundcloud-get" value="Fetch track" class="special"></li>
+            </ul>
+          </div>
+          <div class="pull-right">
+            <div class="error-msg"></div>
+          </div>
+        </form>
       </div>
-    </header>
+    </section>
+    <section class="content">
+      <div class="content__left">
+        <div id="content-menu">
+          <div class="inner">
+            <nav>
+              <ul>
+                <li><a href="#menu">Menu</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <div class="content__middle"></div>
+    </section>
+    <section class="current-track"></section>
 
-    <!-- Main -->
-    <div id="main">
-      <div class="inner content row"></div>
-    </div>
+    <!-- menu -->
+    <nav id="menu">
+      <h2>Menu</h2>
+      <ul>
+        <li>
+          <a href="#home" class="nav-button" data-section="home">Home</a>
+        </li>
+        <li>
+          <a href="https://github.com" target="_blank">Github</a>
+        </li>
+      </ul>
+    </nav>
+    <!-- /menu -->
+
   </div>
-
-  <!-- Menu -->
-  <nav id="menu">
-    <h2>Menu</h2>
-    <ul>
-      <li>
-        <a href="#home" class="nav-button" data-section="home">Home</a>
-      </li>
-      <li>
-        <a href="#settings" class="nav-button" data-section="settings">Settings</a>
-      </li>
-      <li>
-        <a href="https://github.com" target="_blank">Github</a>
-      </li>
-    </ul>
-  </nav>
-
+  <!-- /wrapper -->
   <script>
     window.$ = require('jquery');
     require('./assets/js/imports');
     require('./assets/js/nav');
     require('./renderer-process/home');
-    require('./renderer-process/settings');
   </script>
 </body>
 

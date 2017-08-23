@@ -10,10 +10,10 @@ const config = require('../config');
 const remote = require('electron').remote;
 const Store = remote.getGlobal('store');
 
-var apply_btn = $('input[id="apply-settings"]');
-var output_dir = $('input[id="output-dir"]');
+let apply_btn = $('input[id="apply-settings"]');
+let output_dir = $('input[id="output-dir"]');
+let output_path = Store.get('output_path');
 
-var output_path = Store.get('output_path');
 if(output_path) {
   output_dir.val(output_path);
 }
@@ -25,6 +25,7 @@ ipcRenderer.on('set-output-path-reply', function(event, folderPath) {
 
 apply_btn.on('click', function(e) {
   e.preventDefault();
+  e.stopPropagation();
+
   ipcRenderer.send('set-output-path');
-  return false;
 });

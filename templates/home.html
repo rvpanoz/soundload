@@ -1,26 +1,31 @@
 <template class="page-template">
   <section id="home-section" class="section js-section">
-    <div class="section-header">
-      <h1>Soundload</h1>
-    </div>
-      <div class="section-content">
-        <form>
-          <div class="field first">
-            <input type="text" name="soundcloud-url" id="soundcloud-url" placeholder="Enter a soundcloud url">
-					</div>
-          <div class="pull-left">
-            <ul class="actions">
-              <li><input type="submit" id="soundcloud-download" value="Download" class="special"></li>
-            </ul>
+      <div class="details">
+        <div class="details__header">
+          <div class="details__info">
+            <div class="details__img">
+              <img src="" alt="">
+            </div>
+            <div class="details__info__meta">
+              <div class="details__info__type"></div>
+              <div class="details__info__name"></div>
+              <div class="details__info__actions">
+                <input type="hidden"/>
+                <button class="button-dark download">
+                <i class="fa fa-download"></i>&nbsp;Download</button>
+              </div>
+            </div>
           </div>
-          <div class="pull-right">
-            <div class="error-msg"></div>
-          </div>
+        </div>
+        <div class="details__download">
+          <span class="details__info__msg" style="color: white;"></span>
+          <div class="progress-wrap progress">
+            <div class="progress-bar progress">
+              <div style="text-align: center;">
 
-				</form>
-        <div style="text-align: center;"><span class="size"></div>
-        <div class="progress-wrap progress">
-          <div class="progress-bar progress"></span></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

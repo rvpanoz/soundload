@@ -5,65 +5,98 @@
 
 'use strict';
 
+const URL = require('url');
 const ipcRenderer = require('electron').ipcRenderer;
 const config = require('../config');
-const soundcloud = require('./soundcloud');
 
-var download_btn = $('input[id="soundcloud-download"]');
-var url = $('input#soundcloud-url');
-var error = $('.error-msg');
-var progress = $('.progress-wrap');
-var fileSize;
+let $get = $('input[id="soundcloud-get"]');
+let $downloadBtn = $('button.download');
+let $url = $('input#soundcloud-url');
+let $details = $('.details');
+let $error = $('.error-msg');
+let $info = $('.details__info__msg');
+let $progress = $('.progress-wrap');
 
-ipcRenderer.on('download-file', function(event, fileData) {
-  console.log(fileData);
+let fileSize, fileName;
+
+let clear = function() {
+  $details.removeClass('is-shown');
+  $error.text('');
+  $progress.css({
+    width: "0%"
+  });
+}
+
+let validate = function(url) {
+  let urlobj = URL.parse(url);
+  return /soundcloud.com/.test(urlobj.hostname);
+}
+
+let showError = function(error) {
+  $url.focus();
+  $error.text((error) ? error : '');
+}
+
+let fillData = function(data) {
+  fileName = data.title;
+  $details.find('.details__img > img').attr('src', data.artwork_url);
+  $details.find('.details__img > img').attr('alt', data.title);
+  $details.find('.details__info__type').text(data.user.username);
+  $details.find('.details__info__name').text(data.title);
+  $details.find('input[type="hidden"]').val(data.id);
+  $details.show();
+}
+
+ipcRenderer.on('download-file-reply', function(event) {
+  $info.text(`Download completed!`);
 });
 
-ipcRenderer.on('download-file-reply', (event, response) => {
-  $('span.size').text(`Download completed!`);
+ipcRenderer.on('on-response-reply', (event, trackSize) => {
+  fileSize = trackSize;
 });
 
-ipcRenderer.on('on-response-reply', function(event, size, data) {
-  fileSize = size;
+ipcRenderer.on('get-soundcloud-reply', function(event, fileData) {
+  fillData(fileData);
+  $details.addClass('is-shown');
 });
 
 ipcRenderer.on('download-file-error', function(event, errorMsg) {
-  url.focus();
-  error.text(errorMsg);
-  progress.css({
-    width: "0%"
-  });
-  $('span.size').text('');
+  $url.focus();
+  $error.text(errorMsg);
 });
 
 ipcRenderer.on('progress-file-reply', (event, downloaded) => {
-  $('span.size').text(`Downloading ${downloaded}% of ${fileSize} MB`);
-  progress.css({
+  $info.text(`Downloading ${downloaded}% of ${fileSize} MB`);
+  $progress.css({
     width: downloaded + "%"
   });
 });
 
-url.on('input', function(e) {
-  error.text('');
-  $('span.size').text('');
-  progress.css({
-    width: "0%"
-  });
+$downloadBtn.on('click', function(e) {
+    e.preventDefault();
+    let trackId = parseInt($('input[type="hidden"]').val());
+    ipcRenderer.send('download-file', fileName, trackId);
 });
 
-download_btn.on('click', function(e) {
+$get.on('click', function(e) {
   e.preventDefault();
-  var url_value = $.trim(url.val()), is_valid=false, validation_msg = '';
+  e.stopPropagation();
+  clear();
 
-  if (url_value.length) {
+  let url = $.trim($url.val()), is_valid=false, validation_msg;
+  if (!url.length) {
     is_valid = !is_valid;
+    return showError('URL is empty');
   }
-  is_valid = soundcloud.validate(url_value);
+  is_valid = validate(url);
   if(!is_valid) {
-    url.focus();
-    error.text('Invalid URL or URL is empty');
-    return;
+    return showError('Invalid URL');
   }
-  var r = soundcloud.process(url_value);
-  return false;
+
+  ipcRenderer.send('get-soundcloud', url);
+});
+
+clear();
+$url.on('input', function(e) {
+  clear();
 });
