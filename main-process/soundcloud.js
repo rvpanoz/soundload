@@ -20,15 +20,20 @@ const Soundcloud = function() {
 
   Soundcloud.prototype.resolve = function(url, callback) {
     if (!url) return;
-
-    let self = this;
-    let resolveUrl = `${baseUrl}/resolve?url=${url}&client_id=${client_id}`;
+    let resolveUrl = `${baseUrl}/resolve`;
 
     let r = request({
-        url: resolveUrl,
-        json: true
+        url: config.resolveUrl,
+        json: true,
+        qs: {
+          url: url,
+          client_id: client_id
+        }
       }, (error, response, body) => {
+        console.log(response);
         if (error) {
+          console.log(error);
+          r.abort();
           throw new Error(error);
         }
         if(callback) {

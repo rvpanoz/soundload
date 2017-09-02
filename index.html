@@ -7,67 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- css -->
   <link rel="stylesheet" href="assets/css/main.css" />
-  <!-- imports -->
-  <link rel="import" href="templates/home.html">
 </head>
 
 <body>
-  <div id="wrapper">
-    <section class="header">
-      <div class="url-form">
-        <h1>Soundload</h1>
-        <form>
-          <div class="field first">
-            <input type="text" value="" name="soundcloud-url" id="soundcloud-url" placeholder="Enter a soundcloud url">
-          </div>
-          <div class="pull-left">
-            <ul class="actions">
-              <li><input type="submit" id="soundcloud-get" value="Fetch track" class="special"></li>
-            </ul>
-          </div>
-          <div class="pull-right">
-            <div class="error-msg"></div>
-          </div>
-        </form>
-      </div>
-    </section>
-    <section class="content">
-      <div class="content__left">
-        <div id="content-menu">
-          <div class="inner">
-            <nav>
-              <ul>
-                <li><a href="#menu">Menu</a></li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </div>
-      <div class="content__middle"></div>
-    </section>
-    <section class="current-track"></section>
-
-    <!-- menu -->
-    <nav id="menu">
-      <h2>Menu</h2>
-      <ul>
-        <li>
-          <a href="#home" class="nav-button" data-section="home">Home</a>
-        </li>
-        <li>
-          <a href="https://github.com" target="_blank">Github</a>
-        </li>
-      </ul>
-    </nav>
-    <!-- /menu -->
-
-  </div>
-  <!-- /wrapper -->
+  <div id="app"></div>
   <script>
-    window.$ = require('jquery');
-    require('./assets/js/imports');
-    require('./assets/js/nav');
-    require('./renderer-process/home');
+    // install babel hooks in the renderer process
+    require('babel-register');
+    require('./renderer-process/components/App');
   </script>
 </body>
 

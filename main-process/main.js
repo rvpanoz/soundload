@@ -52,7 +52,7 @@ function createWindow(opts) {
   //create a BrowserWindow
   mwin = new BrowserWindow({
     width: screenSize.width / 2,
-    height: screenSize.height / 1.5
+    height: screenSize.height
   });
 
   soundcloud = new Soundcloud(mwin);
@@ -82,9 +82,10 @@ ipcMain.on('set-output-path', (event) => {
   });
 });
 
-ipcMain.on('get-soundcloud', (event, url) => {
+ipcMain.on('resolve', (event, url) => {
   soundcloud.resolve(url, function(response) {
-    event.sender.send('get-soundcloud-reply', response);
+    console.log(response);
+    event.sender.send('resolve-reply', response);
   });
 });
 
