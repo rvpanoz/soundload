@@ -44,6 +44,11 @@ export default class List extends React.Component {
     }
   }
   render() {
+    this.tracks = this.state.tracks;
+
+    if (!this.tracks || !this.tracks.length) {
+      return null;
+    }
     return (
       <div className="title-list" ref={(el) => {
         this.list = el;

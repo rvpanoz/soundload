@@ -1,6 +1,6 @@
 /**
  * soundcloud module
- * @type singleton
+ * @type singvaron
  */
 
 const fs = require('fs');
@@ -20,9 +20,9 @@ const Soundcloud = function() {
 
   Soundcloud.prototype.resolve = function(url, callback) {
     if (!url) return;
-    let resolveUrl = `${baseUrl}/resolve`;
+    var resolveUrl = `${baseUrl}/resolve`;
 
-    let r = request({
+    var r = request({
         url: config.resolveUrl,
         json: true,
         qs: {
@@ -47,15 +47,15 @@ const Soundcloud = function() {
       progress = 0;
 
     var fileName = fileName || `${app.getName()}-${now.substr(0, 7)}`;
-    let filePath = path.join(`${outputPath}`, fileName + '.mp3');
+    var filePath = path.join(`${outputPath}`, fileName + '.mp3');
 
     //soundcloud url to get the stream
-    let streamUrl = `${config.baseUrl}/tracks/${trackId}/stream?client_id=${config.client_id}`;
-    let streamUrlObj = URL.parse(streamUrl);
+    var streamUrl = `${config.baseUrl}/tracks/${trackId}/stream?client_id=${config.client_id}`;
+    var streamUrlObj = URL.parse(streamUrl);
 
     function continueRequest() {
       this.on('data', (chunk) => {
-          let c = chunk.length;
+          var c = chunk.length;
           downloaded += c;
           progress = (100 * downloaded / len).toFixed(2);
           event.sender.send('progress-file-reply', progress);
@@ -69,10 +69,10 @@ const Soundcloud = function() {
         .pipe(fs.createWriteStream(filePath))
     }
 
-    let r = request(streamUrl)
+    var r = request(streamUrl)
       .on('response', (reply) => {
-        let fileSize, statusCode, error;
-        let replyobj = reply.toJSON();
+        var fileSize, statusCode, error;
+        var replyobj = reply.toJSON();
 
         statusCode = parseInt(replyobj.statusCode);
         switch (statusCode) {
@@ -99,9 +99,9 @@ const Soundcloud = function() {
       })
   }
   Soundcloud.prototype.get_related = function(track_id, callback) {
-    let url = config.relatedUrl.replace('{trackid}', track_id);
+    var url = config.relatedUrl.replace('{trackid}', track_id);
 
-    let r = request({
+    var r = request({
         url: url,
         json: true,
         qs: {

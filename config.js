@@ -7,7 +7,7 @@ var config = {
   baseUrl: 'http://api.soundcloud.com',
   resolveUrl: 'http://api.soundcloud.com/resolve',
   relatedUrl: 'http://api.soundcloud.com/tracks/{trackid}/related',
-  testUrl: 'https://soundcloud.com/endless-worldwide/endless-podcast-12-superlounge'
+  testUrl: 'https://soundcloud.com/cityfox/atish-live-cityfoxden'
 }
 
 module.exports = config;

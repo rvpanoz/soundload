@@ -46,13 +46,6 @@ class App extends React.Component {
       }, 1500)
     });
 
-    ipcRenderer.on('download-file-error', function(event, errorMsg) {
-      console.error(errorMsg);
-    });
-
-    ipcRenderer.on('progress-file-reply', (event, downloaded) => {
-      console.log('downloaded ' + downloaded);
-    });
   }
   showMessage(message) {
     this.setState((prevState, props) => {
@@ -101,22 +94,13 @@ class App extends React.Component {
       ipcRenderer.send('resolve', config.testUrl);
     }
   }
-  download(e) {
-    let fileName;
-    let element = e.target,
-      trackId,
-      trackTitle;
-    trackId = element.dataset.id;
-    trackTitle = element.dataset.title;
-    ipcRenderer.send('download-file', trackTitle, trackId);
-  }
   render() {
     return (
       <div>
         <AppLoader isVisible={this.state.show_loader}/>
         <AppMessage message={this.state.app_message} isVisible={this.state.show_message}/>
         <Header onSubmit={this.resolveUrl}/>
-        <Track track={this.state.active_track} download={this.download}/>
+        <Track track={this.state.active_track}/>
         <Related track={this.state.active_track}/>
       </div>
     )

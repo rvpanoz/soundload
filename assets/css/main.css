@@ -23,12 +23,19 @@ h2, .title-list .title {
   margin-bottom: 1em;
 }
 
+h2, .track-details .title {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 1em;
+}
+
 p.text-danger, .text-danger:hover {
-    color: #B33C12 !important;
+  color: #B33C12 !important;
 }
 
 p.text-info, .text-info:hover {
-    color: #3091B2 !important;
+  color: #3091B2 !important;
 }
 
 p {
@@ -175,8 +182,6 @@ p {
   width: 100%;
   position: relative;
   background-size: cover;
-  margin-top: 50px;
-  min-height: 500px;
 }
 
 .hero .content {
@@ -272,7 +277,7 @@ p {
 }
 
 .title-list {
-  padding: 20px 40px;
+  padding: 200px 40px;
   box-sizing: border-box;
   transition: opacity 3s ease;
   opacity: 0;
@@ -519,12 +524,64 @@ p {
 
 img {
   position: absolute;
-	left: 0;
-	top: 0;
-	border: 1px solid #dddddd;
-	padding: 5px;
-	width: 150px;
-	height: 150px;
+  left: 0;
+  top: 0;
+  border: 1px solid #dddddd;
+  padding: 5px;
+  width: 150px;
+  height: 150px;
   margin-bottom: 15px;
-	background: #f0f0f0;
+  background: #f0f0f0;
+}
+
+
+/** progress bar **/
+
+.progress {
+  background-color: transparent;
+  border-radius: 3px;
+  box-shadow: none;
+  height: 8px;
+}
+
+.progress {
+  height: 10px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  overflow: hidden;
+  /*background-color: #fff;*/
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+}
+
+.progress-bar {
+  background-color: #7A9E9F;
+}
+
+.progress-bar {
+    float: left;
+    width: 0;
+    height: 100%;
+    font-size: 12px;
+    line-height: 20px;
+    color: #fff;
+    text-align: center;
+    background-color: #B33C12;
+    -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
+    -webkit-transition: width .6s ease;
+    -o-transition: width .6s ease;
+    transition: width .6s ease;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
 }

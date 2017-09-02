@@ -52,7 +52,7 @@ function createWindow(opts) {
   //create a BrowserWindow
   mwin = new BrowserWindow({
     width: screenSize.width / 2,
-    height: screenSize.height
+    height: screenSize.height / 2
   });
 
   soundcloud = new Soundcloud(mwin);
