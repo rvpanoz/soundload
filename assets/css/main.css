@@ -1,5 +1,13 @@
 @import url("https://fonts.googleapis.com/css?family=Lato:400,900,400italic,700italic");
 @import url(font-awesome.min.css);
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
 
 body {
   background: #221f1f;
@@ -152,6 +160,7 @@ p {
   width: 100%;
   position: relative;
   background-size: cover;
+  margin-top: 50px;
   min-height: 800px;
 }
 
@@ -161,6 +170,11 @@ p {
   width: 500px;
   left: 10vw;
   top: 10vw;
+}
+
+.empty {
+  width: 100%;
+  text-align: center;
 }
 
 .hero .content .logo {
@@ -399,4 +413,78 @@ p {
   justify-content: center;
   height: 32px;
   width: 32px;
+}
+
+
+/** LOADER */
+
+#loader {
+  position: absolute;
+  top: 50%;
+  left: 48%;
+}
+
+#loader.show {
+  display: block;
+}
+
+#loader.hide {
+  display: none;
+}
+
+#loader .line {
+  animation: expand 1s ease-in-out infinite;
+  border-radius: 10px;
+  display: inline-block;
+  transform-origin: center center;
+  margin: 0 3px;
+  width: 1px;
+  height: 25px;
+}
+
+#loader .line:nth-child(1) {
+  background: #27ae60;
+}
+
+#loader .line:nth-child(2) {
+  animation-delay: 180ms;
+  background: #f1c40f;
+}
+
+#loader .line:nth-child(3) {
+  animation-delay: 360ms;
+  background: #e67e22;
+}
+
+#loader .line:nth-child(4) {
+  animation-delay: 540ms;
+  background: #2980b9;
+}
+
+#loader p {
+  margin: 0px 0px 25px 0px;
+}
+
+@keyframes expand {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(2);
+  }
+}
+
+
+/** images **/
+
+img {
+  position: absolute;
+	left: 0;
+	top: 0;
+	border: 1px solid #dddddd;
+	padding: 5px;
+	width: 150px;
+	height: 150px;
+  margin-bottom: 15px;
+	background: #f0f0f0;
 }

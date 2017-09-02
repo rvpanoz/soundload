@@ -10,6 +10,7 @@ import config from '../../config';
 
 //app components
 import Empty from './common/Empty';
+import AppLoader from './common/AppLoader';
 import Header from './common/Header';
 import Track from './content/Track';
 
@@ -21,69 +22,95 @@ class App extends React.Component {
   }
   init() {
     this.state = {
+      show_loader: false,
+      error_message: '',
       active_track: null,
       related_tracks: null
     }
+
+    /** ipc events **/
     ipcRenderer.on('resolve-reply', (event, response) => {
-      if(response.errors) {
+      if (response.errors) {
         let error = response.errors[0];
         let dialog = remote.dialog;
-        dialog.showMessageBox({
-          type: 'error',
-          title: 'Error',
-          message: error.error_message,
-          buttons: [],
-          callback() {
-            this.onCloseError();
-          }
-        });
+
+        this.onCloseError();
         return;
       }
 
-      this.setState({
-        active_track: response
-      });
+      setTimeout(() => {
+        this.setState((prevState, props) => {
+          return {show_loader: false, active_track: response}
+        });
+      }, 1500)
+    });
+
+    ipcRenderer.on('download-file-error', function(event, errorMsg) {
+      console.error(errorMsg);
+    });
+
+    ipcRenderer.on('progress-file-reply', (event, downloaded) => {
+      console.log('downloaded ' + downloaded);
+      // $info.text(`Downloading ${downloaded}% of ${fileSize} MB`);
+      // $progress.css({
+      //   width: downloaded + "%"
+      // });
     });
   }
   onCloseError() {
-    console.log('error closed');
+    this.setState((prevState, props) => {
+      return {show_loader: false, active_track: null}
+    });
   }
   serialize(form) {
     let obj = {};
-		let elements = form.querySelectorAll("input");
+    let elements = form.querySelectorAll("input");
 
-		for( let i = 0; i < elements.length; ++i ) {
-			let element = elements[i];
-			let name = element.name;
-			let value = element.value;
-			if( name ) {
-				obj[ name ] = value;
-			}
-		}
-		return obj;
+    for (let i = 0; i < elements.length; ++i) {
+      let element = elements[i];
+      let name = element.name;
+      let value = element.value;
+      if (name) {
+        obj[name] = value;
+      }
+    }
+    return obj;
   }
   resolveUrl(e) {
     e.preventDefault();
-    let form = e.target, formData, url;
+    let form = e.target,
+      formData,
+      url;
 
     formData = this.serialize(form);
     url = formData['search-input'];
 
-    if(url.length) {
+    this.setState({show_loader: true, active_track: null});
+
+    if (url.length) {
       ipcRenderer.send('resolve', url);
     } else {
       ipcRenderer.send('resolve', config.testUrl);
     }
   }
+  download(e) {
+    let fileName;
+    let element = e.target, trackId, trackTitle;
+    trackId = element.dataset.id;
+    trackTitle = element.dataset.title;
+    ipcRenderer.send('download-file', trackTitle, trackId);
+  }
   render() {
-    let _Track = (this.state.active_track === null) ? <Empty message="No track loaded."/> : <Track track={this.state.active_track}/>
+    console.log('app renderer');
     return (
       <div>
         <Header onSubmit={this.resolveUrl}/>
-        {_Track}
+        <AppLoader isLoading={this.state.show_loader}/>
+        <Track track={this.state.active_track} download={this.download}/>
       </div>
     )
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(
+  <App/>, document.getElementById('app'));

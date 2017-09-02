@@ -5,6 +5,7 @@ class Track extends React.Component {
     super(props);
   }
   render() {
+    console.log('track renderer');
     this.track = this.props.track;
     if (!this.track) {
       return null;
@@ -18,7 +19,7 @@ class Track extends React.Component {
           <p className="desc">{this.track.description}</p>
           <div className="button-wrapper">
             <a href="#" className="button" data-primary="true">Play</a>
-            <a href="#" className="button">Download</a>
+            <a href="#" className="button btn-download" data-title={this.track.title} data-id={this.track.id} onClick={this.props.download}>Download</a>
           </div>
           <div className="overlay" style={{display: 'none'}}></div>
         </div>

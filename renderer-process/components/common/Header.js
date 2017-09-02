@@ -13,18 +13,27 @@ const Logo = (props) => {
 }
 
 // Search
-const Search = (props) => {
-  return (
-    <form onSubmit={props.onSubmit} id="search" className="search">
-      <input type="search" name="search-input" placeholder="Type a soundload url..."/>
-    </form>
-  );
+class Search extends React.Component {
+  _componentDidMount() {
+    this.form.submit();
+    return false;
+  }
+  render() {
+    return (
+      <form ref={(el) => {
+        this.form = el;
+      }} onSubmit={this.props.onSubmit} id="search" className="search">
+        <input type="search" name="search-input" placeholder="Type a soundload url..."/>
+      </form>
+    );
+  }
 };
 
 //header layout
 class Header extends React.Component {
   constructor(props) {
     super(props);
+    console.log('header renderer');
   }
   render() {
     return (

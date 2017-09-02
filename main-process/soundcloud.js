@@ -30,7 +30,6 @@ const Soundcloud = function() {
           client_id: client_id
         }
       }, (error, response, body) => {
-        console.log(response);
         if (error) {
           console.log(error);
           r.abort();
