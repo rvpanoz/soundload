@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * [AppMesages description]
+ * [AppMessage description]
  * @param {[type]} props [description]
  */
 const AppMessage = (props) => {

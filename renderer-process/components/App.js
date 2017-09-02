@@ -26,8 +26,7 @@ class App extends React.Component {
       show_loader: false,
       show_message: false,
       app_message: '',
-      active_track: null,
-      related_tracks: null
+      active_track: null
     }
 
     /** ipc events **/
@@ -54,16 +53,6 @@ class App extends React.Component {
     ipcRenderer.on('progress-file-reply', (event, downloaded) => {
       console.log('downloaded ' + downloaded);
     });
-
-    ipcRenderer.on('fetch-related-reply', (event, response) => {
-      console.log(response);
-    });
-  }
-  componentDidUpdate() {
-    let active = this.state.active_track;
-    if (active && active.id) {
-      ipcRenderer.send('fetch-related', active.id);
-    }
   }
   showMessage(message) {
     this.setState((prevState, props) => {
@@ -94,6 +83,12 @@ class App extends React.Component {
     }
     return obj;
   }
+  componentDidUpdate() {
+    let active = this.state.active_track;
+    if(active) {
+
+    }
+  }
   resolveUrl(e) {
     e.preventDefault();
     let form = e.target,
@@ -118,11 +113,11 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <AppLoader isVisible={this.state.show_loader}/>
         <AppMessage message={this.state.app_message} isVisible={this.state.show_message}/>
         <Header onSubmit={this.resolveUrl}/>
-        <AppLoader isVisible={this.state.show_loader}/>
         <Track track={this.state.active_track} download={this.download}/>
-        <Related tracks={this.state.related_tracks}/>
+        <Related track={this.state.active_track}/>
       </div>
     )
   }

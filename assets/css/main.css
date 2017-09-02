@@ -176,7 +176,7 @@ p {
   position: relative;
   background-size: cover;
   margin-top: 50px;
-  min-height: 800px;
+  min-height: 500px;
 }
 
 .hero .content {

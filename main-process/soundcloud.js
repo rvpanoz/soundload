@@ -100,7 +100,7 @@ const Soundcloud = function() {
   }
   Soundcloud.prototype.get_related = function(track_id, callback) {
     let url = config.relatedUrl.replace('{trackid}', track_id);
-    console.log(url);
+
     let r = request({
         url: url,
         json: true,
