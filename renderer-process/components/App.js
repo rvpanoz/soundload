@@ -9,10 +9,11 @@ const ipcRenderer = electron.ipcRenderer;
 import config from '../../config';
 
 //app components
-import Empty from './common/Empty';
+import AppMessage from './common/AppMessage';
 import AppLoader from './common/AppLoader';
 import Header from './common/Header';
 import Track from './content/Track';
+import Related from './content/Related';
 
 class App extends React.Component {
   constructor(props) {
@@ -23,18 +24,19 @@ class App extends React.Component {
   init() {
     this.state = {
       show_loader: false,
-      error_message: '',
+      show_message: false,
+      app_message: '',
       active_track: null,
       related_tracks: null
     }
 
     /** ipc events **/
     ipcRenderer.on('resolve-reply', (event, response) => {
-      if (response.errors) {
-        let error = response.errors[0];
-        let dialog = remote.dialog;
-
-        this.onCloseError();
+      this.hideMessage();
+      if (response.errors && typeof response.errors === 'object') {
+        let error_message = response.errors[0].error_message;
+        this.showMessage(error_message, 'error');
+        this.hideLoader();
         return;
       }
 
@@ -51,13 +53,29 @@ class App extends React.Component {
 
     ipcRenderer.on('progress-file-reply', (event, downloaded) => {
       console.log('downloaded ' + downloaded);
-      // $info.text(`Downloading ${downloaded}% of ${fileSize} MB`);
-      // $progress.css({
-      //   width: downloaded + "%"
-      // });
+    });
+
+    ipcRenderer.on('fetch-related-reply', (event, response) => {
+      console.log(response);
     });
   }
-  onCloseError() {
+  componentDidUpdate() {
+    let active = this.state.active_track;
+    if (active && active.id) {
+      ipcRenderer.send('fetch-related', active.id);
+    }
+  }
+  showMessage(message) {
+    this.setState((prevState, props) => {
+      return {show_message: true, app_message: message}
+    });
+  }
+  hideMessage() {
+    this.setState((prevState, props) => {
+      return {show_message: false, app_message: ''}
+    });
+  }
+  hideLoader() {
     this.setState((prevState, props) => {
       return {show_loader: false, active_track: null}
     });
@@ -79,14 +97,9 @@ class App extends React.Component {
   resolveUrl(e) {
     e.preventDefault();
     let form = e.target,
-      formData,
-      url;
-
-    formData = this.serialize(form);
-    url = formData['search-input'];
-
+      formData = this.serialize(form),
+      url = formData['search-input'];
     this.setState({show_loader: true, active_track: null});
-
     if (url.length) {
       ipcRenderer.send('resolve', url);
     } else {
@@ -95,18 +108,21 @@ class App extends React.Component {
   }
   download(e) {
     let fileName;
-    let element = e.target, trackId, trackTitle;
+    let element = e.target,
+      trackId,
+      trackTitle;
     trackId = element.dataset.id;
     trackTitle = element.dataset.title;
     ipcRenderer.send('download-file', trackTitle, trackId);
   }
   render() {
-    console.log('app renderer');
     return (
       <div>
+        <AppMessage message={this.state.app_message} isVisible={this.state.show_message}/>
         <Header onSubmit={this.resolveUrl}/>
-        <AppLoader isLoading={this.state.show_loader}/>
+        <AppLoader isVisible={this.state.show_loader}/>
         <Track track={this.state.active_track} download={this.download}/>
+        <Related tracks={this.state.related_tracks}/>
       </div>
     )
   }

@@ -5,9 +5,9 @@ import React from 'react';
  * @param {[type]} props [description]
  */
 const Loader = (props) => {
-  let is_loading = props.isLoading;
+  let is_visible = props.isVisible;
   return (
-    <div id="loader" className={(is_loading)
+    <div id="loader" className={(is_visible)
       ? 'show'
       : 'hide'}>
       <p>Loading data..</p>

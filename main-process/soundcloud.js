@@ -40,7 +40,6 @@ const Soundcloud = function() {
         }
       });
   }
-
   Soundcloud.prototype.download = function(event, outputPath, fileName, trackId) {
     var now = Date.now().toString(),
       downloaded = 0,
@@ -98,6 +97,26 @@ const Soundcloud = function() {
           event.sender.send('download-file-error', error);
         }
       })
+  }
+  Soundcloud.prototype.get_related = function(track_id, callback) {
+    let url = config.relatedUrl.replace('{trackid}', track_id);
+    console.log(url);
+    let r = request({
+        url: url,
+        json: true,
+        qs: {
+          client_id: client_id
+        }
+      }, (error, response, body) => {
+        if (error) {
+          console.log(error);
+          r.abort();
+          throw new Error(error);
+        }
+        if(callback) {
+          callback(body);
+        }
+      });
   }
 }
 

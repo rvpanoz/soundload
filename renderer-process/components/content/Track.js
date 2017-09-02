@@ -1,12 +1,16 @@
 import React from 'react';
+import electron from 'electron';
+
+const remote = electron.remote;
+const ipcRenderer = electron.ipcRenderer;
 
 class Track extends React.Component {
   constructor(props) {
     super(props);
   }
   render() {
-    console.log('track renderer');
     this.track = this.props.track;
+
     if (!this.track) {
       return null;
     }

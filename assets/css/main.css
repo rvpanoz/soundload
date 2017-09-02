@@ -13,6 +13,7 @@ body {
   background: #221f1f;
   color: #ffffff;
   font-family: "Lato", sans-serif;
+  overflow-x: hidden;
 }
 
 h2, .title-list .title {
@@ -22,11 +23,25 @@ h2, .title-list .title {
   margin-bottom: 1em;
 }
 
+p.text-danger, .text-danger:hover {
+    color: #B33C12 !important;
+}
+
+p.text-info, .text-info:hover {
+    color: #3091B2 !important;
+}
+
 p {
   font-size: 15px;
   font-weight: 300;
   line-height: 1.6;
   margin-bottom: 1em;
+}
+
+#app {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 .header {
@@ -39,7 +54,7 @@ p {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000', GradientType=0);
   /* IE6-9 */
   display: flex;
-  padding: 40px;
+  padding: 18px;
   position: fixed;
   top: 0;
   left: 0;
@@ -94,12 +109,12 @@ p {
   font-weight: 300;
   font-size: 14px;
   height: 37px;
-  width: 30%;
+  width: 20%;
   background: transparent;
   color: #ffffff;
   appearance: none;
   border: 0;
-  border: 2px solid rgba(245, 245, 241, 0.1);
+  border: 2px solid #fff;
   outline: none;
   border-radius: 37px;
   padding: 0 10px;
@@ -109,7 +124,7 @@ p {
 
 .search input:focus {
   border: 2px solid #e50914;
-  width: 60%;
+  width: 40%;
 }
 
 .user-profile {
@@ -416,7 +431,7 @@ p {
 }
 
 
-/** LOADER */
+/** LOADER - APPMESSAGE */
 
 #loader {
   position: absolute;
@@ -426,6 +441,14 @@ p {
 
 #loader.show {
   display: block;
+}
+
+#app-message.show {
+  right: 0px;
+}
+
+#app-message.hide {
+  right: -100px;
 }
 
 #loader.hide {
@@ -463,6 +486,23 @@ p {
 
 #loader p {
   margin: 0px 0px 25px 0px;
+}
+
+#app-message {
+  justify-content: center;
+  position: absolute;
+  width: 175px;
+  height: 100px;
+  top: 0px;
+  right: -100px;
+  transition: right .25s ease;
+  z-index: 6;
+}
+
+#app-message p {
+  position: absolute;
+  top: 25%;
+  width: 100%;
 }
 
 @keyframes expand {

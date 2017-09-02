@@ -84,8 +84,13 @@ ipcMain.on('set-output-path', (event) => {
 
 ipcMain.on('resolve', (event, url) => {
   soundcloud.resolve(url, function(response) {
-    console.log(response);
     event.sender.send('resolve-reply', response);
+  });
+});
+
+ipcMain.on('fetch-related', (event, trackId) => {
+  soundcloud.get_related(trackId, function(response) {
+    event.sender.send('fetch-related-reply', response);
   });
 });
 
