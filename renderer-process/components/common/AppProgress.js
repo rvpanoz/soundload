@@ -4,9 +4,7 @@ export default class AppProgress extends React.Component {
   constructor(props) {
     super(props);
   }
-  render() {
-    console.log('AppProgress:render');
-    
+  render() {    
     return (
       <div className="progress">
         <div ref={(el) => {

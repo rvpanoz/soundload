@@ -38,7 +38,7 @@ class App extends React.Component {
         return;
       }
       this.setState((prevState, props) => {
-        return {show_loader: false, active_track: track}
+        return {show_loader: true, active_track: track}
       });
     });
   }
@@ -52,6 +52,9 @@ class App extends React.Component {
       url = formData['search-input'];
 
     if (url.length) {
+      this.setState({
+        show_loader: true
+      });
       ipcRenderer.send('resolve', url);
     } else {
       ipcRenderer.send('resolve', config.testUrl);

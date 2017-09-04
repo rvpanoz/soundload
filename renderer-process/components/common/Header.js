@@ -6,7 +6,7 @@ const Logo = (props) => {
   return (
     <div className="logo" id="logo">
       <svg>
-        <text x="50" y="25" fill="white" fontFamily="Roboto" fontSize="25">Soud</text>
+        <text x="50" y="25" fill="white" fontFamily="Roboto" fontSize="25">Soulo</text>
       </svg>
     </div>
   )
@@ -16,9 +16,9 @@ const Logo = (props) => {
 class Search extends React.Component {
   render() {
     return (
-      <form onSubmit={this.props.onSubmit} id="search" className="search">
-        <input type="search" name="search-input" placeholder="Type a soundcloud track url"/>
-      </form>
+        <form onSubmit={this.props.onSubmit} id="search" className="search">
+          <input type="search" name="search-input" placeholder="Type a soundcloud track url"/>
+        </form>
     );
   }
 };
@@ -33,6 +33,9 @@ class Header extends React.Component {
       <header className="header">
         <Logo/>
         <Search onSubmit={this.props.onSubmit}/>
+          <div className="settings">
+            <a href="#"><i className="fa fa-cog"></i></a>
+          </div>
       </header>
     )
   }
