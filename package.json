@@ -1,7 +1,7 @@
 {
   "name": "soundload",
   "version": "1.0.0",
-  "description": "get soundcloud track details",
+  "description": "soundcloud client for downloading tracks and find related with ease.",
   "main": "./main-process/main.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development npm run start-dev",
@@ -15,7 +15,8 @@
   "keywords": [
     "soundcloud",
     "electron",
-    "javascript"
+    "javascript",
+    "react"
   ],
   "author": "rvpanoz@gmail.com",
   "license": "ISC",
@@ -30,13 +31,16 @@
     "electron-reload": "^1.2.1"
   },
   "dependencies": {
+    "bootstrap": "^3.3.7",
     "electron-json-storage": "^3.0.7",
     "electron-store": "^1.2.0",
-    "jquery": "^3.1.1",
+    "jquery": "^3.2.1",
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
+    "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-router-dom": "^4.2.2",
     "request": "^2.81.0",
     "request-promise": "^4.2.1"
   }

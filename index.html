@@ -6,13 +6,15 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- css -->
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/paper.css" />
   <link rel="stylesheet" href="assets/css/main.css" />
 </head>
 
 <body>
   <div id="app"></div>
   <script>
-    // install babel hooks in the renderer process
+    window.jQuery = window.$ = require('jquery');
     require('babel-register');
     require('./renderer-process/components/App');
   </script>

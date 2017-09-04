@@ -62,7 +62,6 @@ function createWindow(opts) {
 
   //devtools
   if (process.env.NODE_ENV === 'development') {
-
     mwin.openDevTools();
 
     const {
@@ -81,6 +80,11 @@ function createWindow(opts) {
     });
   }
 }
+
+ipcMain.on('get-output-path', (event) =>  {
+  let outputPath = store.get('output_path');
+  event.sender.send('get-output-path-reply', outputPath);
+});
 
 ipcMain.on('set-output-path', (event) => {
   if (!mwin) return;

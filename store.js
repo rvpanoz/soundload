@@ -9,10 +9,10 @@ const electron = require('electron');
 const app = electron.app;
 const Store = require('electron-store');
 
-var StoreModule = {
+const StoreModule = {
   init: function() {
-    var store = new Store();
-    var outputPath = store.get('output_path');
+    let store = new Store();
+    let outputPath = store.get('output_path');
 
     if(!outputPath) {
       //default store path: app.getPath('userData')

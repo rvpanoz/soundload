@@ -1,24 +1,49 @@
 import electron from 'electron';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {PropTypes} from 'prop-types';
 
-const remote = electron.remote;
+import {
+  HashRouter as Router,
+  Route
+} from 'react-router-dom';
+
 const ipcRenderer = electron.ipcRenderer;
 
 //configuration
 import config from '../../config';
 
+import 'bootstrap/dist/js/bootstrap.min';
+
 //app components
 import AppMessage from './common/AppMessage';
 import AppLoader from './common/AppLoader';
 import Header from './common/Header';
+import Settings from './common/Settings';
+import Home from './content/Home';
+import About from './content/About';
 import Track from './content/Track';
+
+class Main extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div className="app-content container">
+        <Route exact path='/' component={Track}/>
+        <Route path='/track' component={Track}/>
+        <Route path='/settings' component={Settings}/>
+        <Route path='/about' component={About}/>
+      </div>
+    )
+  }
+}
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.init();
-    this.resolve = this.resolve.bind(this);
   }
   init() {
     this.state = {
@@ -27,48 +52,14 @@ class App extends React.Component {
       app_message: '',
       active_track: null
     }
-
-    /** ipc events **/
-    ipcRenderer.on('resolve-reply', (event, track) => {
-      if (track.errors && typeof track.errors === 'object') {
-        let error_message = track.errors[0].error_message;
-        // this.showMessage(error_message, 'error');
-        // this.hideLoader();
-        console.error(error_message);
-        return;
-      }
-      this.setState((prevState, props) => {
-        return {show_loader: true, active_track: track}
-      });
-    });
-  }
-  componentWillReceiveProps(nextProps) {
-    console.log('App', nextProps);
-  }
-  resolve(e) {
-    e.preventDefault();
-    let form = e.target,
-      formData = this.serialize(form),
-      url = formData['search-input'];
-
-    if (url.length) {
-      this.setState({
-        show_loader: true
-      });
-      ipcRenderer.send('resolve', url);
-    } else {
-      ipcRenderer.send('resolve', config.testUrl);
-      // this.showMessage('Please type the URL');
-    }
-    return;
   }
   render() {
     return (
-      <div className="app-content">
+      <div>
         <AppLoader isVisible={this.state.show_loader}/>
         <AppMessage message={this.state.app_message} isVisible={this.state.show_message}/>
-        <Header onSubmit={this.resolve}/>
-        <Track track={this.state.active_track}/>
+        <Header/>
+        <Main />
       </div>
     )
   }
@@ -87,21 +78,12 @@ class App extends React.Component {
       return {show_loader: false, active_track: null}
     });
   }
-  serialize(form) {
-    let obj = {};
-    let elements = form.querySelectorAll("input");
-
-    for (let i = 0; i < elements.length; ++i) {
-      let element = elements[i];
-      let name = element.name;
-      let value = element.value;
-      if (name) {
-        obj[name] = value;
-      }
-    }
-    return obj;
-  }
 }
 
+// https://github.com/reactjs/react-router-tutorial/tree/master/lessons/12-navigating
+App.contextTypes = {
+  router: PropTypes.object
+};
+
 ReactDOM.render(
-  <App/>, document.getElementById('app'));
+  <Router><App/></Router>, document.getElementById('app'));
