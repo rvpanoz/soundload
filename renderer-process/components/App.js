@@ -13,13 +13,12 @@ import AppMessage from './common/AppMessage';
 import AppLoader from './common/AppLoader';
 import Header from './common/Header';
 import Track from './content/Track';
-import Related from './content/Related';
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.init();
-    this.resolveUrl = this.resolveUrl.bind(this);
+    this.resolve = this.resolve.bind(this);
   }
   init() {
     this.state = {
@@ -30,22 +29,45 @@ class App extends React.Component {
     }
 
     /** ipc events **/
-    ipcRenderer.on('resolve-reply', (event, response) => {
-      this.hideMessage();
-      if (response.errors && typeof response.errors === 'object') {
-        let error_message = response.errors[0].error_message;
-        this.showMessage(error_message, 'error');
-        this.hideLoader();
+    ipcRenderer.on('resolve-reply', (event, track) => {
+      if (track.errors && typeof track.errors === 'object') {
+        let error_message = track.errors[0].error_message;
+        // this.showMessage(error_message, 'error');
+        // this.hideLoader();
+        console.error(error_message);
         return;
       }
-
-      setTimeout(() => {
-        this.setState((prevState, props) => {
-          return {show_loader: false, active_track: response}
-        });
-      }, 1500)
+      this.setState((prevState, props) => {
+        return {show_loader: false, active_track: track}
+      });
     });
+  }
+  componentWillReceiveProps(nextProps) {
+    console.log('App', nextProps);
+  }
+  resolve(e) {
+    e.preventDefault();
+    let form = e.target,
+      formData = this.serialize(form),
+      url = formData['search-input'];
 
+    if (url.length) {
+      ipcRenderer.send('resolve', url);
+    } else {
+      ipcRenderer.send('resolve', config.testUrl);
+      // this.showMessage('Please type the URL');
+    }
+    return;
+  }
+  render() {
+    return (
+      <div className="app-content">
+        <AppLoader isVisible={this.state.show_loader}/>
+        <AppMessage message={this.state.app_message} isVisible={this.state.show_message}/>
+        <Header onSubmit={this.resolve}/>
+        <Track track={this.state.active_track}/>
+      </div>
+    )
   }
   showMessage(message) {
     this.setState((prevState, props) => {
@@ -75,35 +97,6 @@ class App extends React.Component {
       }
     }
     return obj;
-  }
-  componentDidUpdate() {
-    let active = this.state.active_track;
-    if(active) {
-
-    }
-  }
-  resolveUrl(e) {
-    e.preventDefault();
-    let form = e.target,
-      formData = this.serialize(form),
-      url = formData['search-input'];
-    this.setState({show_loader: true, active_track: null});
-    if (url.length) {
-      ipcRenderer.send('resolve', url);
-    } else {
-      ipcRenderer.send('resolve', config.testUrl);
-    }
-  }
-  render() {
-    return (
-      <div>
-        <AppLoader isVisible={this.state.show_loader}/>
-        <AppMessage message={this.state.app_message} isVisible={this.state.show_message}/>
-        <Header onSubmit={this.resolveUrl}/>
-        <Track track={this.state.active_track}/>
-        <Related track={this.state.active_track}/>
-      </div>
-    )
   }
 }
 

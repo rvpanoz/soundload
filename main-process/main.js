@@ -52,7 +52,7 @@ function createWindow(opts) {
   //create a BrowserWindow
   mwin = new BrowserWindow({
     width: screenSize.width / 2,
-    height: screenSize.height / 2
+    height: screenSize.height
   });
 
   soundcloud = new Soundcloud(mwin);
@@ -62,7 +62,18 @@ function createWindow(opts) {
 
   //devtools
   if (process.env.NODE_ENV === 'development') {
+
     mwin.openDevTools();
+
+    const {
+      default: installExtension,
+      REACT_DEVELOPER_TOOLS
+    } = require('electron-devtools-installer');
+
+    installExtension(REACT_DEVELOPER_TOOLS)
+      .then((name) => console.log(`Added Extension:  ${name}`))
+      .catch((err) => console.log('An error occurred: ', err));
+
     ipcMain.on('inspect-element', function(event, coords) {
       if (mwin) {
         mwin.inspectElement(coords.x, coords.y);

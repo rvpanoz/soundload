@@ -11,13 +11,15 @@ class RelatedItem extends React.Component {
   }
   componentDidMount() {
     let artwork_url = this.props.artwork_url;
-    this.el.style.backgroundImage = artwork_url;
+    if (artwork_url) {
+      this.el.style.backgroundImage = `url(${artwork_url})`;
+    }
   }
   render() {
     return (
       <div className="item" ref={(el) => {
-          this.el = el;
-        }}>
+        this.el = el;
+      }}>
         <div className="overlay">
           <div className="title">{this.props.title}</div>
         </div>
@@ -32,23 +34,29 @@ export default class List extends React.Component {
     this.state = {
       tracks: []
     }
-    ipcRenderer.on('fetch-related-reply', (event, response) => {
-      this.setState({tracks: response});
-      this.list.style.opacity = 1;
+  }
+  componentWillMount() {
+    let active_track = this.props.track;
+
+    ipcRenderer.on('fetch-related-reply', (event, tracks) => {
+      this.setState({tracks: tracks});
     });
+
+    if (active_track && active_track.id) {
+      ipcRenderer.send('fetch-related', active_track.id);
+    }
   }
   componentDidUpdate() {
-    let active = this.props.track;
-    if (active && active.id && !this.state.tracks.length) {
-      ipcRenderer.send('fetch-related', active.id);
+    if(this.list) {
+      this.list.style.opacity = 1;
     }
   }
   render() {
-    this.tracks = this.state.tracks;
-
-    if (!this.tracks || !this.tracks.length) {
+    let tracks = this.state.tracks;
+    if (!tracks || !tracks.length) {
       return null;
     }
+
     return (
       <div className="title-list" ref={(el) => {
         this.list = el;
@@ -57,9 +65,12 @@ export default class List extends React.Component {
           <h1>Related tracks</h1>
         </div>
         <div className="titles-wrapper">
-          {this.state.tracks.map((track, idx) => <RelatedItem key={idx} {...track}/>)}
+          {tracks.map((track, idx) => <RelatedItem key={idx} {...track}/>)}
         </div>
       </div>
     )
+  }
+  componentWillReceiveProps(nextProps) {
+
   }
 }
