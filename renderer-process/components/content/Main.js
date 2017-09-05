@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Route
-} from 'react-router-dom';
+import {Route} from 'react-router-dom';
 
 import Settings from '../common/Settings';
 import Home from './Home';
@@ -14,12 +12,15 @@ export default class Main extends React.Component {
   }
   render() {
     return (
-      <div className="app-content container">
-        <Route exact path='/' component={Track}/>
-        <Route path='/track' component={Track}/>
-        <Route path='/settings' component={Settings}/>
-        <Route path='/about' component={About}/>
-      </div>
+      <section className="content">
+        <div className="content__middle">
+          <Route exact path='/' render={(props) => {
+            return <Track {...props} track={this.props.track}/>
+          }}/>
+          <Route exact path='/settings' component={Settings}/>
+          <Route exact path='/about' component={About}/>
+        </div>
+      </section>
     )
   }
 }

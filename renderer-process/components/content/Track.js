@@ -1,8 +1,5 @@
-import config from '../../../config';
 import React from 'react';
 import AppProgress from '../common/AppProgress';
-
-import Search from './Search';
 import Related from './Related';
 
 const {remote, ipcRenderer, clipboard} = require('electron')
@@ -21,27 +18,20 @@ menu.append(menuItem);
 class Track extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      active_track: null,
-      show_progress: false,
-      active_url: null,
-      progressPercentage: 0
-    }
-
-    this.handleSubmit = this.handleSubmit.bind(this);
+    console.log('track:render', props);
     this.download = this.download.bind(this);
-
-    ipcRenderer.on('download-file-error', function(event, errorMsg) {
-      console.error(errorMsg);
+    ipcRenderer.on('download-file-error', function(event, error_message) {
+      console.error(error_message);
     });
     ipcRenderer.on('download-file-reply', function(event, tags) {
       console.error(tags);
     });
-
+    ipcRenderer.on('progress-file-reply', (event, percentage) => {
+      console.log(percentage);
+    });
   }
   componentDidMount() {
     let win = remote.getCurrentWindow();
-
     window.addEventListener('contextmenu', (e) => {
       e.preventDefault()
       rightClickPosition = {
@@ -49,39 +39,10 @@ class Track extends React.Component {
         y: e.y
       }
       menu.popup(win)
-    }, false)
-
-    ipcRenderer.on('resolve-reply', (event, track) => {
-      if (track.errors && typeof track.errors === 'object') {
-        let error_message = track.errors[0].error_message;
-        console.error(error_message);
-        return;
-      }
-      this.setState((prevState, props) => {
-        return {active_track: track}
-      });
-    });
-
-    ipcRenderer.on('progress-file-reply', (event, percentage) => {
-      console.log(percentage);
-    });
-
-    this.handleSubmit();
+    }, false);
   }
   componentWillUnmount() {
     window.removeEventListener('contextmenu', () => {});
-  }
-  handleSubmit(e) {
-    let url, form;
-    if(e) {
-      e.preventDefault();
-      form = e.target;
-      url = form.querySelector('input').value;
-    }
-    if (!url || !url.length)
-      url = config.testUrl;
-    ipcRenderer.send('resolve', url);
-    return;
   }
   download(e) {
     e.preventDefault();
@@ -91,41 +52,39 @@ class Track extends React.Component {
     ipcRenderer.send('download-file', title, id);
   }
   render() {
-    let track = this.state.active_track;
+    let track = this.props.track;
     if (!track) {
-      return (
-        <div>
-          <div className="title">
-            <h2>Discover</h2>
-          </div>
-          <Search onSubmit={this.handleSubmit}/>
-        </div>
-      )
+      return null;
     }
-
     return (
       <div className="track">
-        <div className="title">
-          <h2>Discover</h2>
-        </div>
-        <Search onSubmit={this.handleSubmit}/>
-        <div className="track-details hero" id="hero">
-          <div className="content">
-            <h2>{track.title}</h2>
-            <img className="logo" src={track.artwork_url}/>
-            <div className="button-wrapper">
-              <a href="#" className="button" data-primary="true">Play</a>
-              <a href="#" className="button btn-download" data-title={track.title} data-id={track.id} onClick={this.download}>Download</a>
+        <div className="track__header">
+          <div className="track__info">
+            <div className="profile__img">
+              <img src={track.artwork_url} alt={track.title}/>
             </div>
-            <div className="overlay" style={{
-              display: 'none'
-            }}></div>
-            <AppProgress percentage={this.state.progressPercentage}/>
+            <div className="track__info__meta">
+              <div className="track__info__type">User</div>
+              <div className="track__info__name">{track.user.username}</div>
+              <div className="track__info__actions">
+                <button className="button-dark">
+                  <i className="fa fa-play"></i>
+                  Play
+                </button>
+                <button className="button-light">
+                  <i className="fa fa-download"></i>
+                  Download
+                </button>
+              </div>
+            </div>
           </div>
+          <div className="track__listeners">
+            <div className="track__listeners__count">15.200300</div>
+            <div className="track__listeners__label">Total likes</div>
+          </div>
+          <div className="track__info"></div>
         </div>
-        <div className="related-list">
-          <Related track={track}/>
-        </div>
+        <div className="track__content"></div>
       </div>
     )
   }

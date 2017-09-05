@@ -18,7 +18,7 @@ export default class Settings extends React.Component {
     ipcRenderer.send('set-output-path');
   }
   setInputVal(event, path) {
-    if(this.textInput) {
+    if (this.textInput) {
       this.textInput.value = path;
     }
   }
@@ -34,26 +34,28 @@ export default class Settings extends React.Component {
   }
   render() {
     return (
-      <div className="settings">
-        <div className="title">
-          <h2>Settings</h2>
-        </div>
-        <div className="content">
-          <form>
-            <div className="row">
-              <div className="col-lg-6">
-                <label>Output directory</label>
-                <div className="input-group">
-                  <input ref={(el) => {
-                    this.textInput = el;
-                  }} type="text" className="form-control" name="output-dir" id="output-dir" disabled/>
-                  <span className="input-group-addon" onClick={this.handleSelection}>
-                    <i className="fa fa-arrow-right" title="Click to set output path"></i>
-                  </span>
+      <div className="container">
+        <div className="settings">
+          <div className="panel panel-warning">
+            <div className="panel-heading">Settings</div>
+            <div className="panel-body">
+              <form>
+                <div className="row">
+                  <div className="col-sm-4">
+                    <label htmlFor="output-dir">Output directory</label>
+                    <div className="input-group">
+                      <input ref={(el) => {
+                        this.textInput = el;
+                      }} type="text" className="form-control" name="output-dir" id="output-dir" disabled/>
+                      <span className="input-group-addon" onClick={this.handleSelection}>
+                        <i className="fa fa-arrow-right" title="Click to set output path"></i>
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     )
