@@ -35,7 +35,7 @@ class App extends React.Component {
         this.setState((prevState, props) => {
           return {show_loader: false, active_track: track}
         });
-      }, 2000);
+      }, config._wait);
     });
   }
   resolve(e) {

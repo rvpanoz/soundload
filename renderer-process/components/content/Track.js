@@ -12,7 +12,7 @@ import Related from './Related';
 export default class Track extends React.Component {
   constructor(props) {
     super(props);
-    console.log('track:render', props);
+    this.parseDate = this.parseDate.bind(this);
     this.download = this.download.bind(this);
     ipcRenderer.on('download-file-error', function(event, error_message) {
       console.error(error_message);
@@ -24,12 +24,8 @@ export default class Track extends React.Component {
       console.log(percentage);
     });
   }
-  componentDidMount() {
-
-  }
-  componentWillUnmount() {
-
-  }
+  componentDidMount() {}
+  componentWillUnmount() {}
   download(e) {
     e.preventDefault();
     let element = e.target,
@@ -37,11 +33,19 @@ export default class Track extends React.Component {
       title = element.dataset.title.replace(/[^a-zA-Z]+/, '');
     ipcRenderer.send('download-file', title, id);
   }
+  parseDate(per) {
+    let moment = require('moment');
+    let track = this.props.track, created_at;
+
+    created_at = track.created_at;
+    return moment(created_at).format(per.toUpperCase());
+  }
   render() {
     let track = this.props.track;
     if (!track) {
       return null;
     }
+    console.log(track);
     return (
       <div className="track">
         <div className="track__header">
@@ -79,7 +83,7 @@ export default class Track extends React.Component {
             </ul>
             <div className="track__navigation__friends">
               <a href="#">
-                <img src="http://zblogged.com/wp-content/uploads/2015/11/17.jpg" alt=""/></a>
+                <img src={track.artwork_url} alt={track.title}/></a>
             </div>
           </div>
         </div>
@@ -88,7 +92,19 @@ export default class Track extends React.Component {
             <div role="tabpanel" className="tab-pane active" id="artist-overview">
               <div className="overview">
                 <div className="overview__artist">
-                  <div className="section-title">Latest Release</div>
+                  <div className="section-title">Track details</div>
+                  <div className="latest-release">
+                    <div className="latest-release__song">
+                      <div className="latest-release__song__title">{track.title}</div>
+                      <div className="latest-release__song__date">
+                        <span className="day">{this.parseDate('d')}/</span>
+                        <span className="month">{this.parseDate('m')}/</span>
+                        <span className="year">{this.parseDate('yyyy')}</span>
+                      </div>
+                      <hr/>
+                      <div className="latest-release__song__desc">{track.description}</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -96,48 +112,48 @@ export default class Track extends React.Component {
               <div className="media-cards">
                 <div className="media-card">
                   <div className="media-card__image" style={{
-                      backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
-                    }}>
+                    backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
+                  }}>
                     <i className="fa fa-play"></i>
                   </div>
                   <a className="media-card__footer">Hoodie Allen</a>
                 </div>
                 <div className="media-card">
                   <div className="media-card__image" style={{
-                      backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
-                    }}>
+                    backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
+                  }}>
                     <i className="fa fa-play"></i>
                   </div>
                   <a className="media-card__footer">Hoodie Allen</a>
                 </div>
                 <div className="media-card">
                   <div className="media-card__image" style={{
-                      backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
-                    }}>
+                    backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
+                  }}>
                     <i className="fa fa-play"></i>
                   </div>
                   <a className="media-card__footer">Hoodie Allen</a>
                 </div>
                 <div className="media-card">
                   <div className="media-card__image" style={{
-                      backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
-                    }}>
+                    backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
+                  }}>
                     <i className="fa fa-play"></i>
                   </div>
                   <a className="media-card__footer">Hoodie Allen</a>
                 </div>
                 <div className="media-card">
                   <div className="media-card__image" style={{
-                      backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
-                    }}>
+                    backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
+                  }}>
                     <i className="fa fa-play"></i>
                   </div>
                   <a className="media-card__footer">Hoodie Allen</a>
                 </div>
                 <div className="media-card">
                   <div className="media-card__image" style={{
-                      backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
-                    }}>
+                    backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
+                  }}>
                     <i className="fa fa-play"></i>
                   </div>
                   <a className="media-card__footer">Hoodie Allen</a>
