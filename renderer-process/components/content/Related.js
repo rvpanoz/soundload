@@ -9,20 +9,15 @@ class RelatedItem extends React.Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount() {
-    let artwork_url = this.props.artwork_url;
-    if (artwork_url) {
-      this.el.style.backgroundImage = `url(${artwork_url})`;
-    }
-  }
   render() {
     return (
-      <div className="item" ref={(el) => {
-        this.el = el;
-      }}>
-        <div className="overlay">
-          <div className="title">{this.props.title}</div>
+      <div className="media-card">
+        <div className="media-card__image" style={{
+          backgroundImage: `url(${(this.props.artwork_url) ? this.props.artwork_url : ""})`
+        }}>
+          <i className="fa fa-play"></i>
         </div>
+        <a className="media-card__footer">{this.props.title}</a>
       </div>
     )
   }
@@ -46,11 +41,6 @@ export default class List extends React.Component {
       ipcRenderer.send('fetch-related', active_track.id);
     }
   }
-  componentDidUpdate() {
-    if(this.list) {
-      this.list.style.opacity = 1;
-    }
-  }
   render() {
     let tracks = this.state.tracks;
     if (!tracks || !tracks.length) {
@@ -58,15 +48,8 @@ export default class List extends React.Component {
     }
 
     return (
-      <div className="title-list" ref={(el) => {
-        this.list = el;
-      }}>
-        <div className="title">
-          <h1>Related tracks</h1>
-        </div>
-        <div className="titles-wrapper">
-          {tracks.map((track, idx) => <RelatedItem key={idx} {...track}/>)}
-        </div>
+      <div className="media-cards">
+        {tracks.map((track, idx) => <RelatedItem key={idx} {...track}/>)}
       </div>
     )
   }

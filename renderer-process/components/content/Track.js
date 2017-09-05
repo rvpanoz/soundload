@@ -45,7 +45,7 @@ export default class Track extends React.Component {
     if (!track) {
       return null;
     }
-    console.log(track);
+    
     return (
       <div className="track">
         <div className="track__header">
@@ -109,56 +109,7 @@ export default class Track extends React.Component {
               </div>
             </div>
             <div role="tabpanel" className="tab-pane" id="related-tracks">
-              <div className="media-cards">
-                <div className="media-card">
-                  <div className="media-card__image" style={{
-                    backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
-                  }}>
-                    <i className="fa fa-play"></i>
-                  </div>
-                  <a className="media-card__footer">Hoodie Allen</a>
-                </div>
-                <div className="media-card">
-                  <div className="media-card__image" style={{
-                    backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
-                  }}>
-                    <i className="fa fa-play"></i>
-                  </div>
-                  <a className="media-card__footer">Hoodie Allen</a>
-                </div>
-                <div className="media-card">
-                  <div className="media-card__image" style={{
-                    backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
-                  }}>
-                    <i className="fa fa-play"></i>
-                  </div>
-                  <a className="media-card__footer">Hoodie Allen</a>
-                </div>
-                <div className="media-card">
-                  <div className="media-card__image" style={{
-                    backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
-                  }}>
-                    <i className="fa fa-play"></i>
-                  </div>
-                  <a className="media-card__footer">Hoodie Allen</a>
-                </div>
-                <div className="media-card">
-                  <div className="media-card__image" style={{
-                    backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
-                  }}>
-                    <i className="fa fa-play"></i>
-                  </div>
-                  <a className="media-card__footer">Hoodie Allen</a>
-                </div>
-                <div className="media-card">
-                  <div className="media-card__image" style={{
-                    backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
-                  }}>
-                    <i className="fa fa-play"></i>
-                  </div>
-                  <a className="media-card__footer">Hoodie Allen</a>
-                </div>
-              </div>
+              <Related track={track} />
             </div>
           </div>
         </div>

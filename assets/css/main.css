@@ -206,15 +206,15 @@ p {
 }
 
 .content__left {
-  width: 15%;
+  width: 5%;
 }
 
 .content__middle {
-  width: 70%;
+  width: 90%;
 }
 
 .content__right {
-  width: 15%;
+  width: 5%;
 }
 
 @media (max-width: 1400px) {
