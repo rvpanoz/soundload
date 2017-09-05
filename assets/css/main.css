@@ -860,22 +860,22 @@ form>.search-bar .search-input:focus {
   width: 70%;
 }
 
-.track__content .overview__artist .latest-release {
+.track__content .overview__artist .track-details {
   margin-bottom: 30px;
   display: flex;
   flex-flow: row wrap;
 }
 
-.track__content .overview__artist .latest-release__art {
+.track__content .overview__artist .track-details__art {
   width: 75px;
 }
 
-.track__content .overview__artist .latest-release__art img {
+.track__content .overview__artist .track-details__art img {
   width: 75px;
   height: 75px;
 }
 
-.track__content .overview__artist .latest-release__song {
+.track__content .overview__artist .track-details__song {
   width: calc( 100% - 75px);
   padding: 10px 15px;
   background: #282828;
@@ -885,7 +885,11 @@ form>.search-bar .search-input:focus {
   justify-content: space-between;
 }
 
-.track__content .overview__artist .latest-release__song__title {
+.track__content .track-details__song__desc {
+  font-size: 11pt;
+}
+
+.track__content .overview__artist .track-details__song__title {
   color: #c8c8c8;
 }
 

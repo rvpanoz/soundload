@@ -45,7 +45,7 @@ export default class Track extends React.Component {
     if (!track) {
       return null;
     }
-    
+
     return (
       <div className="track">
         <div className="track__header">
@@ -93,16 +93,16 @@ export default class Track extends React.Component {
               <div className="overview">
                 <div className="overview__artist">
                   <div className="section-title">Track details</div>
-                  <div className="latest-release">
-                    <div className="latest-release__song">
-                      <div className="latest-release__song__title">{track.title}</div>
-                      <div className="latest-release__song__date">
+                  <div className="track-details">
+                    <div className="track-details__song">
+                      <div className="track-details__song__title">{track.title}</div>
+                      <div className="track-details__song__date">
                         <span className="day">{this.parseDate('d')}/</span>
                         <span className="month">{this.parseDate('m')}/</span>
                         <span className="year">{this.parseDate('yyyy')}</span>
                       </div>
                       <hr/>
-                      <div className="latest-release__song__desc">{track.description}</div>
+                      <div className="track-details__song__desc">{track.description}</div>
                     </div>
                   </div>
                 </div>

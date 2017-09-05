@@ -47,7 +47,7 @@ class App extends React.Component {
       url = form.querySelector('input').value;
     }
     if (!url || !url.length)
-      url = "https://soundcloud.com/renzone/louie-vega-feat-julie-mcknight-diamond-life-richard-earnshaw";
+      url = "https://soundcloud.com/mcslee/valentine-in-spades";
     this.setState({show_loader: true, active_track: null});
     ipcRenderer.send('resolve', url);
   }
