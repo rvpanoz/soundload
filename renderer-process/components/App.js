@@ -1,24 +1,19 @@
+import config from '../../config';
 import electron from 'electron';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {PropTypes} from 'prop-types';
-
 import {
   HashRouter as Router
 } from 'react-router-dom';
+import 'bootstrap/dist/js/bootstrap.min';
 
 const ipcRenderer = electron.ipcRenderer;
-
-//configuration
-import config from '../../config';
-
-import 'bootstrap/dist/js/bootstrap.min';
 
 //app components
 import AppMessage from './common/AppMessage';
 import AppLoader from './common/AppLoader';
 import Header from './common/Header';
-
 import Main from './content/Main';
 
 class App extends React.Component {
@@ -30,15 +25,14 @@ class App extends React.Component {
     this.state = {
       show_loader: false,
       show_message: false,
-      app_message: '',
-      active_track: null
+      app_message: ''
     }
   }
   render() {
     return (
       <div>
         <AppLoader isVisible={this.state.show_loader}/>
-        <AppMessage message={this.state.app_message} isVisible={this.state.show_message}/>
+        <AppMessage isVisible={this.state.show_message} message={this.state.app_message} />
         <Header/>
         <Main />
       </div>
@@ -56,7 +50,7 @@ class App extends React.Component {
   }
   hideLoader() {
     this.setState((prevState, props) => {
-      return {show_loader: false, active_track: null}
+      return {show_loader: false}
     });
   }
 }

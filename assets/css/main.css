@@ -77,9 +77,6 @@ a {
 .app-content {
   display: block;
   width: 100%;
-  margin-left: 35px;
-  margin-right: 35px;
-  margin-top: 25px;
   padding-top: 100px;
 }
 
@@ -305,8 +302,8 @@ a.button, a.button-primary, button {
   position: relative;
   z-index: 4;
   width: 500px;
-  left: 10vw;
-  top: 10vw;
+  left: 10px;
+  top: 50px;
 }
 
 .empty {
@@ -394,7 +391,7 @@ a.button, a.button-primary, button {
 }
 
 .title-list {
-  padding: 200px 40px;
+  padding: 90px 0px;
   box-sizing: border-box;
   transition: opacity 3s ease;
   opacity: 0;
@@ -458,15 +455,16 @@ a.button, a.button-primary, button {
   font-weight: 200;
   opacity: 0;
   transition: opacity .25s ease;
+  color: #fff;
 }
 
-.item .overlay .rating {
+.item .overlay .likes {
   font-size: 14px;
   opacity: 0;
   transition: opacity .25s ease .125s;
 }
 
-.item .overlay .plot {
+.item .overlay .desc {
   font-size: 14px;
   display: -webkit-box;
   margin-top: 100px;
@@ -489,7 +487,7 @@ a.button, a.button-primary, button {
   pointer-events: all;
 }
 
-.item:hover .overlay .plot {
+.item:hover .overlay .desc {
   margin-top: 10px;
   opacity: 1;
 }
@@ -498,7 +496,7 @@ a.button, a.button-primary, button {
   opacity: 1;
 }
 
-.item:hover .overlay .rating {
+.item:hover .overlay .likes {
   opacity: 1;
 }
 

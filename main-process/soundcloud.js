@@ -10,6 +10,7 @@ const request = require('request');
 const ipcMain = require('electron').ipcMain;
 const app = require('electron').app;
 const config = require('../config');
+const id3 = require('id3js');
 
 const {
   baseUrl,
@@ -23,22 +24,22 @@ const Soundcloud = function() {
     var resolveUrl = `${baseUrl}/resolve`;
 
     var r = request({
-        url: config.resolveUrl,
-        json: true,
-        qs: {
-          url: url,
-          client_id: client_id
-        }
-      }, (error, response, body) => {
-        if (error) {
-          console.log(error);
-          r.abort();
-          throw new Error(error);
-        }
-        if(callback) {
-          callback(body);
-        }
-      });
+      url: config.resolveUrl,
+      json: true,
+      qs: {
+        url: url,
+        client_id: client_id
+      }
+    }, (error, response, body) => {
+      if (error) {
+        console.log(error);
+        r.abort();
+        throw new Error(error);
+      }
+      if (callback) {
+        callback(body);
+      }
+    });
   }
   Soundcloud.prototype.download = function(event, outputPath, fileName, trackId) {
     var now = Date.now().toString(),
@@ -61,7 +62,12 @@ const Soundcloud = function() {
           event.sender.send('progress-file-reply', progress);
         })
         .on('end', () => {
-          event.sender.send('download-file-reply');
+          id3({
+            file: filePath,
+            type: id3.OPEN_LOCAL
+          }, function(err, tags) {
+            event.sender.send('download-file-reply', tags);
+          });
         })
         .on('error', (err) => {
           console.log(err);
@@ -102,21 +108,21 @@ const Soundcloud = function() {
     var url = config.relatedUrl.replace('{trackid}', track_id);
 
     var r = request({
-        url: url,
-        json: true,
-        qs: {
-          client_id: client_id
-        }
-      }, (error, response, body) => {
-        if (error) {
-          console.log(error);
-          r.abort();
-          throw new Error(error);
-        }
-        if(callback) {
-          callback(body);
-        }
-      });
+      url: url,
+      json: true,
+      qs: {
+        client_id: client_id
+      }
+    }, (error, response, body) => {
+      if (error) {
+        console.log(error);
+        r.abort();
+        throw new Error(error);
+      }
+      if (callback) {
+        callback(body);
+      }
+    });
   }
 }
 

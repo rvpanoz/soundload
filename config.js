@@ -2,7 +2,7 @@
 
 'use strict';
 
-var config = {
+const config = {
   client_id: 'KFSHpN5xEaAvIZZCrsrDjuFHOcArM91q',
   baseUrl: 'http://api.soundcloud.com',
   resolveUrl: 'http://api.soundcloud.com/resolve',

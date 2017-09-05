@@ -1,10 +1,12 @@
+import config from '../../../config';
 import React from 'react';
 import AppProgress from '../common/AppProgress';
+
+import Search from './Search';
 import Related from './Related';
 
 const {remote, ipcRenderer, clipboard} = require('electron')
 const {Menu, MenuItem} = remote
-
 const menu = new Menu();
 const menuItem = new MenuItem({
   label: 'Paste',
@@ -13,35 +15,8 @@ const menuItem = new MenuItem({
     //copy text to input
   }
 })
-
+let rightClickPosition = null;
 menu.append(menuItem);
-let rightClickPosition = null
-
-// Search
-class Search extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-  componentDidMount() {
-    if(this.props.active_url) {
-      this.textInput.value = this.props.active_url;
-    }
-  }
-  render() {
-    return (
-      <form onSubmit={this.props.onSubmit}>
-        <div className="search-bar">
-          <input ref={(input)=>{
-              this.textInput = input;
-            }} type="search" name="search-input" className="form-control search-input" placeholder="Type a soundcloud track url"/>
-          <button id="search-button" className="button-icon">
-            <i className="fa fa-search"></i>
-          </button>
-        </div>
-      </form>
-    );
-  }
-};
 
 class Track extends React.Component {
   constructor(props) {
@@ -55,9 +30,14 @@ class Track extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.download = this.download.bind(this);
+
     ipcRenderer.on('download-file-error', function(event, errorMsg) {
       console.error(errorMsg);
     });
+    ipcRenderer.on('download-file-reply', function(event, tags) {
+      console.error(tags);
+    });
+
   }
   componentDidMount() {
     let win = remote.getCurrentWindow();
@@ -85,17 +65,21 @@ class Track extends React.Component {
     ipcRenderer.on('progress-file-reply', (event, percentage) => {
       console.log(percentage);
     });
+
+    this.handleSubmit();
   }
   componentWillUnmount() {
     window.removeEventListener('contextmenu', () => {});
   }
   handleSubmit(e) {
-    e.preventDefault();
-    let form = e.target;
-    let url = form.querySelector('input').value;
-
-    if (!url.length)
-      return;
+    let url, form;
+    if(e) {
+      e.preventDefault();
+      form = e.target;
+      url = form.querySelector('input').value;
+    }
+    if (!url || !url.length)
+      url = config.testUrl;
     ipcRenderer.send('resolve', url);
     return;
   }
@@ -127,8 +111,8 @@ class Track extends React.Component {
         <Search onSubmit={this.handleSubmit}/>
         <div className="track-details hero" id="hero">
           <div className="content">
-            <img className="logo" src={track.artwork_url}/>
             <h2>{track.title}</h2>
+            <img className="logo" src={track.artwork_url}/>
             <div className="button-wrapper">
               <a href="#" className="button" data-primary="true">Play</a>
               <a href="#" className="button btn-download" data-title={track.title} data-id={track.id} onClick={this.download}>Download</a>
