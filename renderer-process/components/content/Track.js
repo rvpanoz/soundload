@@ -15,7 +15,7 @@ const menuItem = new MenuItem({
 let rightClickPosition = null;
 menu.append(menuItem);
 
-class Track extends React.Component {
+export default class Track extends React.Component {
   constructor(props) {
     super(props);
     console.log('track:render', props);
@@ -71,7 +71,7 @@ class Track extends React.Component {
                   <i className="fa fa-play"></i>
                   Play
                 </button>
-                <button className="button-light">
+                <button className="button-light" onClick={this.download}>
                   <i className="fa fa-download"></i>
                   Download
                 </button>
@@ -79,15 +79,26 @@ class Track extends React.Component {
             </div>
           </div>
           <div className="track__listeners">
-            <div className="track__listeners__count">15.200300</div>
-            <div className="track__listeners__label">Total likes</div>
+            <div className="track__listeners__count">{track.favoritings_count}</div>
+            <div className="track__listeners__label">favorites</div>
           </div>
-          <div className="track__info"></div>
+          <div className="track__navigation">
+            <ul className="nav nav-tabs" role="tablist">
+              <li role="presentation" className="active">
+                <a href="#artist-overview" aria-controls="artist-overview" role="tab" data-toggle="tab" aria-expanded="true">Overview</a>
+              </li>
+              <li role="presentation" className="">
+                <a href="#related-tracks" aria-controls="related-tracks" role="tab" data-toggle="tab" aria-expanded="false">Related Tracks</a>
+              </li>
+            </ul>
+            <div className="track__navigation__friends">
+              <a href="#">
+                <img src="http://zblogged.com/wp-content/uploads/2015/11/17.jpg" alt=""/></a>
+            </div>
+          </div>
         </div>
         <div className="track__content"></div>
       </div>
     )
   }
 }
-
-export default Track;
