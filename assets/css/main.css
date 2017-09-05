@@ -175,7 +175,7 @@ form>.search-bar {
   height: 55px;
   display: inline-block;
   vertical-align: middle;
-  width: 75%;
+  width: 95%;
 }
 
 header .search-bar .search-input {
@@ -191,13 +191,13 @@ form>.search-bar .search-input {
   border-radius: 0;
   padding-left: 2.5em;
   padding-right: 1.5em;
-  border: 0;
+  border: 1px solid #ccc;
   color: #666;
   font-size: 14px;
   height: 45px;
   margin-top: 5px;
   font-weight: 400;
-  width: 75%;
+  width: 50%;
   border-radius: 4px;
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;

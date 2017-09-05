@@ -5,6 +5,16 @@ import Related from './Related';
 const {remote, ipcRenderer, clipboard} = require('electron')
 const {Menu, MenuItem} = remote
 
+const menu = new Menu();
+const menuItem = new MenuItem({
+  label: 'Paste',
+  click: () => {
+    let text = clipboard.readText();
+    //copy text to input
+  }
+})
+
+menu.append(menuItem);
 let rightClickPosition = null
 
 // Search
@@ -23,7 +33,7 @@ class Search extends React.Component {
         <div className="search-bar">
           <input ref={(input)=>{
               this.textInput = input;
-            }} type="search" name="search-input" className="search-input" placeholder="Type a soundcloud track url"/>
+            }} type="search" name="search-input" className="form-control search-input" placeholder="Type a soundcloud track url"/>
           <button id="search-button" className="button-icon">
             <i className="fa fa-search"></i>
           </button>
@@ -36,7 +46,6 @@ class Search extends React.Component {
 class Track extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       active_track: null,
       show_progress: false,
@@ -50,7 +59,6 @@ class Track extends React.Component {
       console.error(errorMsg);
     });
   }
-
   componentDidMount() {
     let win = remote.getCurrentWindow();
 
@@ -62,19 +70,6 @@ class Track extends React.Component {
       }
       menu.popup(win)
     }, false)
-
-    const menu = new Menu();
-    const menuItem = new MenuItem({
-      label: 'Paste',
-      click: () => {
-        let text = clipboard.readText();
-        this.setState({
-          active_url: text
-        });
-      }
-    })
-
-    menu.append(menuItem);
 
     ipcRenderer.on('resolve-reply', (event, track) => {
       if (track.errors && typeof track.errors === 'object') {
@@ -96,13 +91,11 @@ class Track extends React.Component {
   }
   handleSubmit(e) {
     e.preventDefault();
-
-    let path = '';
     let form = e.target;
     let url = form.querySelector('input').value;
 
     if (!url.length)
-      return
+      return;
     ipcRenderer.send('resolve', url);
     return;
   }
@@ -131,7 +124,7 @@ class Track extends React.Component {
         <div className="title">
           <h2>Discover</h2>
         </div>
-        <Search onSubmit={this.handleSubmit} url={this.state.active_url}/>
+        <Search onSubmit={this.handleSubmit}/>
         <div className="track-details hero" id="hero">
           <div className="content">
             <img className="logo" src={track.artwork_url}/>
@@ -147,15 +140,11 @@ class Track extends React.Component {
           </div>
         </div>
         <div className="related-list">
-          <Related track={this.track}/>
+          <Related track={track}/>
         </div>
       </div>
     )
   }
-}
-
-Track.defaultProps = {
-  track: null
 }
 
 export default Track;
