@@ -1,19 +1,13 @@
+/**
+ * Track component
+ */
+
+'use strict';
+
+import {remote, ipcRenderer, clipboard} from 'electron';
 import React from 'react';
 import AppProgress from '../common/AppProgress';
 import Related from './Related';
-
-const {remote, ipcRenderer, clipboard} = require('electron')
-const {Menu, MenuItem} = remote
-const menu = new Menu();
-const menuItem = new MenuItem({
-  label: 'Paste',
-  click: () => {
-    let text = clipboard.readText();
-    //copy text to input
-  }
-})
-let rightClickPosition = null;
-menu.append(menuItem);
 
 export default class Track extends React.Component {
   constructor(props) {
@@ -31,18 +25,10 @@ export default class Track extends React.Component {
     });
   }
   componentDidMount() {
-    let win = remote.getCurrentWindow();
-    window.addEventListener('contextmenu', (e) => {
-      e.preventDefault()
-      rightClickPosition = {
-        x: e.x,
-        y: e.y
-      }
-      menu.popup(win)
-    }, false);
+
   }
   componentWillUnmount() {
-    window.removeEventListener('contextmenu', () => {});
+
   }
   download(e) {
     e.preventDefault();
@@ -108,6 +94,30 @@ export default class Track extends React.Component {
             </div>
             <div role="tabpanel" className="tab-pane" id="related-tracks">
               <div className="media-cards">
+                <div className="media-card">
+                  <div className="media-card__image" style={{
+                      backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
+                    }}>
+                    <i className="fa fa-play"></i>
+                  </div>
+                  <a className="media-card__footer">Hoodie Allen</a>
+                </div>
+                <div className="media-card">
+                  <div className="media-card__image" style={{
+                      backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
+                    }}>
+                    <i className="fa fa-play"></i>
+                  </div>
+                  <a className="media-card__footer">Hoodie Allen</a>
+                </div>
+                <div className="media-card">
+                  <div className="media-card__image" style={{
+                      backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
+                    }}>
+                    <i className="fa fa-play"></i>
+                  </div>
+                  <a className="media-card__footer">Hoodie Allen</a>
+                </div>
                 <div className="media-card">
                   <div className="media-card__image" style={{
                       backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'

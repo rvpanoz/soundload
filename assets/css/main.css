@@ -1,5 +1,12 @@
 @import url("https://fonts.googleapis.com/css?family=Lato:400,900,400italic,700italic");
 @import url(font-awesome.min.css);
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+}
 
 body {
   background: #181818;
@@ -15,6 +22,21 @@ body a:hover {
   color: #c8c8c8;
 }
 
+body:before {
+  content: ' ';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.6;
+  background-image: url('../images/soundcloud-sm.png');
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+}
+
 *, :after, :before {
   box-sizing: border-box;
 }
@@ -24,6 +46,13 @@ p {
   font-weight: 300;
   line-height: 1.6;
   margin-bottom: 1em;
+}
+
+#app {
+  display: block;
+  position: relative;
+  width: 100%;
+  min-height: 100%;
 }
 
 .header .logo {
@@ -64,6 +93,8 @@ p {
 }
 
 .header .search {
+  position: relative;
+  width: 85%;
   margin-left: 1%;
 }
 
@@ -174,24 +205,8 @@ p {
   padding-top: 60px;
   display: flex;
   position: relative;
-  min-height: 760px;
   flex-flow: row wrap;
-}
-
-/* You could use :after - it doesn't really matter */
-.content:before {
-    content: ' ';
-    display: block;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    opacity: 0.6;
-    background-image: url('../images/soundcloud-sm.png');
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
+  min-height: 100%;
 }
 
 .content__left {
@@ -200,7 +215,6 @@ p {
 
 .content__middle {
   width: 70%;
-  opacity: 1;
 }
 
 .content__right {
@@ -229,43 +243,48 @@ p {
 }
 
 form>.search-bar {
-    position: relative;
-    height: 55px;
-    display: inline-block;
-    vertical-align: middle;
-    width: 95%;
+  position: relative;
+  height: 55px;
+  display: inline-block;
+  vertical-align: middle;
+  width: 95%;
 }
 
 form>.search-bar .search-input {
-    margin-bottom: 0;
-    box-shadow: none;
-    background: transparent;
-    border-radius: 0;
-    color: #1ed760;
-    font-size: 16px;
-    height: 35px;
-    margin-top: 11px;
-    font-weight: 400;
-    width: 50%;
-    border-radius: 4px;
-    -moz-border-radius: 4px;
-    -ms-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    transition: border .25s ease, width .125s ease .125s;
+  margin-bottom: 0;
+  box-shadow: none;
+  background: transparent;
+  border-radius: 0;
+  color: #1ed760;
+  font-size: 16px;
+  height: 35px;
+  margin-top: 11px;
+  font-weight: 400;
+  width: 50%;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  transition: border .25s ease, width .125s ease .125s;
+}
+
+form>.search-bar .search-input:focus {
+  width: 100%:
 }
 
 .search-bar #search-button {
-    position: absolute;
-    top: 10px;
-    left: 0;
-    color: #8d9aa5;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  color: #8d9aa5;
 }
+
 .button-icon {
-    background: transparent;
-    color: #666;
-    padding: .5em;
-    font-size: 1em;
-    border: none;
+  background: transparent;
+  color: #666;
+  padding: .5em;
+  font-size: 1em;
+  border: none;
 }
 
 .navigation {
@@ -426,11 +445,13 @@ form>.search-bar .search-input {
   width: 5%;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }
 
 .current-track__actions a {
+  display: inline-block;
+  margin-right: 15px;
   font-size: 24px;
   color: #c8c8c8;
 }
@@ -588,7 +609,7 @@ form>.search-bar .search-input {
     width: 10%;
   }
   .current-track__progress {
-    width: 40%;
+    width: 99%;
   }
   .current-track__options {
     width: 50%;
@@ -631,7 +652,7 @@ form>.search-bar .search-input {
 
 .track {
   height: 617px;
-  overflow-y: scroll;
+  /*overflow-y: scroll;*/
 }
 
 .track__header {
@@ -898,8 +919,9 @@ form>.search-bar .search-input {
   }
 }
 
-@media (max-width: 522px) {
+@media (max-width: 1024px) {
   .track__header {
+    width: 95%;
     height: auto;
     flex-flow: column wrap;
   }
@@ -1338,7 +1360,7 @@ form>.search-bar .search-input {
 }
 
 @media (max-width: 650px) {
-   .window__actions {
+  .window__actions {
     width: 15%;
   }
   .header .page-flows {
@@ -1436,4 +1458,164 @@ button:hover {
   letter-spacing: 1.25px;
   font-size: 13.2px;
   margin-bottom: 10px;
+}
+
+/** LOADER - APPMESSAGE */
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+#loader {
+  position: fixed;
+  top: 6%;
+  right: 3%;
+}
+
+#loader p {
+  color: #fff;
+}
+#loader.show {
+  display: block;
+}
+
+#app-message.show {
+  right: 0px;
+}
+
+#app-message.hide {
+  right: -100px;
+}
+
+#loader.hide {
+  display: none;
+}
+
+#loader .line {
+  animation: expand 1s ease-in-out infinite;
+  border-radius: 10px;
+  display: inline-block;
+  transform-origin: center center;
+  margin: 0 3px;
+  width: 1px;
+  height: 25px;
+}
+
+#loader .line:nth-child(1) {
+  background: #27ae60;
+}
+
+#loader .line:nth-child(2) {
+  animation-delay: 180ms;
+  background: #f1c40f;
+}
+
+#loader .line:nth-child(3) {
+  animation-delay: 360ms;
+  background: #e67e22;
+}
+
+#loader .line:nth-child(4) {
+  animation-delay: 540ms;
+  background: #2980b9;
+}
+
+#loader p {
+  margin: 0px 0px 25px 0px;
+}
+
+#app-message {
+  justify-content: center;
+  position: absolute;
+  width: 175px;
+  height: 100px;
+  top: 0px;
+  right: -100px;
+  transition: right .25s ease;
+  z-index: 4;
+}
+
+#app-message p {
+  position: absolute;
+  top: 25%;
+  width: 100%;
+}
+
+@keyframes expand {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(2);
+  }
+}
+
+
+/** images **/
+
+img {
+  border: 1px solid #fff;
+  background: #f0f0f0;
+}
+
+
+/** progress bar **/
+
+.progress {
+  background-color: transparent;
+  border-radius: 3px;
+  box-shadow: none;
+  height: 8px;
+}
+
+.progress {
+  height: 10px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  overflow: hidden;
+  /*background-color: #fff;*/
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+}
+
+.progress-bar {
+  background-color: #7A9E9F;
+}
+
+.progress-bar {
+  float: left;
+  width: 0;
+  height: 100%;
+  font-size: 12px;
+  line-height: 20px;
+  color: #fff;
+  text-align: center;
+  background-color: #B33C12;
+  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
+  -webkit-transition: width .6s ease;
+  -o-transition: width .6s ease;
+  transition: width .6s ease;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }

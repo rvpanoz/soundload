@@ -10,6 +10,7 @@ const Loader = (props) => {
     <div id="loader" className={(is_visible)
       ? 'show'
       : 'hide'}>
+      <p>Loading track..</p>
       <div className="line"></div>
       <div className="line"></div>
       <div className="line"></div>
