@@ -97,7 +97,45 @@ export default class Track extends React.Component {
             </div>
           </div>
         </div>
-        <div className="track__content"></div>
+        <div className="track__content">
+          <div className="tab-content">
+            <div role="tabpanel" className="tab-pane active" id="artist-overview">
+              <div className="overview">
+                <div className="overview__artist">
+                  <div className="section-title">Latest Release</div>
+                </div>
+              </div>
+            </div>
+            <div role="tabpanel" className="tab-pane" id="related-tracks">
+              <div className="media-cards">
+                <div className="media-card">
+                  <div className="media-card__image" style={{
+                      backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
+                    }}>
+                    <i className="fa fa-play"></i>
+                  </div>
+                  <a className="media-card__footer">Hoodie Allen</a>
+                </div>
+                <div className="media-card">
+                  <div className="media-card__image" style={{
+                      backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
+                    }}>
+                    <i className="fa fa-play"></i>
+                  </div>
+                  <a className="media-card__footer">Hoodie Allen</a>
+                </div>
+                <div className="media-card">
+                  <div className="media-card__image" style={{
+                      backgroundImage: 'url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg)'
+                    }}>
+                    <i className="fa fa-play"></i>
+                  </div>
+                  <a className="media-card__footer">Hoodie Allen</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
