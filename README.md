@@ -1,3 +1,3 @@
 ## soundload_ (Work in progress)
 
-[https://github.com/rvpanoz/soundload/blob/master/assets/images/soundcloud-lg.png]
+[https://drive.google.com/open?id=0ByXqGzbzJJFKTE41T1U5aW91bFE|alt="soundload-1"]
