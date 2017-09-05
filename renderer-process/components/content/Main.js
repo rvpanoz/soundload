@@ -1,4 +1,12 @@
 import React from 'react';
+import {
+  Route
+} from 'react-router-dom';
+
+import Settings from '../common/Settings';
+import Home from './Home';
+import About from './About';
+import Track from './Track';
 
 export default class Main extends React.Component {
   constructor(props) {

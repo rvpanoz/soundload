@@ -4,8 +4,7 @@ import ReactDOM from 'react-dom';
 import {PropTypes} from 'prop-types';
 
 import {
-  HashRouter as Router,
-  Route
+  HashRouter as Router
 } from 'react-router-dom';
 
 const ipcRenderer = electron.ipcRenderer;
@@ -19,10 +18,7 @@ import 'bootstrap/dist/js/bootstrap.min';
 import AppMessage from './common/AppMessage';
 import AppLoader from './common/AppLoader';
 import Header from './common/Header';
-import Settings from './common/Settings';
-import Home from './content/Home';
-import About from './content/About';
-import Track from './content/Track';
+
 import Main from './content/Main';
 
 class App extends React.Component {
