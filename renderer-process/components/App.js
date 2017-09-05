@@ -23,22 +23,7 @@ import Settings from './common/Settings';
 import Home from './content/Home';
 import About from './content/About';
 import Track from './content/Track';
-
-class Main extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      <div className="app-content container">
-        <Route exact path='/' component={Track}/>
-        <Route path='/track' component={Track}/>
-        <Route path='/settings' component={Settings}/>
-        <Route path='/about' component={About}/>
-      </div>
-    )
-  }
-}
+import Main from './content/Main';
 
 class App extends React.Component {
   constructor(props) {
