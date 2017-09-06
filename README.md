@@ -74,5 +74,5 @@ No framework or template engine :)
 - [Node](https://nodejs.org/)
 
 ### CSS
-
+- Main css are all custom code.
 - [Bootstrap](https://getbootstrap.com)
