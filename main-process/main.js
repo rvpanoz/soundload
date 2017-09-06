@@ -51,7 +51,7 @@ function createWindow(opts) {
 
   //create a BrowserWindow
   mwin = new BrowserWindow({
-    width: 900,
+    width: 650,
     height: screenSize.height
   });
 
