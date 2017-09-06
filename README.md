@@ -71,7 +71,7 @@ No framework or template engine :)
 
 - [Electron](https://electron.atom.io/)
 - [React](http://facebook.github.io/react)
-- [Node](http://nodejs.io)
+- [Node](https://nodejs.org/)
 
 ### CSS
 
