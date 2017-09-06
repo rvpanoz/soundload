@@ -54,7 +54,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="app-content">
         <AppLoader isVisible={this.state.show_loader}/>
         <AppMessage isVisible={this.state.show_message} message={this.state.app_message}/>
         <Header resolve={this.resolve}/>

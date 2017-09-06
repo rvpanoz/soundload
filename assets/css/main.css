@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Lato:400,900,400italic,700italic");
 @import url(font-awesome.min.css);
+@import url(normalize.css);
+
 html {
   height: 100%;
 }
@@ -54,6 +56,12 @@ img {
   position: relative;
   width: 100%;
   min-height: 100%;
+}
+
+#app>.app-content {
+  position: relative;
+  width: 100%;
+  min-height: 800px;
 }
 
 .header .logo {
@@ -207,7 +215,9 @@ img {
   display: flex;
   position: relative;
   flex-flow: row wrap;
-  min-height: 100%;
+  min-height: 790px;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .content__left {
