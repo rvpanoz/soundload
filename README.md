@@ -75,4 +75,4 @@ No framework or template engine :)
 
 ### CSS
 
-- [Bootstrap](http://cssnext.putaindecode.io) is used to write futureproof CSS for CSS vendor prefix under the hood).
+- [Bootstrap](https://getbootstrap.com)
