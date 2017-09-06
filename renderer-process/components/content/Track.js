@@ -61,7 +61,7 @@ export default class Track extends React.Component {
                   <i className="fa fa-play"></i>
                   Play
                 </button>
-                <button className="button-light" onClick={this.download}>
+                <button className="button-light" data-title={track.title} onClick={this.download}>
                   <i className="fa fa-download"></i>
                   Download
                 </button>

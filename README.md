@@ -1,6 +1,7 @@
 # Soundload
 
-Desktop application build with React and Electron. A simple soundcloud client for downloading tracks and finding related items.
+Cross platform desktop app. Using electron and React for UI. It's a simple Soundcloud client for searching, downloading tracks and finding related items.
+via Soundcloud API.
 
 ## Requirements
 
