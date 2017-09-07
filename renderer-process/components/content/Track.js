@@ -56,6 +56,17 @@ export default class Track extends React.Component {
       min, h
     }
   }
+  parseDuration() {
+    let duration = this.props.track.duration / 1000; //get seconds
+    let min, h;
+
+    min = (duration / 60).toFixed(2);
+    h = (min / 60).toFixed(2);
+
+    return {
+      min, h
+    }
+  }
   render() {
     let track = this.props.track;
     if (!track) {
