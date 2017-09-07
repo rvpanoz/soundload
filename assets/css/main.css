@@ -7,14 +7,13 @@ html {
 }
 
 body {
-}
-
-body {
   background: #181818;
   font-family: 'Roboto', sans-serif;
   font-size: 12pt;
   width: auto;
   height: auto;
+  margin: 0;
+  padding: 0;
 }
 
 body:before {
@@ -48,17 +47,11 @@ img {
   background: #f0f0f0;
 }
 
-#app {
-  display: block;
-  position: relative;
-  width: 100%;
-  min-height: 100%;
-}
-
 #app>.app-content {
-  position: relative;
   width: 100%;
-  min-height: 800px;
+  height: 100vh;
+  position: relative;
+  background-color: inherit;
 }
 
 .header .logo {
@@ -172,7 +165,7 @@ img {
 }
 
 .header .navigation__actions .dropdown-menu:before {
-  font-family: "Ionicons";
+  font-family: "Roboto";
   content: "\f365";
   position: absolute;
   top: -30px;
@@ -210,11 +203,10 @@ img {
 .content {
   padding-top: 60px;
   display: flex;
+  height: inherit;
   position: relative;
   flex-flow: row wrap;
-  min-height: 790px;
   overflow-x: hidden;
-  overflow-y: scroll;
 }
 
 .content__left {

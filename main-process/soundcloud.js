@@ -62,12 +62,7 @@ const Soundcloud = function() {
           event.sender.send('progress-file-reply', progress);
         })
         .on('end', () => {
-          id3({
-            file: filePath,
-            type: id3.OPEN_LOCAL
-          }, function(err, tags) {
-            event.sender.send('download-file-reply', tags);
-          });
+          event.sender.send('download-file-reply', tags);
         })
         .on('error', (err) => {
           console.log(err);
