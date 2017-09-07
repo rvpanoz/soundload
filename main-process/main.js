@@ -36,11 +36,30 @@ var mwin;
 //set store as a global object
 global.store = Store;
 
+/*** Dev ***/
+if (process.env.NODE_ENV === 'development' && debug === true) {
 
+  /** electron reload **/
+  require('electron-reload')(path.resolve(cwd), {
+    electron: require('electron')
+  });
+
+  /** React extension **/
+  // var {
+  //   default: installExtension,
+  //   REACT_DEVELOPER_TOOLS
+  // } = require('electron-devtools-installer');
+  //
+  // installExtension(REACT_DEVELOPER_TOOLS)
+  //   .then((name) => console.log(`Added Extension:  ${name}`))
+  //   .catch((err) => console.log('An error occurred: ', err));
+}
+
+/** Create the main browser window **/
 function createWindow(opts) {
   var screenSize = electron.screen.getPrimaryDisplay().size;
 
-  // create the main browser window
+  // create a new BrowserWindow
   mwin = new BrowserWindow({
     width: config.windowWidth,
     height: config.windowHeight || screenSize.height
@@ -52,10 +71,12 @@ function createWindow(opts) {
   //load index.html
   mwin.loadURL(`file://${cwd}/index.html`);
 
-  //devtools
-  if (process.env.NODE_ENV === 'development') {
-    require('./dev');
+  //dev mode
+  if (process.env.NODE_ENV === 'development' && debug === true) {
+
+    //devTools
     mwin.openDevTools();
+
     ipcMain.on('inspect-element', function(event, coords) {
       if (mwin) {
         mwin.inspectElement(coords.x, coords.y);
@@ -66,7 +87,7 @@ function createWindow(opts) {
 
 /** Process Communication **/
 
-ipcMain.on('get-output-path', (event) =>  {
+ipcMain.on('get-output-path', (event) => {
   var outputPath = store.get('output_path');
   event.sender.send('get-output-path-reply', outputPath);
 });

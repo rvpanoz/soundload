@@ -4,6 +4,7 @@
 
 'use strict';
 
+import moment from 'moment';
 import {remote, ipcRenderer, clipboard} from 'electron';
 import React from 'react';
 import AppProgress from '../common/AppProgress';
@@ -32,13 +33,14 @@ export default class Track extends React.Component {
       id = element.dataset.id,
       title = element.dataset.title.replace(/[^a-zA-Z]+/, '');
     ipcRenderer.send('download-file', title, id);
+    return false;
   }
   parseDate(per) {
-    let moment = require('moment');
-    let track = this.props.track, created_at;
-
-    created_at = track.created_at;
-    return moment(created_at).format(per.toUpperCase());
+    if (!per)
+      return;
+    let dateFormat = 'YYYY/MM/DD';
+    let track = this.props.track;
+    return moment(track.created_at, dateFormat).format(per);
   }
   render() {
     let track = this.props.track;
@@ -97,9 +99,9 @@ export default class Track extends React.Component {
                     <div className="track-details__song">
                       <div className="track-details__song__title">{track.title}</div>
                       <div className="track-details__song__date">
-                        <span className="day">{this.parseDate('d')}/</span>
-                        <span className="month">{this.parseDate('m')}/</span>
-                        <span className="year">{this.parseDate('yyyy')}</span>
+                        <span className="day">{this.parseDate('D')}/</span>
+                        <span className="month">{this.parseDate('M')}/</span>
+                        <span className="year">{this.parseDate('YYYY')}</span>
                       </div>
                       <hr/>
                       <div className="track-details__song__desc">{track.description}</div>
@@ -109,7 +111,7 @@ export default class Track extends React.Component {
               </div>
             </div>
             <div role="tabpanel" className="tab-pane" id="related-tracks">
-              <Related track={track} />
+              <Related track={track}/>
             </div>
           </div>
         </div>
