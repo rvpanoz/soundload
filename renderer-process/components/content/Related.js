@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 const remote = electron.remote;
 const ipcRenderer = electron.ipcRenderer;
 
-class RelatedItem extends React.Component {
+class ListItem extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -29,31 +29,32 @@ export default class List extends React.Component {
     this.state = {
       tracks: []
     }
+    this._onFetch = this._onFetch.bind(this);
   }
-  componentWillMount() {
+  _onFetch(event, tracks) {
+    this.setState({tracks: tracks});
+  }
+  shouldComponentUpdate() {
     let active_track = this.props.track;
-
-    ipcRenderer.on('fetch-related-reply', (event, tracks) => {
-      this.setState({tracks: tracks});
-    });
-
-    if (active_track && active_track.id) {
-      ipcRenderer.send('fetch-related', active_track.id);
-    }
+    return (active_track && active_track.id);
+  }
+  componentDidMount() {
+    ipcRenderer.send('fetch-related', this.props.track.id);
+    ipcRenderer.on('fetch-related-reply', this._onFetch);
+  }
+  componentWillUnmount() {
+    ipcRenderer.removeAllListeners('fetch-related-reply');
   }
   render() {
     let tracks = this.state.tracks;
-    if (!tracks || !tracks.length) {
+    if (!tracks) {
       return null;
     }
 
     return (
       <div className="media-cards">
-        {tracks.map((track, idx) => <RelatedItem key={idx} {...track}/>)}
+        {tracks.map((track, idx) => <ListItem key={idx} {...track}/>)}
       </div>
     )
-  }
-  componentWillReceiveProps(nextProps) {
-
   }
 }

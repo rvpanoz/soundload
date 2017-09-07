@@ -26,7 +26,14 @@ export default class Track extends React.Component {
     });
   }
   componentDidMount() {}
-  componentWillUnmount() {}
+  componentWillUnmount() {
+    ipcRenderer.removeAllListeners([
+      'download-file',
+      'download-file-error',
+      'download-file-reply',
+      'progress-file-reply'
+    ]);
+  }
   download(e) {
     e.preventDefault();
     let element = e.target,

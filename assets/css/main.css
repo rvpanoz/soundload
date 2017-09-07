@@ -7,17 +7,14 @@ html {
 }
 
 body {
-  min-height: 100%;
 }
 
 body {
   background: #181818;
   font-family: 'Roboto', sans-serif;
   font-size: 12pt;
-}
-
-body a {
-  color: #aaaaaa;
+  width: auto;
+  height: auto;
 }
 
 body:before {
@@ -233,7 +230,7 @@ img {
 }
 
 
-form>.search-bar {
+.header form>.search-bar {
   position: relative;
   height: 55px;
   display: inline-block;
@@ -241,12 +238,12 @@ form>.search-bar {
   width: 95%;
 }
 
-form>.search-bar .search-input {
+.header form>.search-bar .search-input {
   margin-bottom: 0;
   box-shadow: none;
   background: transparent;
   border-radius: 0;
-  color: #1ed760;
+  color: #fff;
   font-size: 16px;
   height: 35px;
   margin-top: 11px;
@@ -259,11 +256,11 @@ form>.search-bar .search-input {
   transition: border .25s ease, width .125s ease .125s;
 }
 
-form>.search-bar .search-input:focus {
+.header form>.search-bar .search-input:focus {
   width: 100%:
 }
 
-.search-bar #search-button {
+.header form>.search-bar #search-button {
   position: absolute;
   top: 10px;
   left: 0;
@@ -310,7 +307,7 @@ form>.search-bar .search-input:focus {
 .navigation__list__item:hover {
   color: white;
   text-decoration: none;
-  border-right: 3px solid #1ed760;
+  border-right: 3px solid #f50;
 }
 
 .navigation__list__item i {
@@ -440,7 +437,7 @@ form>.search-bar .search-input:focus {
 }
 
 .current-track__progress__bar .noUi-base {
-  background: #1ed760;
+  background: #f50;
 }
 
 .current-track__progress__bar .noUi-origin {
@@ -702,11 +699,11 @@ form>.search-bar .search-input:focus {
   color: white;
   background: none;
   border: none;
-  border-bottom: 4px solid #1ed760;
+  border-bottom: 4px solid #f50;
 }
 
 .track__header .track__navigation ul li.active a:hover {
-  border-bottom: 4px solid #1ed760;
+  border-bottom: 4px solid #f50;
 }
 
 .track__header .track__navigation__friends {
@@ -1034,7 +1031,7 @@ form>.search-bar .search-input:focus {
 }
 
 .album__info__meta .album__actions .save:hover {
-  border-color: #1ed760;
+  border-color: #f50;
 }
 
 .album__info__meta .album__actions .more {
@@ -1184,9 +1181,9 @@ button:hover {
 }
 
 .button-dark {
-  background: #1ed760;
+  background: #f50;
   color: white;
-  border: 1px solid #1ed760;
+  border: 1px solid #f50;
 }
 
 .button-dark:hover {
