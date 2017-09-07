@@ -32,6 +32,7 @@ export default class Track extends React.Component {
       id = element.dataset.id,
       title = element.dataset.title.replace(/[^a-zA-Z]+/, '');
     ipcRenderer.send('download-file', title, id);
+    return;
   }
   parseDate(per) {
     let moment = require('moment');

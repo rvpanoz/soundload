@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 const remote = electron.remote;
 const ipcRenderer = electron.ipcRenderer;
 
-class RelatedItem extends React.Component {
+class ListItem extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -30,15 +30,13 @@ export default class List extends React.Component {
       tracks: []
     }
   }
-  componentWillMount() {
+  componentDidMount() {
     let active_track = this.props.track;
-
-    ipcRenderer.on('fetch-related-reply', (event, tracks) => {
-      this.setState({tracks: tracks});
-    });
-
     if (active_track && active_track.id) {
       ipcRenderer.send('fetch-related', active_track.id);
+      ipcRenderer.on('fetch-related-reply', (event, tracks) => {
+        this.setState({tracks: tracks});
+      });
     }
   }
   render() {
@@ -49,11 +47,8 @@ export default class List extends React.Component {
 
     return (
       <div className="media-cards">
-        {tracks.map((track, idx) => <RelatedItem key={idx} {...track}/>)}
+        {tracks.map((track, idx) => <ListItem key={idx} {...track}/>)}
       </div>
     )
-  }
-  componentWillReceiveProps(nextProps) {
-
   }
 }
