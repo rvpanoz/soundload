@@ -51,8 +51,9 @@ function createWindow(opts) {
 
   //create a BrowserWindow
   mwin = new BrowserWindow({
-    width: 900,
-    height: screenSize.height
+    width: 1200,
+    height: screenSize.height,
+    protocol: 'file:'
   });
 
   soundcloud = new Soundcloud(mwin);
