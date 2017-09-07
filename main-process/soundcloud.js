@@ -40,7 +40,7 @@ const Soundcloud = function() {
       });
     },
     get_related: function(track_id, callback) {
-      if(!track_id) {
+      if (!track_id) {
         throw new Error('get_related: track_id parameter is missing.');
       }
 
@@ -83,11 +83,10 @@ const Soundcloud = function() {
             event.sender.send('progress-file-reply', progress);
           })
           .on('end', () => {
-            event.sender.send('download-file-reply');
+            event.sender.send('download-file-reply', tags);
           })
           .on('error', (err) => {
             console.log(err);
-            event.sender.send('download-file-error', tags);
           })
           .pipe(fs.createWriteStream(filePath))
       }

@@ -61,8 +61,9 @@ function createWindow(opts) {
 
   // create a new BrowserWindow
   mwin = new BrowserWindow({
-    width: config.windowWidth,
-    height: config.windowHeight || screenSize.height
+    width: 1200,
+    height: screenSize.height,
+    protocol: 'file:'
   });
 
   //initialization of the soundcloud module passing mwin

@@ -1,20 +1,20 @@
 @import url("https://fonts.googleapis.com/css?family=Lato:400,900,400italic,700italic");
 @import url(font-awesome.min.css);
 @import url(normalize.css);
-
 html {
   height: 100%;
-}
-
-body {
 }
 
 body {
   background: #181818;
   font-family: 'Roboto', sans-serif;
   font-size: 12pt;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   width: auto;
   height: auto;
+  margin: 0;
+  padding: 0;
 }
 
 body:before {
@@ -48,17 +48,16 @@ img {
   background: #f0f0f0;
 }
 
-#app {
-  display: block;
-  position: relative;
-  width: 100%;
-  min-height: 100%;
+.number {
+  font-size: 26pt;
+  margin-top: 25px;
 }
 
 #app>.app-content {
-  position: relative;
   width: 100%;
-  min-height: 800px;
+  height: 100vh;
+  position: relative;
+  background-color: inherit;
 }
 
 .header .logo {
@@ -172,7 +171,7 @@ img {
 }
 
 .header .navigation__actions .dropdown-menu:before {
-  font-family: "Ionicons";
+  font-family: "Roboto";
   content: "\f365";
   position: absolute;
   top: -30px;
@@ -210,11 +209,10 @@ img {
 .content {
   padding-top: 60px;
   display: flex;
+  height: inherit;
   position: relative;
   flex-flow: row wrap;
-  min-height: 790px;
   overflow-x: hidden;
-  overflow-y: scroll;
 }
 
 .content__left {
@@ -228,7 +226,6 @@ img {
 .content__right {
   width: 5%;
 }
-
 
 .header form>.search-bar {
   position: relative;
@@ -389,6 +386,7 @@ img {
   bottom: 0px;
   position: fixed;
   width: 100%;
+  z-index: 12;
 }
 
 .current-track__actions {
@@ -541,7 +539,6 @@ img {
 .current-track__options .controls .volume #song-volume:hover .noUi-handle {
   display: block;
 }
-
 
 .track {
   height: 617px;
@@ -751,27 +748,27 @@ img {
   flex-flow: row wrap;
 }
 
-.track__content .overview__artist {
+.track__content .overview__track {
   padding-right: 15px;
   width: 70%;
 }
 
-.track__content .overview__artist .track-details {
+.track__content .overview__track .track-details {
   margin-bottom: 30px;
   display: flex;
   flex-flow: row wrap;
 }
 
-.track__content .overview__artist .track-details__art {
+.track__content .overview__track .track-details__art {
   width: 75px;
 }
 
-.track__content .overview__artist .track-details__art img {
+.track__content .overview__track .track-details__art img {
   width: 75px;
   height: 75px;
 }
 
-.track__content .overview__artist .track-details__song {
+.track__content .overview__track .track-details__song {
   width: calc( 100% - 75px);
   padding: 10px 15px;
   background: #282828;
@@ -785,8 +782,37 @@ img {
   font-size: 11pt;
 }
 
-.track__content .overview__artist .track-details__song__title {
+.track__content .overview__track .track-details__song__title {
   color: #c8c8c8;
+}
+
+.track__content .overview__track-info__box {
+  width: 225px;
+  height: 65px;
+  position: relative;
+  display: inline-block;
+}
+
+.overview__track-info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.track__content .overview__track-info__box .box {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  text-align: left;
+  color: white;
+  font-size: 14px;
+  padding-top: 15px;
+  padding-right: 15px;
+}
+
+.box small {
+  font-size: 11pt;
 }
 
 .track__content .overview__related {
@@ -1085,7 +1111,7 @@ img {
 }
 
 .media-cards .media-card__image {
-  height: 200px;
+  height: 125px;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -1116,6 +1142,8 @@ img {
   background: #282828;
   padding: 15px;
   color: white;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
 }
 
 .media-cards .media-card__footer:hover {
@@ -1187,7 +1215,7 @@ button:hover {
 }
 
 .button-dark:hover {
-  background: #43e57d;
+  border-color: white;
 }
 
 .button-light {
@@ -1208,6 +1236,7 @@ button:hover {
   font-size: 13.2px;
   margin-bottom: 10px;
 }
+
 
 /** LOADER - APPMESSAGE */
 
@@ -1309,6 +1338,7 @@ button:hover {
     transform: scale(2);
   }
 }
+
 
 /** progress bar **/
 

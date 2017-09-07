@@ -14,6 +14,7 @@ export default class Track extends React.Component {
   constructor(props) {
     super(props);
     this.parseDate = this.parseDate.bind(this);
+    this.parseDuration = this.parseDuration.bind(this);
     this.download = this.download.bind(this);
     ipcRenderer.on('download-file-error', function(event, error_message) {
       console.error(error_message);
@@ -27,12 +28,7 @@ export default class Track extends React.Component {
   }
   componentDidMount() {}
   componentWillUnmount() {
-    ipcRenderer.removeAllListeners([
-      'download-file',
-      'download-file-error',
-      'download-file-reply',
-      'progress-file-reply'
-    ]);
+    ipcRenderer.removeAllListeners(['download-file', 'download-file-error', 'download-file-reply', 'progress-file-reply']);
   }
   download(e) {
     e.preventDefault();
@@ -49,12 +45,23 @@ export default class Track extends React.Component {
     let track = this.props.track;
     return moment(track.created_at, dateFormat).format(per);
   }
+  parseDuration() {
+    let duration = this.props.track.duration / 1000; //get seconds
+    let min, h;
+
+    min = (duration / 60).toFixed(2);
+    h = (min / 60).toFixed(2);
+
+    return {
+      min, h
+    }
+  }
   render() {
     let track = this.props.track;
     if (!track) {
       return null;
     }
-
+    console.log(track);
     return (
       <div className="track">
         <div className="track__header">
@@ -84,7 +91,7 @@ export default class Track extends React.Component {
           <div className="track__navigation">
             <ul className="nav nav-tabs" role="tablist">
               <li role="presentation" className="active">
-                <a href="#artist-overview" aria-controls="artist-overview" role="tab" data-toggle="tab" aria-expanded="true">Overview</a>
+                <a href="#track-overview" aria-controls="track-overview" role="tab" data-toggle="tab" aria-expanded="true">Overview</a>
               </li>
               <li role="presentation" className="">
                 <a href="#related-tracks" aria-controls="related-tracks" role="tab" data-toggle="tab" aria-expanded="false">Related Tracks</a>
@@ -98,9 +105,9 @@ export default class Track extends React.Component {
         </div>
         <div className="track__content">
           <div className="tab-content">
-            <div role="tabpanel" className="tab-pane active" id="artist-overview">
+            <div role="tabpanel" className="tab-pane active" id="track-overview">
               <div className="overview">
-                <div className="overview__artist">
+                <div className="overview__track">
                   <div className="section-title">Track details</div>
                   <div className="track-details">
                     <div className="track-details__song">
@@ -112,6 +119,29 @@ export default class Track extends React.Component {
                       </div>
                       <hr/>
                       <div className="track-details__song__desc">{track.description}</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="overview__track-info">
+                  <div className="overview__track-info__box">
+                    <div className="box">
+                      <span className="number">
+                        <i className="fa fa-clock-o"></i>&nbsp;&nbsp;{this.parseDuration().min}&nbsp;<small>min</small>
+                      </span>
+                    </div>
+                  </div>
+                  <div className="overview__track-info__box">
+                    <div className="box">
+                      <span className="number">
+                        <i className="fa fa-heart"></i>&nbsp;&nbsp;{track.favoritings_count}&nbsp;<small>favorites</small>
+                      </span>
+                    </div>
+                  </div>
+                  <div className="overview__track-info__box">
+                    <div className="box">
+                      <span className="number">
+                        <i className="fa fa-comment"></i>&nbsp;&nbsp;{track.comment_count}&nbsp;<small>comments</small>
+                      </span>
                     </div>
                   </div>
                 </div>

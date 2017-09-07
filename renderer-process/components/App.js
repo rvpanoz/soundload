@@ -1,12 +1,13 @@
 import config from '../../config';
-import electron from 'electron';
+import {
+  remote,
+  ipcRenderer
+} from 'electron';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {PropTypes} from 'prop-types';
 import {HashRouter as Router} from 'react-router-dom';
 import 'bootstrap/dist/js/bootstrap.min';
-
-const ipcRenderer = electron.ipcRenderer;
 
 //app components
 import AppMessage from './common/AppMessage';
@@ -37,6 +38,31 @@ class App extends React.Component {
         });
       }, config._wait);
     });
+  }
+  componentDidMount() {
+    /** __DEV__ **/
+    let Menu = remote.Menu;
+    let MenuItem = remote.MenuItem;
+    let rightClickPosition = null
+
+    const menu = new Menu()
+    const menuItem = new MenuItem({
+      label: 'Inspect Element',
+      click: () => {
+        remote.getCurrentWindow().inspectElement(rightClickPosition.x, rightClickPosition.y)
+      }
+    })
+
+    menu.append(menuItem);
+    window.addEventListener('contextmenu', (e) => {
+      e.preventDefault()
+      rightClickPosition = {
+        x: e.x,
+        y: e.y
+      }
+      menu.popup(remote.getCurrentWindow());
+    }, false)
+    /** __DEV__ **/
   }
   resolve(e) {
     let url,
