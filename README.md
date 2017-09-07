@@ -3,6 +3,8 @@
 Cross platform desktop app. Using electron and React for UI. It's a simple Soundcloud client for searching, downloading tracks and finding related items.
 via Soundcloud API.
 
+work in progress..
+
 ![Soundload](http://104.236.58.95/media/soundload-v1.png)
 
 ## Requirements
@@ -68,7 +70,7 @@ Also, be sure to have `git` available in your PATH, `npm` might need it.
 
 ### HTML
 
-No framework or template engine :)
+No framework or template engine
 
 ### JavaScript
 
