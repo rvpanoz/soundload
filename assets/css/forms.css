@@ -1,0 +1,64 @@
+  form.dark {
+    margin: 0;
+  }
+
+  form.dark a {
+    color: #f50;
+  }
+
+  form.dark small {
+    color: #fff;
+  }
+
+  .form-section {
+    padding: 10px 0;
+  }
+
+  .form-section__title {
+    border-bottom: 1px solid #f2f2f2;
+    padding-bottom: 6px;
+  }
+
+  .form-section__title h3 {
+    margin-right: 5px;
+    line-height: 21px;
+    display: inline-block;
+    color: #fff;
+  }
+
+  .form-section__content {
+    position: relative;
+    padding-top: 10px;
+    overflow: hidden;
+    margin: 0 -15px;
+  }
+
+  form.dark label {
+    color: #fff;
+    display: block;
+    font-size: 0.8em;
+    letter-spacing: 0.15em;
+    margin: 0 0 1em 0;
+  }
+
+  form.dark input {
+    border-radius: 0;
+    border-width: 0 0 0 0;
+    border-bottom-color: #fff;
+    padding: 0.5em;
+    font-size: 15px;
+    line-height: 1.2em;
+    width: 80%;
+    color: #fff;
+    background: transparent;
+    background-color: transparent;
+  }
+
+  form.dark .form-control:focus {
+    border-color: #f50;
+    outline: 0;
+  }
+
+  form.dark input[disabled] {
+    background-color: transparent;
+  }

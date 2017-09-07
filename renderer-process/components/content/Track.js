@@ -72,9 +72,9 @@ export default class Track extends React.Component {
     if (!track) {
       return null;
     }
-    console.log(track);
+
     return (
-      <div className="track">
+      <div className="track page-content">
         <div className="track__header">
           <div className="track__info">
             <div className="profile__img">

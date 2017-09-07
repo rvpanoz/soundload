@@ -1,6 +1,22 @@
 @import url("https://fonts.googleapis.com/css?family=Lato:400,900,400italic,700italic");
 @import url(font-awesome.min.css);
 @import url(normalize.css);
+@import url(forms.css);
+
+html, body, div, section, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+*, *:before, *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
 html {
   height: 100%;
 }
@@ -36,6 +52,14 @@ body:before {
   box-sizing: border-box;
 }
 
+a {
+  color: #f50;
+}
+
+a:focus, a:hover {
+  color: #fff;
+}
+
 p {
   font-size: 15px;
   font-weight: 300;
@@ -48,6 +72,26 @@ img {
   background: #f0f0f0;
 }
 
+.wp50 {
+  width: 50%;
+}
+
+.h-group {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}
+
+.text {
+  display: inline-block;
+  padding: 10px 15px;
+  margin: 0;
+}
+
+.text-white {
+  color: white;
+}
+
 .number {
   font-size: 26pt;
   margin-top: 25px;
@@ -58,6 +102,10 @@ img {
   height: 100vh;
   position: relative;
   background-color: inherit;
+}
+
+.page-content {
+  margin: 30px;
 }
 
 .header .logo {
@@ -240,21 +288,12 @@ img {
   box-shadow: none;
   background: transparent;
   border-radius: 0;
+  border-bottom: 1px solid #fff;
   color: #fff;
   font-size: 16px;
   height: 35px;
   margin-top: 11px;
   font-weight: 400;
-  width: 50%;
-  border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  transition: border .25s ease, width .125s ease .125s;
-}
-
-.header form>.search-bar .search-input:focus {
-  width: 100%:
 }
 
 .header form>.search-bar #search-button {
@@ -749,8 +788,8 @@ img {
 }
 
 .track__content .overview__track {
-  padding-right: 15px;
-  width: 70%;
+  padding-right: 5px;
+  width: 65%;
 }
 
 .track__content .overview__track .track-details {

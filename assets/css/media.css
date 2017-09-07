@@ -47,6 +47,26 @@
   }
 }
 
+@media (max-width: 750px) {
+  .header form>.search-bar .search-input {
+    width: 90%;
+  }
+  .track-details__song__desc {
+    display: none;
+  }
+}
+
+@media (min-width: 1900px) {
+  .header form>.search-bar .search-input {
+    width: 75%;
+  }
+}
+
+
+@media screen and (max-width: 1680px) input, select {
+  font-size: 14pt;
+}
+
 @media (max-width: 650px) {
   .window__actions {
     width: 15%;

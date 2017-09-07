@@ -15,11 +15,13 @@ export default class Settings extends React.Component {
   }
   handleSelection(e) {
     e.preventDefault();
+    e.stopPropagation();
     ipcRenderer.send('set-output-path');
+    return false;
   }
   setInputVal(event, path) {
     if (this.textInput) {
-      this.textInput.value = path;
+      this.textInput.innerHTML = path;
     }
   }
   componentWillMount() {
@@ -34,26 +36,19 @@ export default class Settings extends React.Component {
   }
   render() {
     return (
-      <div className="container">
-        <div className="settings">
-          <div className="panel panel-warning">
-            <div className="panel-heading">Settings</div>
-            <div className="panel-body">
-              <form>
-                <div className="row">
-                  <div className="col-sm-4">
-                    <label htmlFor="output-dir">Output directory</label>
-                    <div className="input-group">
-                      <input ref={(el) => {
-                        this.textInput = el;
-                      }} type="text" className="form-control" name="output-dir" id="output-dir" disabled/>
-                      <span className="input-group-addon" onClick={this.handleSelection}>
-                        <i className="fa fa-arrow-right" title="Click to set output path"></i>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </form>
+      <div className="settings page-content">
+        <div className="form-section">
+          <div className="form-section__title">
+            <h3>Output directory</h3>
+          </div>
+          <div className="form-section__content">
+            <div className="row">
+              <div className="col-md-6 h-group">
+                <span className="text text-white wp50" ref={(el) => {
+                  this.textInput = el;
+                }}></span>
+              <a href="#" className="text wp50" onClick={this.handleSelection}>change</a>
+              </div>
             </div>
           </div>
         </div>
