@@ -29,19 +29,25 @@ export default class List extends React.Component {
     this.state = {
       tracks: []
     }
+    this._onFetch = this._onFetch.bind(this);
+  }
+  _onFetch(event, tracks) {
+    this.setState({tracks: tracks});
+  }
+  shouldComponentUpdate() {
+    let active_track = this.props.track;
+    return (active_track && active_track.id);
   }
   componentDidMount() {
-    let active_track = this.props.track;
-    if (active_track && active_track.id) {
-      ipcRenderer.send('fetch-related', active_track.id);
-      ipcRenderer.on('fetch-related-reply', (event, tracks) => {
-        this.setState({tracks: tracks});
-      });
-    }
+    ipcRenderer.send('fetch-related', this.props.track.id);
+    ipcRenderer.on('fetch-related-reply', this._onFetch);
+  }
+  componentWillUnmount() {
+    ipcRenderer.removeAllListeners('fetch-related-reply');
   }
   render() {
     let tracks = this.state.tracks;
-    if (!tracks || !tracks.length) {
+    if (!tracks) {
       return null;
     }
 
