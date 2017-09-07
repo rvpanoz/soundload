@@ -61,9 +61,9 @@ export default class Track extends React.Component {
     if (!track) {
       return null;
     }
-    console.log(track);
+
     return (
-      <div className="track">
+      <div className="track page-content">
         <div className="track__header">
           <div className="track__info">
             <div className="profile__img">
@@ -77,7 +77,7 @@ export default class Track extends React.Component {
                   <i className="fa fa-play"></i>
                   Play
                 </button>
-                <button className="button-light" onClick={this.download}>
+                <button className="button-light" data-title={track.title} onClick={this.download}>
                   <i className="fa fa-download"></i>
                   Download
                 </button>
