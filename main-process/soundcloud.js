@@ -62,7 +62,7 @@ const Soundcloud = function() {
           event.sender.send('progress-file-reply', progress);
         })
         .on('end', () => {
-          event.sender.send('download-file-reply', tags);
+          event.sender.send('download-file-reply');
         })
         .on('error', (err) => {
           console.log(err);
@@ -94,7 +94,7 @@ const Soundcloud = function() {
             break;
         }
         if (error) {
-          this.abort();
+          r.abort();
           event.sender.send('download-file-error', error);
         }
       })

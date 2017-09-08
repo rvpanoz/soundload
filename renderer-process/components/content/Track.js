@@ -4,7 +4,7 @@
 
 'use strict';
 
-import {remote, ipcRenderer, clipboard} from 'electron';
+import {remote, ipcRenderer} from 'electron';
 import React from 'react';
 import AppProgress from '../common/AppProgress';
 import Related from './Related';
@@ -12,18 +12,16 @@ import Related from './Related';
 export default class Track extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      percentage: 0,
+      show_loader: false
+    }
+
+    //bind methods
     this.parseDate = this.parseDate.bind(this);
     this.parseDuration = this.parseDuration.bind(this);
     this.download = this.download.bind(this);
-    ipcRenderer.on('download-file-error', function(event, error_message) {
-      console.error(error_message);
-    });
-    ipcRenderer.on('download-file-reply', function(event, tags) {
-      console.error(tags);
-    });
-    ipcRenderer.on('progress-file-reply', (event, percentage) => {
-      console.log(percentage);
-    });
   }
   componentDidMount() {}
   componentWillUnmount() {
@@ -37,13 +35,13 @@ export default class Track extends React.Component {
     ipcRenderer.send('download-file', title, id);
     return false;
   }
-  parseDate(per) {
+  parseDate() {
     let moment = require('moment');
     let track = this.props.track,
       created_at;
 
     created_at = track.created_at;
-    return moment(created_at).format(per.toUpperCase());
+    return moment(created_at).format('DD/MM/YYYY');
   }
   parseDuration() {
     let duration = this.props.track.duration / 1000; //get seconds
@@ -65,6 +63,9 @@ export default class Track extends React.Component {
     return (
       <div className="track page-content">
         <div className="track__header">
+          <div className="track__progress">
+            <AppProgress isVisible={this.state.show_loader}/>
+          </div>
           <div className="track__info">
             <div className="profile__img">
               <img src={track.artwork_url} alt={track.title}/>
@@ -77,7 +78,7 @@ export default class Track extends React.Component {
                   <i className="fa fa-play"></i>
                   Play
                 </button>
-                <button className="button-light" data-title={track.title} onClick={this.download}>
+                <button className="button-light" data-id={track.id} data-title={track.title} onClick={this.download}>
                   <i className="fa fa-download"></i>
                   Download
                 </button>
@@ -98,8 +99,7 @@ export default class Track extends React.Component {
               </li>
             </ul>
             <div className="track__navigation__friends">
-              <a href="#">
-                <img src={track.artwork_url} alt={track.title}/></a>
+              {this.parseDate()}
             </div>
           </div>
         </div>
@@ -112,11 +112,7 @@ export default class Track extends React.Component {
                   <div className="track-details">
                     <div className="track-details__song">
                       <div className="track-details__song__title">{track.title}</div>
-                      <div className="track-details__song__date">
-                        <span className="day">{this.parseDate('d')}/</span>
-                        <span className="month">{this.parseDate('m')}/</span>
-                        <span className="year">{this.parseDate('yyyy')}</span>
-                      </div>
+                      <div className="track-details__song__date"></div>
                       <hr/>
                       <div className="track-details__song__desc">{track.description}</div>
                     </div>
