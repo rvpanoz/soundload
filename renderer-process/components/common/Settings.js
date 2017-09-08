@@ -10,6 +10,7 @@ import {ipcRenderer} from 'electron';
 export default class Settings extends React.Component {
   constructor(props) {
     super(props);
+
     this.handleSelection = this.handleSelection.bind(this);
     this.setInputVal = this.setInputVal.bind(this);
   }
@@ -36,18 +37,20 @@ export default class Settings extends React.Component {
   }
   render() {
     return (
-      <div className="settings page-content">
+      <div className="settings" style={{
+        right: this.props.position
+      }}>
         <div className="form-section">
           <div className="form-section__title">
             <h3>Output directory</h3>
           </div>
           <div className="form-section__content">
             <div className="row">
-              <div className="col-md-6 h-group">
-                <span className="text text-white wp50" ref={(el) => {
+              <div className="col-md-9">
+                <span className="text wp100 bg-black" ref={(el) => {
                   this.textInput = el;
                 }}></span>
-              <a href="#" className="text wp50" onClick={this.handleSelection}>change</a>
+              <a href="#" className="text apply" onClick={this.handleSelection}>change</a>
               </div>
             </div>
           </div>

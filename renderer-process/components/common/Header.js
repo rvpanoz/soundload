@@ -40,9 +40,9 @@ export default class Header extends React.Component {
                 </Link>
               </li>
               <li className="navigation__list__item">
-                <Link to="/settings">
+                <a href="#" onClick={this.props.showSettings}>
                   <i className="fa fa-cog"></i>
-                </Link>
+                </a>
               </li>
             </ul>
           </div>

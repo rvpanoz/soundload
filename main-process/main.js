@@ -51,8 +51,8 @@ function createWindow(opts) {
 
   //create a BrowserWindow
   mwin = new BrowserWindow({
-    width: 1200,
-    height: screenSize.height,
+    width: config.windowWidth || 780,
+    height: config.windowWidth || screenSize.height,
     protocol: 'file:'
   });
 

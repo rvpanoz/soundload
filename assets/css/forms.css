@@ -11,10 +11,17 @@
   }
 
   .form-section {
-    padding: 10px 0;
+    padding: 10px 10px;
+    background-color: inherit;
+    color: #fff;
+  }
+
+  .form-section a {
+    color: #fff;
   }
 
   .form-section__title {
+    color: #fff;
     border-bottom: 1px solid #f2f2f2;
     padding-bottom: 6px;
   }
@@ -30,7 +37,7 @@
     position: relative;
     padding-top: 10px;
     overflow: hidden;
-    margin: 0 -15px;
+    margin: 0 -10px;
   }
 
   form.dark label {
