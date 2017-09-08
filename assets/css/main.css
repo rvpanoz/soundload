@@ -448,6 +448,12 @@ img {
   font-size: 36px;
 }
 
+.track__progress {
+  position: relative;
+  width: 100%;
+  height: 50px;
+}
+
 .current-track__progress {
   width: 70%;
   padding: 0 30px;
@@ -575,10 +581,6 @@ img {
   display: block;
 }
 
-.track {
-  height: 617px;
-}
-
 .track__header {
   height: 320px;
   border-bottom: 1px solid #282828;
@@ -621,8 +623,8 @@ img {
 }
 
 .track__header .track__info .profile__img img {
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
 }
 
@@ -1382,14 +1384,14 @@ button:hover {
   border-radius: 3px;
   box-shadow: none;
   height: 8px;
+  width: 100%;
+  position: relative;
 }
 
 .progress {
-  height: 10px;
+  height: 20px;
   margin-bottom: 20px;
-  margin-top: 20px;
   overflow: hidden;
-  /*background-color: #fff;*/
   border-radius: 4px;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);

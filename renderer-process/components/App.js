@@ -94,7 +94,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="app-content">
-        <AppLoader isVisible={this.state.show_loader}/>
+        <AppLoader />
         <AppMessage isVisible={this.state.show_message} message={this.state.app_message}/>
         <Header resolve={this.resolve} showSettings={this.showSettings}/>
         <Main track={this.state.active_track}/>

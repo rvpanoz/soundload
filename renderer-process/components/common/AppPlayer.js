@@ -22,19 +22,7 @@ export default class AppPlayer extends React.Component {
         </div>
         <div className="current-track__options">
           <span className="controls">
-            <a href="#" className="control">
-              <i className="fa fa-refresh"></i>
-            </a>
-            <a href="#" className="control volume">
-              <i className="ion-volume-high"></i>
-              <div id="song-volume" className="noUi-target noUi-ltr noUi-horizontal noUi-background">
-                <div className="noUi-base">
-                  <div className="noUi-origin noUi-stacking" style={{left: '90%'}}>
-                    <div className="noUi-handle noUi-handle-lower"></div>
-                  </div>
-                </div>
-              </div>
-            </a>
+            
           </span>
         </div>
       </section>

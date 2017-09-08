@@ -75,6 +75,7 @@ const Soundcloud = function() {
       var streamUrl = `${config.baseUrl}/tracks/${trackId}/stream?client_id=${config.client_id}`;
       var streamUrlObj = URL.parse(streamUrl);
 
+
       function continueRequest() {
         this.on('data', (chunk) => {
             var c = chunk.length;
@@ -83,7 +84,7 @@ const Soundcloud = function() {
             event.sender.send('progress-file-reply', progress);
           })
           .on('end', () => {
-            event.sender.send('download-file-reply', tags);
+            event.sender.send('download-file-reply');
           })
           .on('error', (err) => {
             console.log(err);
@@ -97,18 +98,20 @@ const Soundcloud = function() {
           var replyobj = reply.toJSON();
           var statusCode = parseInt(replyobj.statusCode);
 
+
+          statusCode = parseInt(replyobj.statusCode);
           switch (statusCode) {
             case 200:
               fileSize = parseInt(reply.headers['content-length'], 10);
               len = fileSize.toFixed(2);
-              event.sender.send('on-fileSize-reply', (len / 1000024).toFixed(2), replyobj);
+              event.sender.send('on-response-reply', (len / 1000024).toFixed(2), replyobj);
               continueRequest.call(r);
               break
             case 401:
               error = 'Unauthorized request.';
               break;
             case 404:
-              error = 'Track not found.';
+              error = 'Page not found.';
               break;
             case 500:
               error = 'Server error.'
@@ -118,10 +121,9 @@ const Soundcloud = function() {
             r.abort();
             event.sender.send('download-file-error', error);
           }
-        })
+        });
     }
   }
-
 }
 
 module.exports = Soundcloud;
