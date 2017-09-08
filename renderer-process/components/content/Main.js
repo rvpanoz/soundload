@@ -1,7 +1,6 @@
 import React from 'react';
 import {Route} from 'react-router-dom';
 
-import Settings from '../common/Settings';
 import Home from './Home';
 import About from './About';
 import Track from './Track';
@@ -17,7 +16,6 @@ export default class Main extends React.Component {
           <Route exact path='/' render={(props) => {
             return <Track {...props} track={this.props.track}/>
           }}/>
-          <Route exact path='/settings' component={Settings}/>
           <Route exact path='/about' component={About}/>
         </div>
       </section>

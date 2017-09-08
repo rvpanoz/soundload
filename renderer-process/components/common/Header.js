@@ -13,13 +13,18 @@ export default class Header extends React.Component {
   constructor(props) {
     super(props);
   }
+  componentDidMount() {
+    this.searchInput.focus();
+  }
   render() {
     return (
       <section className="header">
         <div className="search">
           <form onSubmit={this.props.resolve}>
             <div className="search-bar">
-              <input type="search" name="search-input" className="form-control search-input" placeholder="Type a soundcloud track url"/>
+              <input type="search" ref={(el) => {
+                this.searchInput = el;
+              }} name="search-input" className="form-control search-input" placeholder="Type a soundcloud track url"/>
               <button id="search-button" className="button-icon">
                 <i className="fa fa-search"></i>
               </button>
@@ -29,15 +34,15 @@ export default class Header extends React.Component {
         <div className="navigation">
           <div className="navigation__actions">
             <ul>
-              <li className="navigation-item">
+              <li className="navigation__list__item">
                 <Link to="/">
                   <i className="fa fa-home"></i>
                 </Link>
               </li>
-              <li className="navigation-item">
-                <Link to="/settings">
+              <li className="navigation__list__item">
+                <a href="#" onClick={this.props.showSettings}>
                   <i className="fa fa-cog"></i>
-                </Link>
+                </a>
               </li>
             </ul>
           </div>

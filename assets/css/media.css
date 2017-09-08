@@ -2,10 +2,10 @@
 
 @media (max-width: 1400px) {
   .content__left {
-    width: 20%;
+    display: none;
   }
   .content__middle {
-    width: 80%;
+    width: 100%;
   }
   .content__right {
     display: none;

@@ -72,8 +72,24 @@ img {
   background: #f0f0f0;
 }
 
+.wp100 {
+  width: 100%;
+}
+
 .wp50 {
   width: 50%;
+}
+
+.bg-black {
+  background-color: #000;
+}
+
+.bg-orange {
+  background-color: #f50;
+}
+
+.bg-white {
+  background-color: #fff;
 }
 
 .h-group {
@@ -84,8 +100,14 @@ img {
 
 .text {
   display: inline-block;
-  padding: 10px 15px;
+  padding: 10px 10px;
   margin: 0;
+  font-family: 'Lato';
+  font-size: 12pt;
+}
+
+.apply {
+  font-size: 11pt;
 }
 
 .text-white {
@@ -95,6 +117,10 @@ img {
 .number {
   font-size: 26pt;
   margin-top: 25px;
+}
+
+#app {
+  overflow-x: hidden;
 }
 
 #app>.app-content {
@@ -120,14 +146,14 @@ img {
   top: 0px;
   left: 0px;
   width: 100%;
-  background: #282828;
+  background-color: #282828;
   padding: 10px;
-  color: #aaaaaa;
-  border-bottom: 1px solid #181818;
+  color: #fff;
+  border-bottom: 3px solid #f50;
   display: flex;
   flex-flow: row wrap;
   align-items: center;
-  height: 50px;
+  height: 55px;
   z-index: 9;
 }
 
@@ -288,7 +314,6 @@ img {
   box-shadow: none;
   background: transparent;
   border-radius: 0;
-  border-bottom: 1px solid #fff;
   color: #fff;
   font-size: 16px;
   height: 35px;
@@ -340,47 +365,18 @@ img {
   align-items: center;
 }
 
-.navigation__list__item:hover {
-  color: white;
+.navigation__list__item a {
+  color: #fff;
   text-decoration: none;
-  border-right: 3px solid #f50;
+}
+
+.navigation__list__item a:hover {
+  color: #f50;
 }
 
 .navigation__list__item i {
   width: 25px;
   display: block;
-}
-
-.playlist {
-  padding: 15px;
-  background: #282828;
-  border-top: 1px solid #181818;
-  border-bottom: 1px solid #181818;
-}
-
-.playlist:hover {
-  background: #424242;
-}
-
-.playlist:hover a {
-  color: white;
-}
-
-.playlist a {
-  color: #aaaaaa;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-}
-
-.playlist a:hover {
-  text-decoration: none;
-}
-
-.playlist a i {
-  font-size: 24px;
-  color: white;
-  margin-right: 15px;
 }
 
 .playing {
@@ -1295,8 +1291,8 @@ button:hover {
 
 #loader {
   position: fixed;
-  top: 6%;
-  right: 3%;
+  top: 50%;
+  left: 50%;
 }
 
 #loader p {
@@ -1428,4 +1424,18 @@ button:hover {
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
+}
+
+/** settings **/
+
+.settings {
+  display: block;
+  position: absolute;
+  top: 55px;
+  right: -350px;
+  width: 350px;
+  height: calc(100% - 95px);
+  background-color: #f50;
+  transition: 0.3s right ease-in;
+  z-index: 13;
 }
