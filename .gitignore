@@ -4,3 +4,4 @@ dist/
 tests/
 npm-debug.log
 package-lock.json
+test/

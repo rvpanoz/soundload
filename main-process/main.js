@@ -117,6 +117,7 @@ ipcMain.on('fetch-related', (event, trackId) => {
 });
 
 ipcMain.on('download-file', (event, fileName, trackId) => {
+  let outputPath = store.get('output_path');
   soundcloud.download(event, outputPath, fileName, trackId);
 });
 
