@@ -7,6 +7,8 @@ work in progress..
 
 ![Soundload](http://104.236.58.95/media/soundload-v2.png)
 
+![Soundload](http://104.236.58.95/media/soundload-v3.png)
+
 ## Requirements
 
 For development, you will only need Node.js installed on your environement.
