@@ -80,6 +80,7 @@ class App extends React.Component {
     }
     if (!url || !url.length)
       url = "https://soundcloud.com/mcslee/valentine-in-spades";
+      
     this.setState({show_loader: true, active_track: null, position: -350});
     ipcRenderer.send('resolve', url);
   }
@@ -94,8 +95,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="app-content">
-        <AppLoader />
-        <AppMessage isVisible={this.state.show_message} message={this.state.app_message}/>
+        <AppLoader isVisible={this.state.show_loader}/>
         <Header resolve={this.resolve} showSettings={this.showSettings}/>
         <Main track={this.state.active_track}/>
         <AppPlayer track={this.state.active_track}/>

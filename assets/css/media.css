@@ -203,7 +203,6 @@
 
 @media (max-width: 1024px) {
   .track__header {
-    width: 95%;
     height: auto;
     flex-flow: column wrap;
   }

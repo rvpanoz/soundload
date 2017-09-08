@@ -12,26 +12,29 @@ import Related from './Related';
 export default class Track extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       percentage: 0,
       show_loader: false
     }
-
     //bind methods
     this.parseDate = this.parseDate.bind(this);
     this.parseDuration = this.parseDuration.bind(this);
     this.download = this.download.bind(this);
   }
-  componentDidMount() {}
+  componentDidMount() {
+
+  }
   componentWillUnmount() {
-    ipcRenderer.removeAllListeners(['download-file', 'download-file-error', 'download-file-reply', 'progress-file-reply']);
+    ipcRenderer.removeAllListeners(['download-file']);
   }
   download(e) {
     e.preventDefault();
     let element = e.target,
       id = element.dataset.id,
-      title = element.dataset.title.replace(/[^a-zA-Z]+/, '');
+      title = element.dataset.title;
+
+    if(!title || !id) return;
+    title = title.replace(/[^a-zA-Z]+/, '');
     ipcRenderer.send('download-file', title, id);
     return false;
   }
@@ -49,7 +52,6 @@ export default class Track extends React.Component {
 
     min = (duration / 60).toFixed(2);
     h = (min / 60).toFixed(2);
-
     return {
       min, h
     }
@@ -59,7 +61,7 @@ export default class Track extends React.Component {
     if (!track) {
       return null;
     }
-
+    console.log(track);
     return (
       <div className="track page-content">
         <div className="track__header">
@@ -86,8 +88,8 @@ export default class Track extends React.Component {
             </div>
           </div>
           <div className="track__listeners">
-            <div className="track__listeners__count">{track.favoritings_count}</div>
-            <div className="track__listeners__label">favorites</div>
+            <div className="track__listeners__count">{track.download_count}</div>
+            <div className="track__listeners__label">downloads</div>
           </div>
           <div className="track__navigation">
             <ul className="nav nav-tabs" role="tablist">
@@ -113,7 +115,7 @@ export default class Track extends React.Component {
                     <div className="track-details__song">
                       <div className="track-details__song__title">{track.title}</div>
                       <div className="track-details__song__date"></div>
-                      <hr/>
+                      <br/>
                       <div className="track-details__song__desc">{track.description}</div>
                     </div>
                   </div>
@@ -130,6 +132,13 @@ export default class Track extends React.Component {
                     <div className="box">
                       <span className="number">
                         <i className="fa fa-heart"></i>&nbsp;&nbsp;{track.favoritings_count}&nbsp;<small>favorites</small>
+                      </span>
+                    </div>
+                  </div>
+                  <div className="overview__track-info__box">
+                    <div className="box">
+                      <span className="number">
+                        <i className="fa fa-retweet"></i>&nbsp;&nbsp;{track.reposts_count}&nbsp;<small>reposts</small>
                       </span>
                     </div>
                   </div>

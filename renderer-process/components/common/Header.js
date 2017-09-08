@@ -35,11 +35,6 @@ export default class Header extends React.Component {
           <div className="navigation__actions">
             <ul>
               <li className="navigation__list__item">
-                <Link to="/">
-                  <i className="fa fa-home"></i>
-                </Link>
-              </li>
-              <li className="navigation__list__item">
                 <a href="#" onClick={this.props.showSettings}>
                   <i className="fa fa-cog"></i>
                 </a>

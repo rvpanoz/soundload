@@ -10,7 +10,6 @@ const request = require('request');
 const ipcMain = require('electron').ipcMain;
 const app = require('electron').app;
 const config = require('../config');
-const id3 = require('id3js');
 
 const {
   baseUrl,
