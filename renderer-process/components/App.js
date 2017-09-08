@@ -90,6 +90,10 @@ class App extends React.Component {
     this.setState({
       active_track: track
     });
+    ipcRenderer.send('fetch-related', track.id);
+    $('.content').animate({
+      scrollTop: 0
+    }, 1000);
   }
   showSettings(e) {
     e.preventDefault();
@@ -100,7 +104,6 @@ class App extends React.Component {
     });
   }
   render() {
-    console.log('App rendered');
     return (
       <div className="app-content">
         <AppLoader isVisible={this.state.show_loader}/>

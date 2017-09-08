@@ -46,7 +46,7 @@ export default class AppProgress extends React.Component {
         }} className="progress-bar" role="progressbar" aria-valuenow={this.state.percentage} aria-valuemin="0" aria-valuemax="100" style={{
           width: `${this.state.percentage}%`
         }}>
-          <span>{this.state.percentage}% Completed of {this.state.size}&nbsp;MB</span>
+          <span>{this.state.percentage}%</span>
         </div>
       </div>
     )

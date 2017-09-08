@@ -24,7 +24,6 @@ class ListItem extends React.Component {
     return this.props.setActiveTrack(track);
   }
   render() {
-    console.log(this.props);
     return (
       <div className="media-card">
         <div className="media-card__header h-group">

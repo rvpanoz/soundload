@@ -21,7 +21,6 @@ export default class Settings extends React.Component {
     return false;
   }
   setInputVal(event, path) {
-    console.log(path);
     if (this.textInput) {
       this.textInput.innerHTML = path;
     }
