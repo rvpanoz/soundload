@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import electron from 'electron';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -8,16 +9,38 @@ const ipcRenderer = electron.ipcRenderer;
 class ListItem extends React.Component {
   constructor(props) {
     super(props);
+    this.setActiveTrack = this.setActiveTrack.bind(this);
+  }
+  setActiveTrack() {
+    let track = {};
+    for(let z in this.props) {
+      let prop = this.props[z];
+      if(_.isFunction(prop)) {
+        continue;
+      } else {
+        track[z] = this.props[z];
+      }
+    }
+    return this.props.setActiveTrack(track);
   }
   render() {
+    console.log(this.props);
     return (
       <div className="media-card">
-        <div className="media-card__image" style={{
-          backgroundImage: `url(${(this.props.artwork_url) ? this.props.artwork_url : ""})`
-        }}>
-          <i className="fa fa-play"></i>
+        <div className="media-card__header h-group">
+          <div className="media-card__image" style={{
+            backgroundImage: `url(${(this.props.artwork_url) ? this.props.artwork_url : ""})`
+          }}>
+            <i className="fa fa-play"></i>
+          </div>
+          <div className="media-card__favorites">
+            <span className="number small">
+              <i className="fa fa-heart"></i><br/>{this.props.likes_count}
+            </span>
+          </div>
         </div>
-        <a className="media-card__footer">{this.props.title}</a>
+
+        <a onClick={this.setActiveTrack} className="media-card__footer">{this.props.title}</a>
       </div>
     )
   }
@@ -53,7 +76,7 @@ export default class List extends React.Component {
 
     return (
       <div className="media-cards">
-        {tracks.map((track, idx) => <ListItem key={idx} {...track}/>)}
+        {tracks.map((track, idx) => <ListItem setActiveTrack={this.props.setActiveTrack} key={idx} {...track}/>)}
       </div>
     )
   }

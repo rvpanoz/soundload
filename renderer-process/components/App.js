@@ -30,6 +30,7 @@ class App extends React.Component {
     //bind method contxt to this
     this.resolve = this.resolve.bind(this);
     this.showSettings = this.showSettings.bind(this);
+    this.setActiveTrack = this.setActiveTrack.bind(this);
 
     //ipc event hanlder
     ipcRenderer.on('resolve-reply', (event, track) => {
@@ -80,9 +81,15 @@ class App extends React.Component {
     }
     if (!url || !url.length)
       url = "https://soundcloud.com/mcslee/valentine-in-spades";
-      
+
     this.setState({show_loader: true, active_track: null, position: -350});
     ipcRenderer.send('resolve', url);
+  }
+  setActiveTrack(track) {
+    if(!track) return;
+    this.setState({
+      active_track: track
+    });
   }
   showSettings(e) {
     e.preventDefault();
@@ -93,11 +100,12 @@ class App extends React.Component {
     });
   }
   render() {
+    console.log('App rendered');
     return (
       <div className="app-content">
         <AppLoader isVisible={this.state.show_loader}/>
         <Header resolve={this.resolve} showSettings={this.showSettings}/>
-        <Main track={this.state.active_track}/>
+        <Main track={this.state.active_track} setActiveTrack={this.setActiveTrack}/>
         <AppPlayer track={this.state.active_track}/>
         <Settings position={this.state.position}/>
       </div>

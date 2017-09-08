@@ -21,9 +21,6 @@ export default class Track extends React.Component {
     this.parseDuration = this.parseDuration.bind(this);
     this.download = this.download.bind(this);
   }
-  componentDidMount() {
-
-  }
   componentWillUnmount() {
     ipcRenderer.removeAllListeners(['download-file']);
   }
@@ -131,7 +128,7 @@ export default class Track extends React.Component {
                   <div className="overview__track-info__box">
                     <div className="box">
                       <span className="number">
-                        <i className="fa fa-heart"></i>&nbsp;&nbsp;{track.favoritings_count}&nbsp;<small>favorites</small>
+                        <i className="fa fa-heart"></i>&nbsp;&nbsp;{track.favoritings_count || track.likes_count}&nbsp;<small>favorites</small>
                       </span>
                     </div>
                   </div>
@@ -153,7 +150,7 @@ export default class Track extends React.Component {
               </div>
             </div>
             <div role="tabpanel" className="tab-pane" id="related-tracks">
-              <Related track={track}/>
+              <Related track={track} setActiveTrack={this.props.setActiveTrack}/>
             </div>
           </div>
         </div>

@@ -14,7 +14,7 @@ export default class Main extends React.Component {
       <section className="content">
         <div className="content__middle">
           <Route exact path='/' render={(props) => {
-            return <Track {...props} track={this.props.track}/>
+            return <Track {...props} track={this.props.track} setActiveTrack={this.props.setActiveTrack}/>
           }}/>
           <Route exact path='/about' component={About}/>
         </div>
