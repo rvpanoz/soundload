@@ -1,78 +1,84 @@
 /**
  * Electron Main process
- *
  */
 
 'use strict';
 
-const URL = require('url');
-const electron = require('electron');
-const path = require('path');
-const fs = require('fs');
-const request = require('request');
+var URL = require('url');
+var electron = require('electron');
+var path = require('path');
+var fs = require('fs');
+var request = require('request');
 
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
-const ipcMain = electron.ipcMain;
-const dialog = electron.dialog;
+var app = electron.app;
+var BrowserWindow = electron.BrowserWindow;
+var ipcMain = electron.ipcMain;
+var dialog = electron.dialog;
 
+<<<<<<< HEAD
+var config = require('../config');
+var debug = /--debug/.test(process.argv[2]);
+var cwd = process.cwd();
+=======
 //config file
 const config = require('../config');
+>>>>>>> develop
 
-//soundcloud
-const Soundcloud = require('./soundcloud');
+//soundcloud module
+var Soundcloud = require('./soundcloud');
 
 //store initialization
-const Store = require('../store').init();
+var Store = require('../store').init();
 
-//env
-let debug = /--debug/.test(process.argv[2]);
-let outputPath = Store.get('output_path');
-let soundcloud = null;
-
-//global store instance
-global.store = Store;
+//output path
+var outputPath = Store.get('output_path');
+var soundcloud = null;
 
 //main window
-let mwin;
+var mwin;
 
-//current working directory
-let cwd = process.cwd();
+//set store as a global object
+global.store = Store;
 
-//devtools
-if (process.env.NODE_ENV === 'development' && debug) {
+/*** Dev ***/
+if (process.env.NODE_ENV === 'development' && debug === true) {
+
+  /** electron reload **/
   require('electron-reload')(path.resolve(cwd), {
     electron: require('electron')
   });
+
+  /** React extension **/
+  // var {
+  //   default: installExtension,
+  //   REACT_DEVELOPER_TOOLS
+  // } = require('electron-devtools-installer');
+  //
+  // installExtension(REACT_DEVELOPER_TOOLS)
+  //   .then((name) => console.log(`Added Extension:  ${name}`))
+  //   .catch((err) => console.log('An error occurred: ', err));
 }
 
+/** Create the main browser window **/
 function createWindow(opts) {
-  let screenSize = electron.screen.getPrimaryDisplay().size;
+  var screenSize = electron.screen.getPrimaryDisplay().size;
 
-  //create a BrowserWindow
+  // create a new BrowserWindow
   mwin = new BrowserWindow({
     width: config.windowWidth || 780,
     height: config.windowWidth || screenSize.height,
     protocol: 'file:'
   });
 
+  //initialization of the soundcloud module passing mwin
   soundcloud = new Soundcloud(mwin);
 
   //load index.html
   mwin.loadURL(`file://${cwd}/index.html`);
 
-  //devtools and react tools
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'development' && debug === true) {
+    //devTools
     mwin.openDevTools();
-
-    const {
-      default: installExtension,
-      REACT_DEVELOPER_TOOLS
-    } = require('electron-devtools-installer');
-
-    installExtension(REACT_DEVELOPER_TOOLS)
-      .then((name) => console.log(`Added Extension:  ${name}`))
-      .catch((err) => console.log('An error occurred: ', err));
 
     ipcMain.on('inspect-element', function(event, coords) {
       if (mwin) {
@@ -82,8 +88,10 @@ function createWindow(opts) {
   }
 }
 
-ipcMain.on('get-output-path', (event) =>  {
-  let outputPath = store.get('output_path');
+/** Process Communication **/
+
+ipcMain.on('get-output-path', (event) => {
+  var outputPath = store.get('output_path');
   event.sender.send('get-output-path-reply', outputPath);
 });
 
@@ -118,7 +126,9 @@ ipcMain.on('download-file', (event, fileName, trackId) => {
 ipcMain.on('open-url', function(event, url) {
   if (!url) return;
   app.openUrl(url);
-})
+});
+
+/** App Events **/
 
 app.on('window-all-closed', function() {
   if (process.platform !== 'darwin') app.quit();
