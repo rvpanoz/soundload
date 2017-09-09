@@ -16,7 +16,7 @@ class ListItem extends React.Component {
   parseDuration() {
     let duration = this.props.duration;
     let minutes = (duration/1000)/60;
-    return minutes.toFixed(2);
+    return parseInt(minutes);
   }
   parseSize() {
     let size = this.props.original_content_size;
@@ -60,11 +60,8 @@ class ListItem extends React.Component {
             <span className="number small h-group__item wp25">
               <i className="fa fa-retweet"></i>&nbsp;{this.props.reposts_count}
             </span>
-            <span className="number small h-group__item wp25">
-              {this.parseSize()}&nbsp;MB
-            </span>
-            <span className="number small h-group__item wp25">
-              {this.parseDuration()}&nbsp;min
+            <span className="number small h-group__item wp50">
+              <i className="fa fa-clock-o"></i>&nbsp;{this.parseDuration()}&nbsp;min
             </span>
           </div>
         </div>

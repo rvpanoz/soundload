@@ -69,8 +69,8 @@ export default class Track extends React.Component {
               <img src={track.artwork_url} alt={track.title}/>
             </div>
             <div className="track__info__meta">
-              <div className="track__info__type">User</div>
-              <div className="track__info__name">{track.user.username}</div>
+              <div className="track__info__type">Title</div>
+              <div className="track__info__name">{track.title}</div>
               <div className="track__info__actions">
                 <button className="button-dark">
                   <i className="fa fa-play"></i>
