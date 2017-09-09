@@ -1,6 +1,5 @@
 /**
  * Store file
- * @type {[type]}
  */
 
 const fs = require('fs');
