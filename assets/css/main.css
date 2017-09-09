@@ -80,6 +80,10 @@ img {
   background: #f0f0f0;
 }
 
+button[disabled] {
+  color: red;
+}
+
 .wp100 {
   width: 100%;
 }
