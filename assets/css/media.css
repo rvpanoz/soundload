@@ -10,6 +10,9 @@
   .content__right {
     display: none;
   }
+  .media-card__footer-inner {
+    display: none;
+  }
 }
 
 @media (max-width: 768px) {
@@ -22,6 +25,9 @@
 }
 
 @media (max-width: 768px) {
+  .media-card__footer-inner {
+    display: none;
+  }
   .navigation {
     display: flex;
     flex-flow: row wrap;
@@ -62,7 +68,6 @@
   }
 }
 
-
 @media screen and (max-width: 1680px) input, select {
   font-size: 14pt;
 }
@@ -102,22 +107,10 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .media-cards .media-card {
     margin: 15px 0;
     width: 100%;
-  }
-}
-
-@media (max-width: 768px) {
-  .playlist {
-    display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .playing {
-    border-top: 1px solid #181818;
   }
 }
 

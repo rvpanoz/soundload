@@ -9,7 +9,19 @@ const ipcRenderer = electron.ipcRenderer;
 class ListItem extends React.Component {
   constructor(props) {
     super(props);
+    this.parseSize = this.parseSize.bind(this);
+    this.parseDuration = this.parseDuration.bind(this);
     this.setActiveTrack = this.setActiveTrack.bind(this);
+  }
+  parseDuration() {
+    let duration = this.props.duration;
+    let minutes = (duration/1000)/60;
+    return minutes.toFixed(2);
+  }
+  parseSize() {
+    let size = this.props.original_content_size;
+    let size_in_mb = size / (1024 * 1024);
+    return size_in_mb.toFixed(2);
   }
   setActiveTrack() {
     let track = {};
@@ -35,13 +47,27 @@ class ListItem extends React.Component {
             <i className="fa fa-play"></i>
           </div>
           <div className="media-card__favorites">
-            <span className="number small">
-              <i className="fa fa-heart"></i><br/>{this.props.likes_count}
+            <span className="number big">
+              <i className="fa fa-heart"></i>&nbsp;{this.props.likes_count}
             </span>
           </div>
         </div>
-
-        <a onClick={this.setActiveTrack} className="media-card__footer">{this.props.title}</a>
+        <div className="media-card__title">
+          <a onClick={this.setActiveTrack}>{this.props.title}</a>
+        </div>
+        <div className="media-card__footer">
+          <div className="h-group">
+            <span className="number small h-group__item wp25">
+              <i className="fa fa-retweet"></i>&nbsp;{this.props.reposts_count}
+            </span>
+            <span className="number small h-group__item wp25">
+              {this.parseSize()}&nbsp;MB
+            </span>
+            <span className="number small h-group__item wp25">
+              {this.parseDuration()}&nbsp;min
+            </span>
+          </div>
+        </div>
       </div>
     )
   }

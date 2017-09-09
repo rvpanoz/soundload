@@ -15,9 +15,14 @@ var BrowserWindow = electron.BrowserWindow;
 var ipcMain = electron.ipcMain;
 var dialog = electron.dialog;
 
+<<<<<<< HEAD
 var config = require('../config');
 var debug = /--debug/.test(process.argv[2]);
 var cwd = process.cwd();
+=======
+//config file
+const config = require('../config');
+>>>>>>> develop
 
 //soundcloud module
 var Soundcloud = require('./soundcloud');
@@ -71,8 +76,11 @@ function createWindow(opts) {
   //load index.html
   mwin.loadURL(`file://${cwd}/index.html`);
 
-  //dev mode
   if (process.env.NODE_ENV === 'development' && debug === true) {
+    const {
+      default: installExtension,
+      REACT_DEVELOPER_TOOLS
+    } = require('electron-devtools-installer');
 
     //devTools
     mwin.openDevTools();
