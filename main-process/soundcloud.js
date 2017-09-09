@@ -73,7 +73,6 @@ const Soundcloud = function() {
       var streamUrl = `${config.baseUrl}/tracks/${trackId}/stream?client_id=${config.client_id}`;
       var streamUrlObj = URL.parse(streamUrl);
 
-
       function continueRequest() {
         this.on('data', (chunk) => {
             var c = chunk.length;
@@ -95,7 +94,6 @@ const Soundcloud = function() {
           var fileSize, error;
           var replyobj = reply.toJSON();
           var statusCode = parseInt(replyobj.statusCode);
-
 
           statusCode = parseInt(replyobj.statusCode);
           switch (statusCode) {
