@@ -16,7 +16,7 @@ const BrowserWindow = electron.BrowserWindow;
 const ipcMain = electron.ipcMain;
 const dialog = electron.dialog;
 
-//config file 
+//config file
 const config = require('../config');
 
 //soundcloud
@@ -61,7 +61,7 @@ function createWindow(opts) {
   //load index.html
   mwin.loadURL(`file://${cwd}/index.html`);
 
-  //devtools
+  //devtools and react tools
   if (process.env.NODE_ENV === 'development') {
     mwin.openDevTools();
 
