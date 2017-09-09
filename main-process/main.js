@@ -43,15 +43,6 @@ if (process.env.NODE_ENV === 'development' && debug === true) {
     electron: require('electron')
   });
 
-  /** React extension **/
-  // var {
-  //   default: installExtension,
-  //   REACT_DEVELOPER_TOOLS
-  // } = require('electron-devtools-installer');
-  //
-  // installExtension(REACT_DEVELOPER_TOOLS)
-  //   .then((name) => console.log(`Added Extension:  ${name}`))
-  //   .catch((err) => console.log('An error occurred: ', err));
 }
 
 /** Create the main browser window **/

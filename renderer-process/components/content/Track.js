@@ -14,12 +14,20 @@ export default class Track extends React.Component {
     super(props);
     this.state = {
       percentage: 0,
-      show_loader: false
+      show_progress: false
     }
     //bind methods
     this.parseDate = this.parseDate.bind(this);
     this.parseDuration = this.parseDuration.bind(this);
     this.download = this.download.bind(this);
+  }
+  componentDidMount() {
+    ipcRenderer.on('download-file-error', (event, error_message) => {
+      this.downloadBtn.disabled = false;
+    });
+    ipcRenderer.on('download-file-reply', (event) => {
+      this.downloadBtn.disabled = false;
+    });
   }
   componentWillUnmount() {
     ipcRenderer.removeAllListeners(['download-file']);
@@ -29,6 +37,9 @@ export default class Track extends React.Component {
     let element = e.target,
       id = element.dataset.id,
       title = element.dataset.title;
+
+    //disable button until download has finished
+    this.downloadBtn.disabled = true;
 
     if (!title || !id)
       return;
@@ -62,21 +73,23 @@ export default class Track extends React.Component {
       <div className="track page-content">
         <div className="track__header">
           <div className="track__progress">
-            <AppProgress isVisible={this.state.show_loader}/>
+            <AppProgress isVisible={this.state.show_progress}/>
           </div>
           <div className="track__info">
             <div className="profile__img">
               <img src={track.artwork_url} alt={track.title}/>
             </div>
             <div className="track__info__meta">
-              <div className="track__info__type">User</div>
-              <div className="track__info__name">{track.user.username}</div>
+              <div className="track__info__type">Title</div>
+              <div className="track__info__name">{track.title}</div>
               <div className="track__info__actions">
                 <button className="button-dark">
                   <i className="fa fa-play"></i>
                   Play
                 </button>
-                <button className="button-light" data-id={track.id} data-title={track.title} onClick={this.download}>
+                <button ref={(btn) => {
+                    this.downloadBtn = btn;
+                  }} className="button-light" data-id={track.id} data-title={track.title} onClick={this.download}>
                   <i className="fa fa-download"></i>
                   Download
                 </button>
