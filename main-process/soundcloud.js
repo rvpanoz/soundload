@@ -1,6 +1,5 @@
 /**
  * soundcloud module
- * @type singvaron
  */
 
 const fs = require('fs');

@@ -16,7 +16,7 @@ const BrowserWindow = electron.BrowserWindow;
 const ipcMain = electron.ipcMain;
 const dialog = electron.dialog;
 
-//config file
+//config file 
 const config = require('../config');
 
 //soundcloud

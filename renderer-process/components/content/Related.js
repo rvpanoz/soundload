@@ -13,9 +13,9 @@ class ListItem extends React.Component {
   }
   setActiveTrack() {
     let track = {};
-    for(let z in this.props) {
+    for (let z in this.props) {
       let prop = this.props[z];
-      if(_.isFunction(prop)) {
+      if (_.isFunction(prop)) {
         continue;
       } else {
         track[z] = this.props[z];
@@ -28,7 +28,9 @@ class ListItem extends React.Component {
       <div className="media-card">
         <div className="media-card__header h-group">
           <div className="media-card__image" style={{
-            backgroundImage: `url(${(this.props.artwork_url) ? this.props.artwork_url : ""})`
+            backgroundImage: `url(${ (this.props.artwork_url)
+              ? this.props.artwork_url
+              : ""})`
           }}>
             <i className="fa fa-play"></i>
           </div>
@@ -51,9 +53,11 @@ export default class List extends React.Component {
     this.state = {
       tracks: []
     }
+    this.sortBy = this.sortBy.bind(this);
     this._onFetch = this._onFetch.bind(this);
   }
   _onFetch(event, tracks) {
+    this._tracks = tracks;
     this.setState({tracks: tracks});
   }
   shouldComponentUpdate() {
@@ -67,6 +71,15 @@ export default class List extends React.Component {
   componentWillUnmount() {
     ipcRenderer.removeAllListeners('fetch-related-reply');
   }
+  sortBy(e) {
+    e.preventDefault();
+    let element = e.target;
+    let field = element.dataset.field;
+    let tracks = this.state.tracks;
+
+    tracks = _.orderBy(tracks, [field], ['desc']);
+    this.setState({tracks: tracks});
+  }
   render() {
     let tracks = this.state.tracks;
     if (!tracks) {
@@ -74,8 +87,31 @@ export default class List extends React.Component {
     }
 
     return (
-      <div className="media-cards">
-        {tracks.map((track, idx) => <ListItem setActiveTrack={this.props.setActiveTrack} key={idx} {...track}/>)}
+      <div className="related-tracks">
+        <div>
+          <div className="dropdown">
+            <button className="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Sort by&nbsp;<i className="fa fa-chevron-down"></i>
+            </button>
+            <ul className="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
+              <li>
+                <a href="#" onClick={this.sortBy} data-field="likes_count">Likes</a>
+              </li>
+              <li>
+                <a href="#" onClick={this.sortBy} data-field="original_content_size">Size</a>
+              </li>
+              <li>
+                <a href="#" onClick={this.sortBy} data-field="duration">Duration</a>
+              </li>
+              <li>
+                <a href="#" onClick={this.sortBy} data-field="reposts_count">Reposts</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="media-cards">
+          {tracks.map((track, idx) => <ListItem setActiveTrack={this.props.setActiveTrack} key={idx} {...track}/>)}
+        </div>
       </div>
     )
   }
