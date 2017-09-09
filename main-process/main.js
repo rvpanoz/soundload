@@ -77,11 +77,6 @@ function createWindow(opts) {
   mwin.loadURL(`file://${cwd}/index.html`);
 
   if (process.env.NODE_ENV === 'development' && debug === true) {
-    const {
-      default: installExtension,
-      REACT_DEVELOPER_TOOLS
-    } = require('electron-devtools-installer');
-
     //devTools
     mwin.openDevTools();
 
