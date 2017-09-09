@@ -30,7 +30,8 @@ export default class Track extends React.Component {
       id = element.dataset.id,
       title = element.dataset.title;
 
-    if(!title || !id) return;
+    if (!title || !id)
+      return;
     title = title.replace(/[^a-zA-Z]+/, '');
     ipcRenderer.send('download-file', title, id);
     return false;
@@ -45,13 +46,12 @@ export default class Track extends React.Component {
   }
   parseDuration() {
     let duration = this.props.track.duration / 1000; //get seconds
-    let min, h;
+    let min,
+      h;
 
     min = (duration / 60).toFixed(2);
     h = (min / 60).toFixed(2);
-    return {
-      min, h
-    }
+    return {min, h}
   }
   render() {
     let track = this.props.track;

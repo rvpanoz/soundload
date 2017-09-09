@@ -246,7 +246,7 @@
 
 @media (max-width: 1024px) {
   .related-tracks {
-    flex-flow: row wrap;
+    flex-flow: row row-reverse;
   }
   .related-tracks .related-track {
     margin: 10px;
