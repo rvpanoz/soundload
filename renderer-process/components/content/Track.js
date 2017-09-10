@@ -53,7 +53,8 @@ export default class Track extends React.Component {
       created_at;
 
     created_at = track.created_at;
-    return moment(created_at).format('DD/MM/YYYY');
+    let d =  moment(created_at, 'YYYY/MM/DD h:m:i');
+    return d.format('DD/MM/YYYY');
   }
   parseDuration() {
     let duration = this.props.track.duration / 1000; //get seconds
@@ -83,7 +84,7 @@ export default class Track extends React.Component {
               <div className="track__info__type">Title</div>
               <div className="track__info__name">{track.title}</div>
               <div className="track__info__actions">
-                <button className="button-dark">
+                <button className="button-dark" onClick={this.props.onPlay}>
                   <i className="fa fa-play"></i>
                   Play
                 </button>

@@ -9,37 +9,37 @@ const request = require('request');
 const ipcMain = require('electron').ipcMain;
 const app = require('electron').app;
 const config = require('../config');
+const SC = require('node-soundcloud');
 
 const {
   baseUrl,
   client_id
 } = config;
 
-const Soundcloud = function() {
+const SoundcloudAPI = function() {
 
-  Soundcloud.prototype.resolve = function(url, callback) {
+  SC.init({
+    id: config.client_id
+  });
+
+  SoundcloudAPI.prototype.resolve = function(url, callback) {
     if (!url) return;
-    var resolveUrl = `${baseUrl}/resolve`;
 
-    var r = request({
-      url: config.resolveUrl,
-      json: true,
-      qs: {
-        url: url,
-        client_id: client_id
-      }
-    }, (error, response, body) => {
+    SC.makeCall('GET', '/resolve', {
+      url: url,
+      json: true
+    }, function(error, response) {
       if (error) {
         console.log(error);
         r.abort();
         throw new Error(error);
       }
       if (callback) {
-        callback(body);
+        callback(response);
       }
     });
   }
-  Soundcloud.prototype.download = function(event, outputPath, fileName, trackId) {
+  SoundcloudAPI.prototype.download = function(event, outputPath, fileName, trackId) {
     var now = Date.now().toString(),
       downloaded = 0,
       len = 0,
@@ -97,26 +97,21 @@ const Soundcloud = function() {
         }
       })
   }
-  Soundcloud.prototype.get_related = function(track_id, callback) {
-    var url = config.relatedUrl.replace('{trackid}', track_id);
+  SoundcloudAPI.prototype.get_related = function(track_id, callback) {
 
-    var r = request({
-      url: url,
-      json: true,
-      qs: {
-        client_id: client_id
-      }
-    }, (error, response, body) => {
+    SC.makeCall('GET', `/tracks/${track_id}/related`, {
+      json: true
+    }, function(error, response) {
       if (error) {
         console.log(error);
         r.abort();
         throw new Error(error);
       }
       if (callback) {
-        callback(body);
+        callback(response);
       }
     });
   }
 }
 
-module.exports = Soundcloud;
+module.exports = SoundcloudAPI;

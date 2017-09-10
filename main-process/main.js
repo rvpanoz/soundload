@@ -14,6 +14,15 @@ var app = electron.app;
 var BrowserWindow = electron.BrowserWindow;
 var ipcMain = electron.ipcMain;
 var dialog = electron.dialog;
+var crashReporter = electron.crashReporter;
+
+//start crashReporter
+crashReporter.start({
+  productName: 'mome',
+  companyName: 'mome.Inc',
+  submitURL: 'http://127.0.0.1:3001/submit',
+  uploadToServer: true
+});
 
 var config = require('../config');
 var debug = /--debug/.test(process.argv[2]);
@@ -37,12 +46,10 @@ global.store = Store;
 
 /*** Dev ***/
 if (process.env.NODE_ENV === 'development' && debug === true) {
-
   /** electron reload **/
   require('electron-reload')(path.resolve(cwd), {
     electron: require('electron')
   });
-
 }
 
 /** Create the main browser window **/
@@ -117,6 +124,7 @@ ipcMain.on('open-url', function(event, url) {
 /** App Events **/
 
 app.on('window-all-closed', function() {
+  console.log('all-closed');
   if (process.platform !== 'darwin') app.quit();
 });
 
@@ -124,8 +132,16 @@ app.on('ready', function() {
   createWindow();
 });
 
+app.on('gpu-process-crashed', function(event, killed) {
+  console.log(arguments);
+});
+
+process.on('uncaughtException', function (err) {
+  console.log(err);
+});
+
 app.on('activate', function() {
   if (mwin === null) {
     createWindow();
   }
-})
+});
