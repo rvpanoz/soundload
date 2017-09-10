@@ -42,10 +42,12 @@
     "jquery": "^3.2.1",
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
+    "node-soundcloud": "0.0.6",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.2.2",
+    "react-soundplayer": "^0.3.6",
     "request": "^2.81.0",
     "request-promise": "^4.2.1"
   }

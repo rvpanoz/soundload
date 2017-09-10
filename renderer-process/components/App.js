@@ -24,10 +24,12 @@ class App extends React.Component {
       show_message: false,
       app_message: '',
       active_track: null,
-      position: -350
+      app_settings_position: -350,
+      playing: false
     }
 
     //bind method contxt to this
+    this.onPlay = this.onPlay.bind(this);
     this.resolve = this.resolve.bind(this);
     this.showSettings = this.showSettings.bind(this);
     this.setActiveTrack = this.setActiveTrack.bind(this);
@@ -99,8 +101,14 @@ class App extends React.Component {
     e.preventDefault();
     this.setState(function(prevState, props) {
       return {
-        position: (prevState.position < 0) ? 0 : -350
+        app_settings_position: (prevState.app_settings_position < 0) ? 0 : -350
       };
+    });
+  }
+  onPlay(e) {
+    e.preventDefault()
+    this.setState({
+      playing: true
     });
   }
   render() {
@@ -110,7 +118,7 @@ class App extends React.Component {
         <Header resolve={this.resolve} showSettings={this.showSettings}/>
         <Main track={this.state.active_track} setActiveTrack={this.setActiveTrack}/>
         <AppPlayer track={this.state.active_track}/>
-        <Settings position={this.state.position}/>
+        <Settings position={this.state.app_settings_position}/>
       </div>
     )
   }

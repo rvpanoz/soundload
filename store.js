@@ -1,6 +1,5 @@
 /**
  * Store file
- * @type {[type]}
  */
 
 const fs = require('fs');
@@ -18,7 +17,6 @@ const StoreModule = {
       //default store path: app.getPath('userData')
       store.set('output_path', path.join(app.getPath('music')));
     }
-
     return store;
   }
 }
