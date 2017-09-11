@@ -86,7 +86,7 @@ class App extends React.Component {
       url = form.querySelector('input').value;
     }
     if (!url || !url.length)
-      url = "https://soundcloud.com/mcslee/valentine-in-spades";
+      url = config.testUrl;
 
     this.setState({show_loader: true, active_track: null, position: -350});
     ipcRenderer.send('resolve', url);

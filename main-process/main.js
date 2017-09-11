@@ -14,13 +14,10 @@ var app = electron.app;
 var BrowserWindow = electron.BrowserWindow;
 var ipcMain = electron.ipcMain;
 var dialog = electron.dialog;
-var crashReporter = electron.crashReporter;
-
 var config = require('../config');
 var debug = /--log/.test(process.argv[2]);
 var needslog = /--debug/.test(process.argv[3]);
 var cwd = process.cwd();
-var logger = null;
 
 //store initialization
 var Store = require('../store').init();
@@ -35,27 +32,28 @@ var mwin;
 //set store as a global object
 global.store = Store;
 
-/** crach reporter **/
-crashReporter.start({
-  productName: 'soundload',
-  companyName: 'soundload inc',
-  submitURL: 'http://127.0.0.1:3001/submit',
-  uploadToServer: true
-});
-
-/*** Dev - hot-reload ***/
+/*** Development ***/
 if (process.env.NODE_ENV === 'development' && debug === true) {
+
+  /** crash reporter in development modefor now**/
+  var crashReporter = electron.crashReporter;
+  crashReporter.start({
+    productName: 'soundload',
+    companyName: 'soundload inc',
+    submitURL: 'http://127.0.0.1:3001/submit',
+    uploadToServer: true
+  });
+
   /** https://github.com/yan-foto/electron-reload - hard reset starts a new process **/
   require('electron-reload')(path.resolve(cwd), {
-    electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
-    hardResetMethod: 'exit'
+    electron: require('electron')
   });
 }
 
 /*** Logger ***/
-if (process.env.NODE_ENV === 'development' && needslog === true) {
+if (needslog === true) {
   var winston = require('winston');
-  logger = new winston.Logger({
+  var logger = new winston.Logger({
     level: 'info',
     transports: [
       new(winston.transports.Console)(),
@@ -79,25 +77,25 @@ function createWindow(opts) {
   let webContent = mwin.webContents;
 
   webContent.on('did-fail-load', function() {
-    if (needslog && logger) {
+    if (needslog) {
       logger.log('error', 'Window fail to load', arguments);
     }
   });
 
   webContent.on('did-finish-load', function() {
-    if (needslog && logger) {
+    if (needslog) {
       logger.log('info', 'Window finish loading');
     }
   });
 
   webContent.on('crashed', function() {
-    if (needslog && logger) {
+    if (needslog) {
       logger.log('error', 'Window has crached', arguments);
     }
   });
 
   webContent.on('plugin-crashed', function() {
-    if (needslog && logger) {
+    if (needslog) {
       logger.log('error', 'A plugin has crashed', arguments);
     }
   });
