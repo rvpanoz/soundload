@@ -28,11 +28,13 @@
     "cross-env": "3.1.4",
     "electron-builder": "^19.22.1",
     "electron-devtools-installer": "^2.2.0",
+    "electron-hot": "^0.2.0",
     "electron-prebuilt": "^1.4.13",
     "electron-reload": "^1.2.1",
     "jsdom": "^9.4.1",
     "mocha": "^3.0.2",
-    "react-addons-test-utils": "^15.6.0"
+    "react-addons-test-utils": "^15.6.0",
+    "winston": "^2.3.1"
   },
   "dependencies": {
     "bootstrap": "^3.3.7",

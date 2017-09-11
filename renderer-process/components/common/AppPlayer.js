@@ -7,7 +7,7 @@ export default class AppPlayer extends React.Component {
     super(props);
     this.state = {
       percentage: 0,
-      preload: 'none',
+      preload: 'auto',
       src: '',
       track_time: '0:00',
       track_duration: '0:00'
@@ -20,6 +20,10 @@ export default class AppPlayer extends React.Component {
     if(e) {
       e.preventDefault();
     }
+
+    let audioSrc = this.refs.audioElement.src;
+    if(!/http/.test(audioSrc)) return;
+
     let playPromise = this.refs.audioElement.play();
     if (playPromise !== undefined) {
       playPromise.then(() => {
@@ -33,10 +37,7 @@ export default class AppPlayer extends React.Component {
     if(props.tracks && props.track.stream_url) {
       this.setState({
         src: props.track.stream_url + "?client_id=" + config.client_id
-      }, () => {
-        this.audioEL.pause();
-        this.refs.audioElement.load();
-      })
+      });
     }
   }
   componentDidMount() {
@@ -51,7 +52,11 @@ export default class AppPlayer extends React.Component {
 		this.refs.audioElement.volume = 1.0;
 
     this.refs.audioElement.addEventListener('canplay', () => {
-      console.log('can play audio');
+      let duration = this.refs.audioElement.duration * 1000;
+      let durationHMS = moment.utc(moment.duration(duration).asMilliseconds()).format("HH:mm:ss");
+      this.setState({
+        track_duration: durationHMS
+      });
     });
 		this.refs.audioElement.addEventListener('timeupdate', this.updateProgress, arguments);
   }
@@ -64,30 +69,20 @@ export default class AppPlayer extends React.Component {
     }
     this.refs.audioElement.pause();
     this.refs.audioElement.currentTime = 0;
-    this.refs.audioElement.load(); //clear buffer
   }
-  convertToMinutes(seconds) {
-    return moment.duration(seconds,'seconds').minutes();
-  }
-  convertToHours(seconds) {
-    return moment.duration(seconds,'seconds').asHours();
+  convertSeconds(duration, as) {
+    return moment.duration(duration,'seconds')[as];
   }
   updateProgress () {
     if(!this.refs.audioElement) return;
 
-		let currentTime = this.refs.audioElement.currentTime;
-		let duration = this.refs.audioElement.duration;
-
-    this.setState({
-      track_duration: Math.floor(moment.duration(duration,'seconds').asHours()) + ':' + moment.duration(duration,'seconds').minutes() + ':' + moment.duration(duration,'seconds').seconds()
-    });
-
-		let current_milliseconds = currentTime * 1000;
-		let timeNow = moment.duration(current_milliseconds);
-		let t = moment.utc(timeNow.asMilliseconds()).format("HH:mm:ss");
+    let duration = this.refs.audioElement.duration;
+		let currentTime = this.refs.audioElement.currentTime * 1000;
+		let timeNow = moment.duration(currentTime);
+		let track_time = moment.utc(timeNow.asMilliseconds()).format("HH:mm:ss");
 
 		this.setState({
-      track_time: t
+      track_time: track_time
     })
 
 		if (currentTime > 0) {
