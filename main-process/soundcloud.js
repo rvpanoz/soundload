@@ -4,7 +4,6 @@
 
 const fs = require('fs');
 const path = require('path');
-const URL = require('url');
 const request = require('request');
 const ipcMain = require('electron').ipcMain;
 const app = require('electron').app;
@@ -31,7 +30,6 @@ const SoundcloudAPI = function() {
     }, function(error, response) {
       if (error) {
         console.log(error);
-        r.abort();
         throw new Error(error);
       }
       if (callback) {
@@ -50,7 +48,6 @@ const SoundcloudAPI = function() {
 
     //soundcloud url to get the stream
     var streamUrl = `${config.baseUrl}/tracks/${trackId}/stream?client_id=${config.client_id}`;
-    var streamUrlObj = URL.parse(streamUrl);
 
     function continueRequest() {
       this.on('data', (chunk) => {
@@ -92,19 +89,18 @@ const SoundcloudAPI = function() {
             break;
         }
         if (error) {
-          r.abort();
           event.sender.send('download-file-error', error);
+          throw new Error(error);
         }
       })
   }
-  SoundcloudAPI.prototype.get_related = function(track_id, callback) {
+  SoundcloudAPI.prototype.get_related = function(event, track_id, callback) {
 
     SC.makeCall('GET', `/tracks/${track_id}/related`, {
       json: true
     }, function(error, response) {
       if (error) {
-        console.log(error);
-        r.abort();
+        event.sender.send('get-related-error', error);
         throw new Error(error);
       }
       if (callback) {

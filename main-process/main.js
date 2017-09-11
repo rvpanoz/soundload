@@ -16,20 +16,11 @@ var ipcMain = electron.ipcMain;
 var dialog = electron.dialog;
 var crashReporter = electron.crashReporter;
 
-//start crashReporter
-crashReporter.start({
-  productName: 'mome',
-  companyName: 'mome.Inc',
-  submitURL: 'http://127.0.0.1:3001/submit',
-  uploadToServer: true
-});
-
 var config = require('../config');
-var debug = /--debug/.test(process.argv[2]);
+var debug = /--log/.test(process.argv[2]);
+var needslog = /--debug/.test(process.argv[3]);
 var cwd = process.cwd();
-
-//soundcloud module
-var Soundcloud = require('./soundcloud');
+var logger = null;
 
 //store initialization
 var Store = require('../store').init();
@@ -44,11 +35,34 @@ var mwin;
 //set store as a global object
 global.store = Store;
 
-/*** Dev ***/
+/** crach reporter **/
+crashReporter.start({
+  productName: 'soundload',
+  companyName: 'soundload inc',
+  submitURL: 'http://127.0.0.1:3001/submit',
+  uploadToServer: true
+});
+
+/*** Dev - hot-reload ***/
 if (process.env.NODE_ENV === 'development' && debug === true) {
-  /** electron reload **/
+  /** https://github.com/yan-foto/electron-reload - hard reset starts a new process **/
   require('electron-reload')(path.resolve(cwd), {
-    electron: require('electron')
+    electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
+    hardResetMethod: 'exit'
+  });
+}
+
+/*** Logger ***/
+if (process.env.NODE_ENV === 'development' && needslog === true) {
+  var winston = require('winston');
+  logger = new winston.Logger({
+    level: 'info',
+    transports: [
+      new(winston.transports.Console)(),
+      new(winston.transports.File)({
+        filename: 'log.log'
+      })
+    ]
   });
 }
 
@@ -59,26 +73,57 @@ function createWindow(opts) {
   // create a new BrowserWindow
   mwin = new BrowserWindow({
     width: config.windowWidth || 780,
-    height: config.windowWidth || screenSize.height,
-    protocol: 'file:'
+    height: config.windowHeight || screenSize.height
   });
 
-  //initialization of the soundcloud module passing mwin
-  soundcloud = new Soundcloud(mwin);
+  let webContent = mwin.webContents;
 
-  //load index.html
-  mwin.loadURL(`file://${cwd}/index.html`);
+  webContent.on('did-fail-load', function() {
+    if (needslog && logger) {
+      logger.log('error', 'Window fail to load', arguments);
+    }
+  });
 
-  if (process.env.NODE_ENV === 'development' && debug === true) {
-    //devTools
+  webContent.on('did-finish-load', function() {
+    if (needslog && logger) {
+      logger.log('info', 'Window finish loading');
+    }
+  });
+
+  webContent.on('crashed', function() {
+    if (needslog && logger) {
+      logger.log('error', 'Window has crached', {
+        'event': 'crached'
+      });
+    }
+  });
+
+  webContent.on('plugin-crashed', function() {
+    if (needslog && logger) {
+      logger.log('error', 'A plugin has crashed', {
+        'event': 'plugin-crashed'
+      });
+    }
+  });
+
+  //open devtools
+  if (process.env.NODE_ENV === 'development') {
     mwin.openDevTools();
-
     ipcMain.on('inspect-element', function(event, coords) {
       if (mwin) {
         mwin.inspectElement(coords.x, coords.y);
       }
     });
   }
+
+  //soundcloud module
+  var Soundcloud = require('./soundcloud');
+
+  //initialization of the soundcloud module passing mwin
+  soundcloud = new Soundcloud(mwin);
+
+  //load index.html
+  mwin.loadURL(`file://${cwd}/index.html`);
 }
 
 /** Process Communication **/
@@ -106,7 +151,7 @@ ipcMain.on('resolve', (event, url) => {
 });
 
 ipcMain.on('fetch-related', (event, trackId) => {
-  soundcloud.get_related(trackId, function(response) {
+  soundcloud.get_related(event, trackId, function(response) {
     event.sender.send('fetch-related-reply', response);
   });
 });
@@ -121,10 +166,20 @@ ipcMain.on('open-url', function(event, url) {
   app.openUrl(url);
 });
 
-/** App Events **/
+ipcMain.on('clear-cache', function(event) {
+  if (mwin) {
+    mwin.webContents.session.clearCache(function() {
+      console.log('cached cleared');
+    });
+  }
+});
 
+app.on('quit', function(event, exitCode) {
+  console.log('app quit');
+});
+
+/** App Events **/
 app.on('window-all-closed', function() {
-  console.log('all-closed');
   if (process.platform !== 'darwin') app.quit();
 });
 
@@ -132,16 +187,27 @@ app.on('ready', function() {
   createWindow();
 });
 
-app.on('gpu-process-crashed', function(event, killed) {
-  console.log(arguments);
-});
-
-process.on('uncaughtException', function (err) {
-  console.log(err);
-});
-
 app.on('activate', function() {
+  console.log('app is activated');
   if (mwin === null) {
     createWindow();
   }
 });
+
+app.on('before-quit', function() {
+  console.log('before-quit');
+});
+
+app.on('will-quit', function() {
+  console.log('will-quit');
+});
+
+process.on('uncaughtException', function(err) {
+  console.log(err);
+});
+
+// GPU AMD fix for Linux
+let platform = process.platform;
+if(platform === 'linux') {
+  app.commandLine.appendSwitch('disable-gpu-compositing');
+}
