@@ -84,10 +84,6 @@ export default class Track extends React.Component {
               <div className="track__info__type">Title</div>
               <div className="track__info__name">{track.title}</div>
               <div className="track__info__actions">
-                <button className="button-dark" onClick={this.props.onPlay}>
-                  <i className="fa fa-play"></i>
-                  Play
-                </button>
                 <button ref={(btn) => {
                     this.downloadBtn = btn;
                   }} className="button-light" data-id={track.id} data-title={track.title} onClick={this.download}>
@@ -110,7 +106,7 @@ export default class Track extends React.Component {
                 <a href="#related-tracks" aria-controls="related-tracks" role="tab" data-toggle="tab" aria-expanded="false">Related Tracks</a>
               </li>
             </ul>
-            <div className="track__navigation__friends">
+            <div className="track__navigation__meta">
               {this.parseDate()}
             </div>
           </div>
