@@ -18,8 +18,8 @@ var crashReporter = electron.crashReporter;
 
 //start crashReporter
 crashReporter.start({
-  productName: 'mome',
-  companyName: 'mome.Inc',
+  productName: 'soundload',
+  companyName: 'soundload inc',
   submitURL: 'http://127.0.0.1:3001/submit',
   uploadToServer: true
 });
@@ -59,9 +59,27 @@ function createWindow(opts) {
   // create a new BrowserWindow
   mwin = new BrowserWindow({
     width: config.windowWidth || 780,
-    height: config.windowWidth || screenSize.height,
+    height: config.windowHeight || screenSize.height,
     protocol: 'file:'
   });
+
+  let webContent = mwin.webContents;
+
+  webContent.on('did-fail-load', function() {
+    console.log('did-fail-load')
+  })
+
+  webContent.on('did-finish-load', function() {
+    console.log('did-finish-load');
+  })
+
+  webContent.on('crashed', function() {
+    console.log('crashed');
+  })
+
+  webContent.on('plugin-crashed', function() {
+    console.log('plugin-crashed');
+  })
 
   //initialization of the soundcloud module passing mwin
   soundcloud = new Soundcloud(mwin);
@@ -121,14 +139,26 @@ ipcMain.on('open-url', function(event, url) {
   app.openUrl(url);
 });
 
-/** App Events **/
+ipcMain.on('clear-cache', function(event) {
 
+  if(mwin) {
+    mwin.webContents.session.clearCache(function() {
+      console.log('cached cleared');
+    });
+  }
+});
+
+app.on('quit', function(event, exitCode) {
+  console.log(exitCode);
+});
+
+/** App Events **/
 app.on('window-all-closed', function() {
-  console.log('all-closed');
   if (process.platform !== 'darwin') app.quit();
 });
 
 app.on('ready', function() {
+  console.log('app is ready');
   createWindow();
 });
 
@@ -136,12 +166,21 @@ app.on('gpu-process-crashed', function(event, killed) {
   console.log(arguments);
 });
 
-process.on('uncaughtException', function (err) {
+process.on('uncaughtException', function(err) {
   console.log(err);
 });
 
 app.on('activate', function() {
+  console.log('app is activated');
   if (mwin === null) {
     createWindow();
   }
+});
+
+app.on('before-quit', function() {
+  console.log('before-quit');
+});
+
+app.on('will-quit', function() {
+  console.log('will-quit');
 });

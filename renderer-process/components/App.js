@@ -72,6 +72,10 @@ class App extends React.Component {
       menu.popup(remote.getCurrentWindow());
     }, false)
     /** __DEV__ **/
+
+    window.addEventListener('beforeunload', function() {
+      ipcRenderer.send('clear-cache');
+    });
   }
   resolve(e) {
     let url,
