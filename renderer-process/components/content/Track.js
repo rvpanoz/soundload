@@ -106,9 +106,6 @@ export default class Track extends React.Component {
                 <a href="#related-tracks" aria-controls="related-tracks" role="tab" data-toggle="tab" aria-expanded="false">Related Tracks</a>
               </li>
             </ul>
-            <div className="track__navigation__meta">
-              {this.parseDate()}
-            </div>
           </div>
         </div>
         <div className="track__content">
@@ -120,7 +117,7 @@ export default class Track extends React.Component {
                   <div className="track-details">
                     <div className="track-details__song">
                       <div className="track-details__song__title">{track.title}</div>
-                      <div className="track-details__song__date"></div>
+                      <div className="track-details__song__date">{this.parseDate()}</div>
                       <br/>
                       <div className="track-details__song__desc">{track.description}</div>
                     </div>

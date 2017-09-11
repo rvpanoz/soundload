@@ -151,7 +151,6 @@ button[disabled] {
 
 .number {
   font-size: 26pt;
-  margin-top: 25px;
 }
 
 .number.small {
@@ -517,48 +516,19 @@ button[disabled] {
 
 .current-track__progress__bar {
   width: 100%;
-  padding: 5px 15px;
   height: 6px;
   margin: 10px;
+  background-color: #fff;
 }
 
-.current-track__progress__bar .progress__bar {
+.current-track__progress__bar > div {
   position: relative;
-  height: 100%;
   width: 0%;
-  background-color: #f50;
-}
-
-.current-track__progress__bar .noUi-target {
-  border: none;
-  height: 4px;
-}
-
-.current-track__progress__bar .noUi-base {
-  background: #f50;
-}
-
-.current-track__progress__bar .noUi-origin {
-  background: #5e5e5e;
-}
-
-.current-track__progress__bar .noUi-handle {
-  background: #c8c8c8;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  box-shadow: none;
-  border: none;
+  height: 100%;
+  top: 0;
   left: 0;
-  display: none;
-}
-
-.current-track__progress__bar .noUi-handle:before, .current-track__progress__bar .noUi-handle:after {
-  background: none;
-}
-
-.current-track__progress:hover .noUi-handle {
-  display: block;
+  background-color: #f50;
+  z-index: 13;
 }
 
 .current-track__options {

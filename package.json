@@ -4,7 +4,7 @@
   "description": "soundcloud client for downloading tracks and find related with ease.",
   "main": "./main-process/main.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development npm run start-dev",
+    "start": "cross-env NODE_ENV=production npm run start-dev",
     "start-dev": "electron . --debug",
     "pack": "electron-builder --dir",
     "test": "mocha --compilers js:babel-core/register --require ./test/test-helper.js \"test/*@(.js|.jsx)\" --watch --watch-extensions jsx"

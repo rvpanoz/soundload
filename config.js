@@ -4,12 +4,13 @@
 
 const config = {
   _wait: 500,
-  windowWidth: 500,
-  windowHeight: 762,
+  windowWidth: 1024,
+  windowHeight: 768,
   client_id: 'KFSHpN5xEaAvIZZCrsrDjuFHOcArM91q',
   baseUrl: 'http://api.soundcloud.com',
   resolveUrl: 'http://api.soundcloud.com/resolve',
-  relatedUrl: 'http://api.soundcloud.com/tracks/{trackid}/related'
+  relatedUrl: 'http://api.soundcloud.com/tracks/{trackid}/related',
+  testUrl: 'https://soundcloud.com/desert-hearts-records/live-desert-hearts-atish-072'
 }
 
 module.exports = config;

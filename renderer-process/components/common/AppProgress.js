@@ -14,11 +14,10 @@ export default class AppProgress extends React.Component {
     //ipc events
     ipcRenderer.on('download-file-error', (event, error_message) => {
       console.error(error_message);
+      this.setState({is_visible: false, percentage: 0});
     });
     ipcRenderer.on('download-file-reply', (event) => {
-      setTimeout(() => {
-        this.setState({is_visible: false, percentage: 0});
-      }, 2000)
+      this.setState({is_visible: false, percentage: 0});
     });
     ipcRenderer.on('on-response-reply', (event, fileSize) => {
       this.setState((prevState) => {
@@ -26,9 +25,11 @@ export default class AppProgress extends React.Component {
       })
     })
     ipcRenderer.on('progress-file-reply', (event, percentage) => {
-      this.setState((prevState, props) => {
-        return {percentage: percentage}
-      })
+      setTimeout(() => {
+        this.setState((prevState, props) => {
+          return {percentage: percentage}
+        })
+      }, 1000);
     });
   }
   componentWillUnmount() {

@@ -5,12 +5,16 @@ import moment from 'moment';
 export default class AppPlayer extends React.Component {
   constructor(props) {
     super(props);
+    let initialTime = moment.utc(0).format("HH:mm:ss");
     this.state = {
       percentage: 0,
+      duration: 0,
+      volume: 0.0,
+      fftSize: 256,
       preload: 'auto',
       src: '',
-      track_time: '0:00',
-      track_duration: '0:00'
+      track_time: initialTime,
+      track_duration: initialTime
     }
     this.updateProgress = this.updateProgress.bind(this);
     this.play = this.play.bind(this);
@@ -49,13 +53,20 @@ export default class AppPlayer extends React.Component {
     this.audioSrc.connect(this.analyser); //connect audio source with analyser
     this.analyser.connect(this.audioCtx.destination); //connect analyser with audio contxt destination
 
-    this.analyser.fftSize = 256;
-    this.refs.audioElement.volume = 1.0;
+    this.analyser.fftSize = this.state.fftSize;
+    this.refs.audioElement.volume = this.state.volume;
 
     this.refs.audioElement.addEventListener('canplay', () => {
-      let duration = this.refs.audioElement.duration * 1000;
-      let durationHMS = moment.utc(moment.duration(duration).asMilliseconds()).format("HH:mm:ss");
-      this.setState({track_duration: durationHMS});
+      let duration = this.refs.audioElement.duration;
+      let currentTime = this.refs.audioElement.currentTime;
+
+      //end time
+      let end_time = this.refs.audioElement.duration * 1000;
+      let formatted_duration = moment.utc(moment.duration(end_time).asMilliseconds()).format("HH:mm:ss");
+      this.setState({
+        duration:duration,
+        track_duration: formatted_duration
+      });
     });
     this.refs.audioElement.addEventListener('timeupdate', this.updateProgress, arguments);
   }
@@ -69,24 +80,20 @@ export default class AppPlayer extends React.Component {
     this.refs.audioElement.pause();
     this.refs.audioElement.currentTime = 0;
   }
-  convertSeconds(duration, as) {
-    return moment.duration(duration, 'seconds')[as];
-  }
   updateProgress() {
     if (!this.refs.audioElement)
       return;
 
-    let duration = this.refs.audioElement.duration;
-    let currentTime = this.refs.audioElement.currentTime * 1000;
-    let timeNow = moment.duration(currentTime);
-    let track_time = moment.utc(timeNow.asMilliseconds()).format("HH:mm:ss");
+      let duration = this.state.duration;
+      let currentTime = this.refs.audioElement.currentTime;
+      let timeNow = moment.duration(currentTime * 1000);
+      let track_time = moment.utc(timeNow.asMilliseconds()).format("HH:mm:ss");
+      let percentage = Math.floor(currentTime * 100 / duration);
 
-    this.setState({track_time: track_time})
-
-    if (currentTime > 0) {
-      let value = Math.floor(currentTime * 100 / duration);
-      this.setState({percentage: value});
-    }
+      this.setState({
+        track_time: track_time,
+        percentage: percentage
+      });
   }
   render() {
     return (
@@ -105,11 +112,7 @@ export default class AppPlayer extends React.Component {
         <div className="current-track__progress">
           <div className="current-track__progress__start">{this.state.track_time}</div>
           <div className="current-track__progress__bar">
-            <div className="progress">
-              <div className="progress-bar" role="progressbar" aria-valuenow={this.state.percentage} aria-valuemin="0" aria-valuemax="100" style={{width: '0%'}}>
-                <span className="sr-only">70% Complete</span>
-              </div>
-            </div>
+            <div ref="progress" style={{width: this.state.percentage + "%"}}></div>
           </div>
           <div className="current-track__progress__finish">{this.state.track_duration}</div>
         </div>
