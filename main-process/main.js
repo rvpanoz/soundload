@@ -92,17 +92,13 @@ function createWindow(opts) {
 
   webContent.on('crashed', function() {
     if (needslog && logger) {
-      logger.log('error', 'Window has crached', {
-        'event': 'crached'
-      });
+      logger.log('error', 'Window has crached', arguments);
     }
   });
 
   webContent.on('plugin-crashed', function() {
     if (needslog && logger) {
-      logger.log('error', 'A plugin has crashed', {
-        'event': 'plugin-crashed'
-      });
+      logger.log('error', 'A plugin has crashed', arguments);
     }
   });
 
@@ -175,7 +171,8 @@ ipcMain.on('clear-cache', function(event) {
 });
 
 app.on('quit', function(event, exitCode) {
-  console.log('app quit');
+  console.log('app quit', exitCode);
+  return true;
 });
 
 /** App Events **/

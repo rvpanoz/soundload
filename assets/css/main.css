@@ -2,21 +2,21 @@
 @import url(font-awesome.min.css);
 @import url(normalize.css);
 @import url(forms.css);
-
 html, body, div, section, audio, video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 
 *, *:before, *:after {
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
+
 html {
   height: 100%;
 }
@@ -121,7 +121,7 @@ button[disabled] {
 }
 
 .h-group__item {
-  margin-right: 10px;
+  margin-right: 0px;
 }
 
 .v-group__item {
@@ -155,10 +155,12 @@ button[disabled] {
 }
 
 .number.small {
+  padding: 5px;
   font-size: 11pt;
 }
 
 .number.big {
+  padding: 5px;
   font-size: 22pt;
 }
 
@@ -515,7 +517,16 @@ button[disabled] {
 
 .current-track__progress__bar {
   width: 100%;
-  padding: 0 15px;
+  padding: 5px 15px;
+  height: 6px;
+  margin: 10px;
+}
+
+.current-track__progress__bar .progress__bar {
+  position: relative;
+  height: 100%;
+  width: 0%;
+  background-color: #f50;
 }
 
 .current-track__progress__bar .noUi-target {
@@ -693,6 +704,7 @@ button[disabled] {
 .track__header .track__info__actions {
   display: flex;
   flex-flow: row wrap;
+  justify-content: center;
 }
 
 .track__header .track__info__actions button {
@@ -788,20 +800,26 @@ button[disabled] {
   border-bottom: 4px solid #f50;
 }
 
-.track__header .track__navigation__friends {
-  padding: 15px;
+.track__header .track__navigation__meta {
+  padding: 3.5px;
 }
 
-.track__header .track__navigation__friends img {
+.track__header .track__navigation__meta img {
   width: 30px;
   height: 30px;
   border-radius: 50%;
   position: relative;
 }
 
-.track__header .track__navigation__friends .tooltip {
+.track__header .track__navigation__meta .tooltip {
   z-index: 1;
   position: absolute;
+}
+
+.track__navigation__meta {
+  color: #fff;
+  font-size: 12pt;
+  font-family: 'Lato';
 }
 
 .artist.is-verified .profile__img {
@@ -1201,10 +1219,8 @@ button[disabled] {
 .media-cards .media-card__favorites {
   display: inline-flex;
   width: calc(100% - 100px);
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-  flex-direction: column;
+  justify-content: flex-end;
+  flex-direction: row;
   color: #f50;
   font-size: 9pt;
 }
@@ -1227,6 +1243,8 @@ button[disabled] {
   background-size: cover;
   display: flex;
   align-items: center;
+  margin: 5.5px;
+  border: 3px solid #fff;
 }
 
 .media-cards .media-card__image i {
@@ -1494,6 +1512,7 @@ button:hover {
   clip: rect(0, 0, 0, 0);
   border: 0;
 }
+
 
 /** settings **/
 
