@@ -34,7 +34,7 @@ global.store = Store;
 
 /*** Development ***/
 if (process.env.NODE_ENV === 'development' && debug === true) {
-  require('./dev/imports.js');
+  require('./development/imports.js');
 }
 
 /*** Logger ***/
