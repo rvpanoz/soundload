@@ -24,6 +24,7 @@ class App extends React.Component {
       show_message: false,
       app_message: '',
       active_track: null,
+      source: null,
       app_settings_position: -350,
       playing: false
     }
@@ -43,7 +44,7 @@ class App extends React.Component {
       }
       setTimeout(() => {
         this.setState((prevState, props) => {
-          return {show_loader: false, active_track: track}
+          return {show_loader: false, active_track: track, source: track.stream_url}
         });
       }, config._wait);
     });
@@ -121,7 +122,7 @@ class App extends React.Component {
         <AppLoader isVisible={this.state.show_loader}/>
         <Header resolve={this.resolve} showSettings={this.showSettings}/>
         <Main track={this.state.active_track} setActiveTrack={this.setActiveTrack}/>
-        <AppPlayer track={this.state.active_track}/>
+        <AppPlayer source={this.state.source}/>
         <Settings position={this.state.app_settings_position}/>
       </div>
     )

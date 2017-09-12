@@ -39,9 +39,10 @@ export default class AppPlayer extends React.Component {
     }
   }
   componentDidUpdate(props) {
-    if (props.tracks && props.track.stream_url) {
+    console.log(props);
+    if (props.src) {
       this.setState({
-        src: props.track.stream_url + "?client_id=" + config.client_id
+        src: props.src + "?client_id=" + config.client_id
       });
     }
   }
@@ -98,9 +99,7 @@ export default class AppPlayer extends React.Component {
   render() {
     return (
       <section className="current-track">
-        <audio preload={this.state.preload} ref="audioElement" src={this.props.track
-          ? this.props.track.stream_url + "?client_id=" + config.client_id
-          : ''}></audio>
+        <audio preload={this.state.preload} ref="audioElement" src={this.state.src}></audio>
         <div className="current-track__actions">
           <a href="#" onClick={this.play}>
             <i className="fa fa-play"></i>

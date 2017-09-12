@@ -15,8 +15,8 @@ var BrowserWindow = electron.BrowserWindow;
 var ipcMain = electron.ipcMain;
 var dialog = electron.dialog;
 var config = require('../config');
-var debug = /--log/.test(process.argv[2]);
-var needslog = /--debug/.test(process.argv[3]);
+var debug = /--debug/.test(process.argv[2]);
+var needslog = /--log/.test(process.argv[3]);
 var cwd = process.cwd();
 
 //store initialization
@@ -34,20 +34,7 @@ global.store = Store;
 
 /*** Development ***/
 if (process.env.NODE_ENV === 'development' && debug === true) {
-
-  /** crash reporter in development modefor now**/
-  var crashReporter = electron.crashReporter;
-  crashReporter.start({
-    productName: 'soundload',
-    companyName: 'soundload inc',
-    submitURL: 'http://127.0.0.1:3001/submit',
-    uploadToServer: true
-  });
-
-  /** https://github.com/yan-foto/electron-reload - hard reset starts a new process **/
-  require('electron-reload')(path.resolve(cwd), {
-    electron: require('electron')
-  });
+  require('./dev/imports.js');
 }
 
 /*** Logger ***/
