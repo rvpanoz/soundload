@@ -24,7 +24,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 270px) {
   .media-card__footer-inner {
     display: none;
   }

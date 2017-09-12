@@ -479,8 +479,11 @@ button[disabled] {
 .current-track__actions a {
   display: inline-block;
   margin-right: 15px;
-  font-size: 24px;
   color: #c8c8c8;
+}
+
+.current-track__actions a.big {
+  font-size: 24px;
 }
 
 .current-track__actions a:hover {
@@ -521,7 +524,7 @@ button[disabled] {
   background-color: #fff;
 }
 
-.current-track__progress__bar > div {
+.current-track__progress__bar>div {
   position: relative;
   width: 0%;
   height: 100%;
@@ -566,7 +569,7 @@ button[disabled] {
 }
 
 .current-track__options .controls .volume {
-  width: 25%;
+  width: 50%;
   display: flex;
   flex-flow: row wrap;
   align-items: center;
@@ -575,39 +578,6 @@ button[disabled] {
 .current-track__options .controls .volume i {
   width: 20px;
   color: #aaaaaa;
-}
-
-.current-track__options .controls .volume #song-volume {
-  width: calc( 80% - 20px);
-  border: none;
-  height: 4px;
-}
-
-.current-track__options .controls .volume #song-volume .noUi-base {
-  background: #c8c8c8;
-}
-
-.current-track__options .controls .volume #song-volume .noUi-origin {
-  background: #5e5e5e;
-}
-
-.current-track__options .controls .volume #song-volume .noUi-handle {
-  background: #c8c8c8;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  box-shadow: none;
-  border: none;
-  left: 0;
-  display: none;
-}
-
-.current-track__options .controls .volume #song-volume .noUi-handle:before, .current-track__options .controls .volume #song-volume .noUi-handle:after {
-  background: none;
-}
-
-.current-track__options .controls .volume #song-volume:hover .noUi-handle {
-  display: block;
 }
 
 .track__header {

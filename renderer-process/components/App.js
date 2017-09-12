@@ -29,24 +29,29 @@ class App extends React.Component {
       playing: false
     }
 
-    //bind method contxt to this
-    this.onPlay = this.onPlay.bind(this);
+    //bind method context to this
     this.resolve = this.resolve.bind(this);
     this.showSettings = this.showSettings.bind(this);
     this.setActiveTrack = this.setActiveTrack.bind(this);
 
-    //ipc event hanlder
-    ipcRenderer.on('resolve-reply', (event, track) => {
-      if (track.errors && typeof track.errors === 'object') {
-        let error_message = track.errors[0].error_message;
-        console.error(error_message);
+    //ipc 'resolve-reply' event handler
+    ipcRenderer.on('resolve-reply', (event, error, track) => {
+      if (error || (track.errors && typeof track.errors === 'object')) {
+        let error_message = error[0].error_message || track.errors[0].error_message;
+        this._clearState();
         return;
       }
-      setTimeout(() => {
-        this.setState((prevState, props) => {
-          return {show_loader: false, active_track: track, source: track.stream_url}
-        });
-      }, config._wait);
+      this.setState((prevState, props) => {
+        return {show_loader: false, active_track: track, source: track.stream_url}
+      });
+    });
+  }
+  _clearState() {
+    this.setState({
+      show_loader: false,
+      active_track: null,
+    }, () => {
+
     });
   }
   componentDidMount() {
@@ -89,18 +94,19 @@ class App extends React.Component {
     if (!url || !url.length)
       url = config.testUrl;
 
-    this.setState({show_loader: true, active_track: null, position: -350});
+    this.setState({show_loader: true, active_track: null, app_settings_position: -350});
     ipcRenderer.send('resolve', url);
   }
   setActiveTrack(track) {
     if(!track) return;
     this.setState({
       active_track: track
+    }, () => {
+      ipcRenderer.send('fetch-related', track.id);
+      $('.content').animate({
+        scrollTop: 0
+      }, 1000);
     });
-    ipcRenderer.send('fetch-related', track.id);
-    $('.content').animate({
-      scrollTop: 0
-    }, 1000);
   }
   showSettings(e) {
     e.preventDefault();
@@ -110,19 +116,13 @@ class App extends React.Component {
       };
     });
   }
-  onPlay(e) {
-    e.preventDefault()
-    this.setState({
-      playing: true
-    });
-  }
   render() {
     return (
       <div className="app-content">
         <AppLoader isVisible={this.state.show_loader}/>
         <Header resolve={this.resolve} showSettings={this.showSettings}/>
         <Main track={this.state.active_track} setActiveTrack={this.setActiveTrack}/>
-        <AppPlayer source={this.state.source}/>
+        <AppPlayer track={this.state.active_track}/>
         <Settings position={this.state.app_settings_position}/>
       </div>
     )
