@@ -66,7 +66,7 @@ function createWindow(opts) {
   });
 
   webContent.on('did-finish-load', function() {
-    console.log('BrowserWindow finish loading.')
+    logger.log('info', 'BrowserWindow finish loading')
   });
 
   webContent.on('crashed', function() {
@@ -141,13 +141,13 @@ ipcMain.on('open-url', (event, url) => {
 ipcMain.on('clear-cache', (event) => {
   if (mwin) {
     mwin.webContents.session.clearCache(function() {
-      console.log('cached cleared');
+      logger.log('info', 'cache cleared');
     });
   }
 });
 
 app.on('quit', function(event, exitCode) {
-  console.log('app quit', exitCode);
+  logger.log('info', `app quit with exitCode ${exitCode}`);
   return true;
 });
 
@@ -157,12 +157,12 @@ app.on('window-all-closed', function() {
 });
 
 app.on('ready', function() {
-  console.log('app is ready');
+  logger.log('info', `Loading BrowserWindow..`);
   createWindow();
 });
 
 app.on('activate', function() {
-  console.log('app is activated');
+  logger.log('info', `app is activated`);
   if (mwin === null) {
     createWindow();
   }

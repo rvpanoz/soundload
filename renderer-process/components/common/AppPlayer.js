@@ -19,6 +19,7 @@ export default class AppPlayer extends React.Component {
     }
     this.updateProgress = this.updateProgress.bind(this);
     this.play = this.play.bind(this);
+    this.seek = this.seek.bind(this);
   }
   play(e) {
     let audioSrc = this.refs.audioElement.src;
@@ -82,6 +83,27 @@ export default class AppPlayer extends React.Component {
   componentWillUnmount() {
     this.refs.audioElement.removeAllListeners('canplay', 'timeupdate');
   }
+  seek(e) {
+    let control = $(e.target);
+    let audioRef = this.refs.audioElement;
+    let is_playing = this.state.is_playing;
+
+    if(is_playing) {
+      let percent = 60;
+  		let duration = this.state.duration;
+  		let currentTime = audioRef.currentTime;
+
+  		if (control.hasClass('fa-backward')) {
+  			percent = percent * -1;
+  		}
+
+  		this.setState({
+        percentage: percent / 100
+      })
+  		audioRef.currentTime += percent;
+    }
+    return;
+  }
   stop() {
     this.refs.audioElement.pause();
     this.refs.audioElement.currentTime = 0;
@@ -105,13 +127,13 @@ export default class AppPlayer extends React.Component {
           ? this.props.track.stream_url + "?client_id=" + config.client_id
           : ''}></audio>
         <div className="current-track__actions">
-          <a href="#" onClick={this.goBackward}>
+          <a href="#" onClick={this.seek}>
             <i className="fa fa-backward" ref="backwardButton"></i>
           </a>
           <a href="#" className="big" onClick={this.play}>
             <i className="fa fa-play" ref="playButton"></i>
           </a>
-          <a href="#" onClick={this.goForward}>
+          <a href="#" onClick={this.seek}>
             <i className="fa fa-forward" ref="forwardButton"></i>
           </a>
         </div>

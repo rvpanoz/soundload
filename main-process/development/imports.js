@@ -15,7 +15,7 @@ module.exports = function() {
     submitURL: 'http://127.0.0.1:3001/submit',
     uploadToServer: true
   });
-  console.log(path.resolve(cwd, 'renderer-process'));
+
   /** https://github.com/yan-foto/electron-reload - hard reset starts a new process **/
   require('electron-reload')(path.resolve(cwd, 'renderer-process'), {
     electron: require('electron')
