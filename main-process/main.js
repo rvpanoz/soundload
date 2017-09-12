@@ -15,7 +15,7 @@ var BrowserWindow = electron.BrowserWindow;
 var ipcMain = electron.ipcMain;
 var dialog = electron.dialog;
 var config = require('../config');
-var log = /--log/.test(process.argv[2]);
+var debug = /--debug/.test(process.argv[2]);
 var needslog = /--log/.test(process.argv[3]);
 var cwd = process.cwd();
 
