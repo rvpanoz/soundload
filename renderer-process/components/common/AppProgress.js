@@ -23,13 +23,11 @@ export default class AppProgress extends React.Component {
       this.setState((prevState) => {
         return {size: fileSize, is_visible: true}
       })
-    })
+    });
     ipcRenderer.on('progress-file-reply', (event, percentage) => {
-      setTimeout(() => {
-        this.setState((prevState, props) => {
-          return {percentage: percentage}
-        })
-      }, 1000);
+      this.setState((prevState, props) => {
+        return {percentage: percentage}
+      });
     });
   }
   componentWillUnmount() {

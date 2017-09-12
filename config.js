@@ -4,8 +4,8 @@
 
 const config = {
   _wait: 500,
-  windowWidth: 1024,
-  windowHeight: 768,
+  windowWidth: 740,
+  windowHeight: 868,
   client_id: 'KFSHpN5xEaAvIZZCrsrDjuFHOcArM91q',
   baseUrl: 'http://api.soundcloud.com',
   resolveUrl: 'http://api.soundcloud.com/resolve',

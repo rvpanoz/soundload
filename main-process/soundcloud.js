@@ -5,8 +5,6 @@
 const fs = require('fs');
 const path = require('path');
 const request = require('request');
-const ipcMain = require('electron').ipcMain;
-const app = require('electron').app;
 const config = require('../config');
 const SC = require('node-soundcloud');
 
@@ -27,13 +25,9 @@ const SoundcloudAPI = function() {
     SC.makeCall('GET', '/resolve', {
       url: url,
       json: true
-    }, function(error, response) {
-      if (error) {
-        console.log(error);
-        throw new Error(error);
-      }
+    }, function(errors, response) {
       if (callback) {
-        callback(response);
+        callback(errors, response);
       }
     });
   }
@@ -43,7 +37,7 @@ const SoundcloudAPI = function() {
       len = 0,
       progress = 0;
 
-    var fileName = fileName || `${app.getName()}-${now.substr(0, 7)}`;
+    var fileName = fileName || `soundload-${now.substr(0, 7)}`;
     var filePath = path.join(`${outputPath}`, fileName + '.mp3');
 
     //soundcloud url to get the stream
