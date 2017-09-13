@@ -52,14 +52,6 @@ body:before {
   box-sizing: border-box;
 }
 
-.font-small {
-  font-size: 11pt;
-}
-
-.color-base {
-  color: #f50;
-}
-
 a {
   color: #f50;
 }
@@ -106,6 +98,18 @@ button[disabled] {
 
 .bg-white {
   background-color: #fff;
+}
+
+.font-small {
+  font-size: 11pt;
+}
+
+.color-base {
+  color: #f50;
+}
+
+.red {
+  color: red !important;
 }
 
 .h-group {
@@ -469,7 +473,7 @@ button[disabled] {
 }
 
 .current-track__actions {
-  width: 5%;
+  width: 20%;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
@@ -569,7 +573,7 @@ button[disabled] {
 }
 
 .current-track__options .controls .volume {
-  width: 50%;
+  width: 85%;
   display: flex;
   flex-flow: row wrap;
   align-items: center;
@@ -578,6 +582,115 @@ button[disabled] {
 .current-track__options .controls .volume i {
   width: 20px;
   color: #aaaaaa;
+}
+
+.current-track__options .controls .volume-bar i {
+  width: 20px;
+  color: #aaaaaa;
+}
+
+/*customised range*/
+
+.volume-bar input[type="range"].range {
+  display: inline-block;
+  position: absolute;
+  bottom: 40px;
+  right: -10px;
+}
+
+input[type="range"].range {
+  cursor: pointer;
+  width: 100px !important;
+  -webkit-appearance: none;
+  z-index: 200;
+  width: 50px;
+  border: 1px solid #e6e6e6;
+  background-color: #e6e6e6;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e6e6e6), to(#d2d2d2));
+  background-image: -webkit-linear-gradient(right, #e6e6e6, #d2d2d2);
+  background-image: -moz-linear-gradient(right, #e6e6e6, #d2d2d2);
+  background-image: -ms-linear-gradient(right, #e6e6e6, #d2d2d2);
+  background-image: -o-linear-gradient(right, #e6e6e6, #d2d2d2);
+}
+
+
+/*customised range when focusing on input */
+
+input[type="range"].range:focus {
+  border: 0 !imporant;
+  outline: none !important;
+}
+
+
+/*customised range slider icon*/
+
+input[type="range"].range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  background-color: #f50;
+}
+
+
+/*setting round corners to the range */
+
+input[type="range"].round {
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+}
+
+
+/*setting round corners to the range slider icon*/
+
+input[type="range"].round::-webkit-slider-thumb {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+
+/* set range from 0 - 1 horizontal as by default */
+
+.horizontal-lowest-first {
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+
+
+/* set range from 1 - 0 horizontal (highest first) */
+
+.horizontal-highest-first {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+
+/* set range from 0 - 1 vertically (lowest on top) */
+
+.vertical-lowest-first {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+
+/* set range from 1 - 0 vertically (highest on top) */
+
+.vertical-heighest-first {
+  -webkit-transform: rotate(270deg);
+  -moz-transform: rotate(270deg);
+  -o-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  transform: rotate(270deg);
 }
 
 .track__header {

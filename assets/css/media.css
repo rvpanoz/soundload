@@ -128,10 +128,10 @@
 
 @media (max-width: 980px) {
   .current-track__actions {
-    width: 10%;
+    width: 20%;
   }
   .current-track__progress {
-    width: 99%;
+    width: 80%;
   }
   .current-track__options {
     width: 50%;
@@ -140,17 +140,17 @@
 
 @media (max-width: 768px) {
   .current-track__actions {
-    width: 11%;
+    width: 20%;
   }
   .current-track__progress {
-    width: 90%;
+    width: 70%;
   }
   .current-track__options {
-    width: 5%;
+    width: 50%;
   }
 }
 
-@media (max-width: 505px) {
+@media (max-width: 495px) {
   .current-track__actions {
     width: 25%;
     justify-content: flex-start;

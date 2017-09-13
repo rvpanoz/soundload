@@ -27,8 +27,9 @@ var mwin;
 // sc module to handle requests
 var soundcloud = null;
 
-// set store as a global object
+// set store and config as a global object
 global.store = Store;
+global.config = config;
 
 /*** Development ***/
 if (process.env.NODE_ENV === 'development' && debug === true) {
@@ -114,6 +115,7 @@ ipcMain.on('set-output-path', (event) => {
 ipcMain.on('resolve', (event, url) => {
   soundcloud.resolve(url, function(errors, response) {
     if(errors) {
+      console.log(errors);
       logger.log('error', `${url}: ${errors[0].error_message}`);
     } else {
       logger.log('info', 'url resolved ', url);

@@ -1,6 +1,21 @@
-import config from '../../../config';
+import {remote} from 'electron';
 import React from 'react';
 import moment from 'moment';
+
+const config = remote.getGlobal('config');
+
+class RangeVolume extends React.Component {
+  onChange(e) {
+
+  }
+  render() {
+    return (
+      <div>
+        <input onChange={this.onChange} className="range horizontal-lowest-first" type="range" min="0" max="1" step="0.1" value="1"/>
+      </div>
+    )
+  }
+}
 
 export default class AppPlayer extends React.Component {
   constructor(props) {
@@ -20,6 +35,10 @@ export default class AppPlayer extends React.Component {
     this.updateProgress = this.updateProgress.bind(this);
     this.play = this.play.bind(this);
     this.seek = this.seek.bind(this);
+    this.seekForward = this.seekForward.bind(this);
+    this.seekBackward = this.seekBackward.bind(this);
+    this.stop = this.stop.bind(this);
+    this.adjustVolume = this.adjustVolume.bind(this);
   }
   play(e) {
     let audioSrc = this.refs.audioElement.src;
@@ -30,13 +49,11 @@ export default class AppPlayer extends React.Component {
     let playButton = this.refs.playButton;
     let is_playing = this.state.is_playing;
 
-    if(is_playing) {
+    if (is_playing) {
       audioRef.pause();
       playButton.classList.remove('fa-pause');
       playButton.classList.add('fa-play');
-      this.setState({
-        is_playing: false
-      });
+      this.setState({is_playing: false});
       return;
     }
 
@@ -45,20 +62,16 @@ export default class AppPlayer extends React.Component {
       playPromise.then(() => {
         playButton.classList.remove('fa-play');
         playButton.classList.add('fa-pause');
-        this.setState({
-          is_playing: true
-        });
+        this.setState({is_playing: true});
       }).catch(function(error) {
         throw new Error(error);
       });
     }
   }
-  componentDidUpdate(props) {
-    if (props.tracks && props.track.stream_url) {
-      this.setState({
-        src: props.track.stream_url + "?client_id=" + config.client_id
-      });
-    }
+  adjustVolume(e) {
+    let volumeSlider = this.refs.volumeSlider;
+    volumeSlider.style.height = `${ 120}px`;
+    volumeSlider.style.opacity = 1;
   }
   componentDidMount() {
     this.audioCtx = new(window.AudioContext || window.webkitAudioContext)(); //create audio context using HTML5 API
@@ -83,30 +96,42 @@ export default class AppPlayer extends React.Component {
   componentWillUnmount() {
     this.refs.audioElement.removeAllListeners('canplay', 'timeupdate');
   }
-  seek(e) {
-    let control = $(e.target);
+  seek(control) {
     let audioRef = this.refs.audioElement;
     let is_playing = this.state.is_playing;
 
-    if(is_playing) {
+    if (is_playing) {
       let percent = 60;
-  		let duration = this.state.duration;
-  		let currentTime = audioRef.currentTime;
+      let duration = this.state.duration;
+      let currentTime = audioRef.currentTime;
 
-  		if (control.hasClass('fa-backward')) {
-  			percent = percent * -1;
-  		}
-
-  		this.setState({
+      if (control.classList.contains('fa-backward')) {
+        percent = percent * -1;
+      }
+      this.setState({
         percentage: percent / 100
-      })
-  		audioRef.currentTime += percent;
+      }, () => {
+        audioRef.currentTime += percent;
+      });
     }
-    return;
+  }
+  seekForward(e) {
+    let control = this.refs.forwardButton;
+    this.seek(control);
+  }
+  seekBackward(e) {
+    let control = this.refs.backwardButton;
+    this.seek(control);
   }
   stop() {
     this.refs.audioElement.pause();
     this.refs.audioElement.currentTime = 0;
+    this.setState({
+      percentage: 0
+    }, () => {
+      this.refs.playButton.classList.remove('fa-pause')
+      this.refs.playButton.classList.add('fa-play');
+    });
   }
   updateProgress() {
     if (!this.refs.audioElement)
@@ -127,14 +152,17 @@ export default class AppPlayer extends React.Component {
           ? this.props.track.stream_url + "?client_id=" + config.client_id
           : ''}></audio>
         <div className="current-track__actions">
-          <a href="#" onClick={this.seek}>
-            <i className="fa fa-backward" ref="backwardButton"></i>
+          <a href="#">
+            <i className="fa fa-backward" ref="backwardButton" onClick={this.seekBackward}></i>
           </a>
-          <a href="#" className="big" onClick={this.play}>
-            <i className="fa fa-play" ref="playButton"></i>
+          <a href="#" className="big">
+            <i className="fa fa-play" ref="playButton" onClick={this.play}></i>
           </a>
-          <a href="#" onClick={this.seek}>
-            <i className="fa fa-forward" ref="forwardButton"></i>
+          <a href="#" className="big">
+            <i className="fa fa-stop" ref="stopButton" onClick={this.stop}></i>
+          </a>
+          <a href="#">
+            <i className="fa fa-forward" ref="forwardButton" onClick={this.seekForward}></i>
           </a>
         </div>
         <div className="current-track__progress">
@@ -149,7 +177,10 @@ export default class AppPlayer extends React.Component {
         <div className="current-track__options">
           <span className="controls">
             <div className="volume">
-              <i className="fa fa-volume-up" style={{cursor: 'pointer'}}></i>
+              <i className="fa fa-volume-up" onClick={this.adjustVolume} style={{
+                cursor: 'pointer'
+              }}></i>
+              <RangeVolume/>
             </div>
           </span>
         </div>

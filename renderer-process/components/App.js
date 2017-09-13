@@ -1,4 +1,3 @@
-import config from '../../config';
 import {remote, ipcRenderer} from 'electron';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -13,6 +12,8 @@ import AppPlayer from './common/AppPlayer';
 import Header from './common/Header';
 import Settings from './common/Settings';
 import Main from './content/Main';
+
+const config = remote.getGlobal('config');
 
 class App extends React.Component {
   constructor(props) {
