@@ -1,4 +1,8 @@
-import config from '../../config';
+/**
+ * App Component
+ *
+ */
+
 import {remote, ipcRenderer} from 'electron';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -14,74 +18,54 @@ import Header from './common/Header';
 import Settings from './common/Settings';
 import Main from './content/Main';
 
+const config = remote.getGlobal('config');
+
 class App extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     //set initial state
     this.state = {
       show_loader: false,
-      show_message: false,
-      app_message: '',
-      active_track: null,
-      source: null,
-      app_settings_position: -350,
-      playing: false
+      show_settings: false,
+      active_track: null
     }
 
-    //bind method context to this
+    //bind method's context to this
     this.resolve = this.resolve.bind(this);
     this.showSettings = this.showSettings.bind(this);
     this.setActiveTrack = this.setActiveTrack.bind(this);
 
-    //ipc 'resolve-reply' event handler
-    ipcRenderer.on('resolve-reply', (event, error, track) => {
-      if (error || (track.errors && typeof track.errors === 'object')) {
-        let error_message = error[0].error_message || track.errors[0].error_message;
-        this._clearState();
-        return;
-      }
+    //ipc 'resolve-reply and resolve-reply-error' event handlers
+    ipcRenderer.on('resolve-reply', (event, track) => {
       this.setState((prevState, props) => {
-        return {show_loader: false, active_track: track, source: track.stream_url}
+        return {show_loader: false, active_track: track, show_settings: false}
       });
+    });
+
+    ipcRenderer.on('resolve-reply-error', (event, error) => {
+      let error_message = error[0].error_message;
+      console.error(error_message);
+      this._clearState();
     });
   }
   _clearState() {
     this.setState({
       show_loader: false,
+      show_settings: false,
       active_track: null,
     }, () => {
-
+      console.log('state cleared');
     });
   }
   componentDidMount() {
-    /** __DEV__ **/
-    let Menu = remote.Menu;
-    let MenuItem = remote.MenuItem;
-    let rightClickPosition = null
-
-    const menu = new Menu()
-    const menuItem = new MenuItem({
-      label: 'Inspect Element',
-      click: () => {
-        remote.getCurrentWindow().inspectElement(rightClickPosition.x, rightClickPosition.y)
-      }
-    })
-
-    menu.append(menuItem);
-    window.addEventListener('contextmenu', (e) => {
-      e.preventDefault()
-      rightClickPosition = {
-        x: e.x,
-        y: e.y
-      }
-      menu.popup(remote.getCurrentWindow());
-    }, false)
-    /** __DEV__  **/
-
+    //dev==================
+    this.resolve();
+    require('../dev/imports');
     window.addEventListener('beforeunload', function() {
       ipcRenderer.send('clear-cache');
     });
+    //dev==================
   }
   resolve(e) {
     let url,
@@ -94,7 +78,7 @@ class App extends React.Component {
     if (!url || !url.length)
       url = config.testUrl;
 
-    this.setState({show_loader: true, active_track: null, app_settings_position: -350});
+    this.setState({show_loader: true, active_track: null, show_settings: false});
     ipcRenderer.send('resolve', url);
   }
   setActiveTrack(track) {
@@ -110,10 +94,8 @@ class App extends React.Component {
   }
   showSettings(e) {
     e.preventDefault();
-    this.setState(function(prevState, props) {
-      return {
-        app_settings_position: (prevState.app_settings_position < 0) ? 0 : -350
-      };
+    this.setState((prevState) => {
+      show_settings: !prevState.show_settings
     });
   }
   render() {
@@ -123,7 +105,6 @@ class App extends React.Component {
         <Header resolve={this.resolve} showSettings={this.showSettings}/>
         <Main track={this.state.active_track} setActiveTrack={this.setActiveTrack}/>
         <AppPlayer track={this.state.active_track}/>
-        <Settings position={this.state.app_settings_position}/>
       </div>
     )
   }

@@ -6,6 +6,7 @@
 
 import {remote, ipcRenderer} from 'electron';
 import React from 'react';
+import moment from 'moment';
 import AppProgress from '../common/AppProgress';
 import Related from './Related';
 
@@ -19,6 +20,7 @@ export default class Track extends React.Component {
     //bind methods
     this.parseDate = this.parseDate.bind(this);
     this.parseDuration = this.parseDuration.bind(this);
+    this.parseArtworkUrl = this.parseArtworkUrl.bind(this);
     this.download = this.download.bind(this);
   }
   componentDidMount() {
@@ -29,8 +31,16 @@ export default class Track extends React.Component {
       this.downloadBtn.disabled = false;
     });
   }
+  componentDidUpdate(prevProps, prevState) {
+    let itemCenter = this.refs.center;
+    if (itemCenter) {
+      setTimeout(() => {
+        itemCenter.style.left = '50%';
+      }, 1000)
+    }
+  }
   componentWillUnmount() {
-    ipcRenderer.removeAllListeners(['download-file']);
+    ipcRenderer.removeAllListeners(['download-file', 'download-file-reply', 'download-file-error']);
   }
   download(e) {
     e.preventDefault();
@@ -43,33 +53,37 @@ export default class Track extends React.Component {
 
     if (!title || !id)
       return;
-    title = title.replace(/[^a-zA-Z]+/, '');
+    title = title.replace(/[^a-zA-Z]+/, ' ');
     ipcRenderer.send('download-file', title, id);
     return false;
   }
+  parseArtworkUrl(w, h) {
+    let url = this.props.track.artwork_url;
+    return url.replace('large.jpg', `t${w}x${h}.jpg`);
+  }
   parseDate() {
-    let moment = require('moment');
-    let track = this.props.track,
-      created_at;
-
-    created_at = track.created_at;
-    let d =  moment(created_at, 'YYYY/MM/DD h:m:i');
-    return d.format('DD/MM/YYYY');
+    let created_at = this.props.track.created_at;
+    return moment(created_at, 'YYYY/MM/DD h:m:i').format('DD/MM/YYYY');
   }
   parseDuration() {
     let duration = this.props.track.duration / 1000; //get seconds
     let min,
       h;
 
-    min = (duration / 60).toFixed(2);
+    min = parseInt(duration / 60);
     h = (min / 60).toFixed(2);
     return {min, h}
   }
   render() {
-    let track = this.props.track;
+    let styleCenter,
+      track = this.props.track;
     if (!track) {
       return null;
     }
+    styleCenter = {
+      backgroundImage: 'url(' + track.artwork_url + ')'
+    }
+
     return (
       <div className="track page-content">
         <div className="track__header">
@@ -77,16 +91,12 @@ export default class Track extends React.Component {
             <AppProgress isVisible={this.state.show_progress}/>
           </div>
           <div className="track__info">
-            <div className="profile__img">
-              <img src={track.artwork_url} alt={track.title}/>
-            </div>
             <div className="track__info__meta">
-              <div className="track__info__type">Title</div>
               <div className="track__info__name">{track.title}</div>
               <div className="track__info__actions">
                 <button ref={(btn) => {
-                    this.downloadBtn = btn;
-                  }} className="button-light" data-id={track.id} data-title={track.title} onClick={this.download}>
+                  this.downloadBtn = btn;
+                }} className="button-light" data-id={track.id} data-title={track.title} onClick={this.download}>
                   <i className="fa fa-download"></i>
                   Download
                 </button>
@@ -111,45 +121,52 @@ export default class Track extends React.Component {
         <div className="track__content">
           <div className="tab-content">
             <div role="tabpanel" className="tab-pane active" id="track-overview">
-              <div className="overview">
-                <div className="overview__track">
-                  <div className="section-title">Track details</div>
-                  <div className="track-details">
-                    <div className="track-details__song">
-                      <div className="track-details__song__title">{track.title}</div>
-                      <div className="track-details__song__date">{this.parseDate()}</div>
-                      <br/>
-                      <div className="track-details__song__desc">{track.description}</div>
-                    </div>
+              <div className="track-info">
+                <div className="track-card">
+                  <div className="track-card__image">
+                    <img src={this.parseArtworkUrl(300, 300)} alt={track.title}/>
                   </div>
-                </div>
-                <div className="overview__track-info">
-                  <div className="overview__track-info__box">
-                    <div className="box">
-                      <span className="number">
-                        <i className="fa fa-clock-o"></i>&nbsp;&nbsp;{this.parseDuration().min}&nbsp;<small>min</small>
-                      </span>
-                    </div>
+                  <div className="track-card__title">
+                    {track.title}
                   </div>
-                  <div className="overview__track-info__box">
-                    <div className="box">
-                      <span className="number">
-                        <i className="fa fa-heart"></i>&nbsp;&nbsp;{track.favoritings_count || track.likes_count}&nbsp;<small>favorites</small>
-                      </span>
-                    </div>
+                  <div className="track-card__favorites">
+                    <i className="fa fa-heart-o"></i>&nbsp;{track.favoritings_count}
                   </div>
-                  <div className="overview__track-info__box">
-                    <div className="box">
-                      <span className="number">
-                        <i className="fa fa-retweet"></i>&nbsp;&nbsp;{track.reposts_count}&nbsp;<small>reposts</small>
-                      </span>
-                    </div>
+                  <div className="track-card__genre">
+                    {track.genre}
                   </div>
-                  <div className="overview__track-info__box">
-                    <div className="box">
-                      <span className="number">
-                        <i className="fa fa-comment"></i>&nbsp;&nbsp;{track.comment_count}&nbsp;<small>comments</small>
-                      </span>
+                  <div className="track-card__stats">
+                    <div className="one-third">
+                      <div className="stat">
+                        <i className="fa fa-retweet"></i>
+                      </div>
+                      <div className="stat-value">
+                        {track.reposts_count}
+                      </div>
+                    </div>
+                    <div className="one-third">
+                      <div className="stat">
+                        <i className="fa fa-download"></i>
+                      </div>
+                      <div className="stat-value">
+                        {track.download_count}
+                      </div>
+                    </div>
+                    <div className="one-third">
+                      <div className="stat">
+                        <i className="fa fa-clock-o"></i>
+                      </div>
+                      <div className="stat-value">
+                        {this.parseDuration().min}&nbsp;min
+                      </div>
+                    </div>
+                    <div className="one-third no-border">
+                      <div className="stat">
+                        <i className="fa fa-comment"></i>
+                      </div>
+                      <div className="stat-value">
+                        {track.comment_count}
+                      </div>
                     </div>
                   </div>
                 </div>

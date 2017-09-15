@@ -17,7 +17,8 @@ module.exports = function() {
   });
 
   /** https://github.com/yan-foto/electron-reload - hard reset starts a new process **/
-  require('electron-reload')(path.resolve(cwd, 'renderer-process'), {
-    electron: require('electron')
+  require('electron-reload')(cwd, {
+    electron: require('electron'),
+    ignored: /log.log|node_modules|dist|build|[\/\\]\./
   });
 }()
