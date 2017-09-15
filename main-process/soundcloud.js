@@ -13,39 +13,34 @@ const {
   client_id
 } = config;
 
-const SoundcloudAPI = function() {
-
-  SC.init({
-    id: config.client_id
-  });
-
-  SoundcloudAPI.prototype.resolve = function(url, callback) {
-    if (!url) return;
-
-    SC.makeCall('GET', '/resolve', {
-      url: url,
-      json: true
-    }, function(errors, response) {
-      if (callback) {
-        callback(errors, response);
-      }
+class Soundcloud {
+  constructor(MainWindow, opts) {
+    this.baseUrl = opts.baseUrl;
+    this.client_id = opts.client_id;
+    this._soundcloud = SC;
+    this._soundcloud.init({
+      id: this.client_id
     });
   }
-  SoundcloudAPI.prototype.download = function(event, outputPath, fileName, trackId) {
-    var now = Date.now().toString(),
+  resolve(url, callback) {
+    this._soundcloud.makeCall('GET', '/resolve', {
+      url: url,
+      json: true
+    }, (errors, track) => {
+      callback(errors, track);
+    });
+  }
+  download(event, outputPath, fileName, trackId) {
+    let now = Date.now().toString(),
       downloaded = 0,
       len = 0,
       progress = 0;
-
-    var fileName = fileName || `soundload-${now.substr(0, 7)}`;
-    var filePath = path.join(`${outputPath}`, fileName + '.mp3');
-
-    //soundcloud url to get the stream
-    var streamUrl = `${config.baseUrl}/tracks/${trackId}/stream?client_id=${config.client_id}`;
+    let filePath = path.join(`${outputPath}`, fileName + '.mp3');
+    let streamUrl = this.baseUrl + `/tracks/${trackId}/stream`;
 
     function continueRequest() {
       this.on('data', (chunk) => {
-          var c = chunk.length;
+          let c = chunk.length;
           downloaded += c;
           progress = (100 * downloaded / len).toFixed(2);
           event.sender.send('progress-file-reply', progress);
@@ -59,12 +54,16 @@ const SoundcloudAPI = function() {
         .pipe(fs.createWriteStream(filePath))
     }
 
-    var r = request(streamUrl)
+    let r = request({
+        url: streamUrl,
+        qs: {
+          client_id: this.client_id
+        }
+      })
       .on('response', (reply) => {
-        var fileSize, statusCode, error;
-        var replyobj = reply.toJSON();
-
-        statusCode = parseInt(replyobj.statusCode);
+        let fileSize, error;
+        let replyobj = reply.toJSON();
+        let statusCode = parseInt(replyobj.statusCode);
         switch (statusCode) {
           case 200:
             fileSize = parseInt(reply.headers['content-length'], 10);
@@ -86,22 +85,21 @@ const SoundcloudAPI = function() {
           event.sender.send('download-file-error', error);
           throw new Error(error);
         }
-      })
+      });
   }
-  SoundcloudAPI.prototype.get_related = function(event, track_id, callback) {
-
-    SC.makeCall('GET', `/tracks/${track_id}/related`, {
+  get_related(event, track_id, callback) {
+    let url = `/tracks/${track_id}/related`;
+    this._soundcloud.makeCall('GET', url, {
       json: true
     }, function(error, response) {
       if (error) {
         event.sender.send('get-related-error', error);
         throw new Error(error);
       }
-      if (callback) {
-        callback(response);
-      }
+      callback(response);
     });
   }
 }
 
-module.exports = SoundcloudAPI;
+
+module.exports = Soundcloud;

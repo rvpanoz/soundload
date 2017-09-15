@@ -60,8 +60,11 @@ class ListItem extends React.Component {
             <span className="number small h-group__item wp25">
               <i className="fa fa-retweet"></i>&nbsp;{this.props.reposts_count}
             </span>
-            <span className="number small h-group__item wp50">
+            <span className="number small h-group__item wp35">
               <i className="fa fa-clock-o"></i>&nbsp;{this.parseDuration()}&nbsp;min
+            </span>
+            <span className="number small genre h-group__item wp35" style={{textAlign: 'right'}}>
+              {this.props.genre}
             </span>
           </div>
         </div>

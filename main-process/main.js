@@ -8,9 +8,11 @@ var electron = require('electron');
 var path = require('path');
 var fs = require('fs');
 var config = require('../config');
+var Soundcloud = require('./soundcloud');
 var app = electron.app;
 var BrowserWindow = electron.BrowserWindow;
 var ipcMain = electron.ipcMain;
+
 var cwd = process.cwd();
 
 // get parameters
@@ -22,9 +24,9 @@ var Store = require('../store').init();
 var outputPath = Store.get('output_path');
 
 // holds BrowserWindow instance
-var mwin;
+var MainWindow;
 
-// sc module to handle requests
+// soundcloud module to handle requests
 var soundcloud = null;
 
 // set store and config as a global object
@@ -53,13 +55,13 @@ function createWindow(opts) {
   var screenSize = electron.screen.getPrimaryDisplay().size;
 
   // create a new BrowserWindow
-  mwin = new BrowserWindow({
-    width: config.windowWidth || 780,
-    height: config.windowHeight || screenSize.height
+  MainWindow = new BrowserWindow({
+    width: config.windowWidth || 790,
+    height: config.windowHeight || screenSize.height - 15
   });
 
   // get web contents
-  let webContent = mwin.webContents;
+  let webContent = MainWindow.webContents;
 
   // event listeners
   webContent.on('did-fail-load', function() {
@@ -74,41 +76,40 @@ function createWindow(opts) {
     logger.log('error', 'Window has crashed', arguments);
   });
 
-  //open devtools
   if (process.env.NODE_ENV === 'development') {
-    mwin.openDevTools();
+    // MainWindow.openDevTools();
     ipcMain.on('inspect-element', function(event, coords) {
-      if (mwin) {
-        mwin.inspectElement(coords.x, coords.y);
+      if (MainWindow) {
+        MainWindow.inspectElement(coords.x, coords.y);
       }
     });
   }
 
-  //soundcloud module
-  var Soundcloud = require('./soundcloud');
-  soundcloud = new Soundcloud(mwin);
+  soundcloud = new Soundcloud(MainWindow, {
+    baseUrl: config.baseUrl,
+    client_id: config.client_id
+  });
 
   //load index.html
-  mwin.loadURL(`file://${cwd}/index.html`);
+  MainWindow.loadURL(`file://${cwd}/index.html`);
 }
 
 /** Process Communication **/
-
 ipcMain.on('get-output-path', (event) => {
   var outputPath = store.get('output_path');
   event.sender.send('get-output-path-reply', outputPath);
 });
 
 ipcMain.on('set-output-path', (event) => {
-  if (!mwin) return;
+  if (!MainWindow) return;
   var dialog = electron.dialog;
-  dialog.showOpenDialog(mwin, {
+  dialog.showOpenDialog(MainWindow, {
     properties: ['openDirectory']
   }, function(outputPath) {
     if (!outputPath) return;
     store.set('output_path', outputPath[0]);
     logger.log('info', 'output_oath set to ', outputPath[0]);
-    mwin.webContents.send('set-output-path-reply', store.get('output_path'))
+    MainWindow.webContents.send('set-output-path-reply', store.get('output_path'))
   });
 });
 
@@ -117,10 +118,10 @@ ipcMain.on('resolve', (event, url) => {
     if(errors) {
       console.log(errors);
       logger.log('error', `${url}: ${errors[0].error_message}`);
+      event.sender.send('resolve-reply-error', errors);
     } else {
-      logger.log('info', 'url resolved ', url);
+      event.sender.send('resolve-reply', response);
     }
-    event.sender.send('resolve-reply', errors, response);
   });
 });
 
@@ -141,8 +142,8 @@ ipcMain.on('open-url', (event, url) => {
 });
 
 ipcMain.on('clear-cache', (event) => {
-  if (mwin) {
-    mwin.webContents.session.clearCache(function() {
+  if (MainWindow) {
+    MainWindow.webContents.session.clearCache(function() {
       logger.log('info', 'cache cleared');
     });
   }
@@ -165,7 +166,7 @@ app.on('ready', function() {
 
 app.on('activate', function() {
   logger.log('info', `app is activated`);
-  if (mwin === null) {
+  if (MainWindow === null) {
     createWindow();
   }
 });
@@ -179,7 +180,6 @@ app.on('will-quit', function() {
 });
 
 process.on('uncaughtException', function(err) {
-  logger.log('error', err);
   throw new Error(err);
 });
 

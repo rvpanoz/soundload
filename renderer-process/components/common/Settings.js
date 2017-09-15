@@ -5,6 +5,7 @@
 'use strict';
 
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {ipcRenderer} from 'electron';
 
 export default class Settings extends React.Component {
@@ -37,22 +38,28 @@ export default class Settings extends React.Component {
   }
   render() {
     return (
-      <div className="settings" style={{
-        right: this.props.position
-      }}>
-        <div className="form-section">
-          <div className="form-section__title">
-            <h3>Output directory</h3>
-          </div>
-          <div className="form-section__content">
-            <div className="row">
-              <div className="col-md-9">
-                <span className="text wp100 bg-black" ref={(el) => {
-                  this.textInput = el;
-                }}></span>
-              <a href="#" className="text apply" onClick={this.handleSelection}>change</a>
+      <div className="page-content">
+        <div className="settings-content">
+          <div className="form-section">
+            <div className="form-section__title">
+              <h3>Output directory</h3>
+              <span className="help-block">folder where downloaded tracks are saved</span>
+            </div>
+            <div className="form-section__content">
+              <div className="row">
+                <div className="col-lg-3 col-md-4 col-sm-5 col-xs-6">
+                  <span className="text wp50" ref={(el) => {
+                    this.textInput = el;
+                  }}></span>
+                </div>
+                <div className="col-lg-1 col-md-3 col-sm-5 col-xs-6">
+                  <button style={{marginTop: '15px'}} className="button-light apply" onClick={this.handleSelection}>change</button>
+                </div>
               </div>
             </div>
+          </div>
+          <div className="actions">
+            <Link to="/">Back</Link>
           </div>
         </div>
       </div>
