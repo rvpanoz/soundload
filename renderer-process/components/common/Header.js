@@ -6,7 +6,6 @@
 'use strict';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Link} from 'react-router-dom';
 
 export default class Header extends React.Component {
@@ -35,9 +34,9 @@ export default class Header extends React.Component {
           <div className="navigation__actions">
             <ul>
               <li className="navigation__list__item">
-                <a href="#" onClick={this.props.showSettings}>
+                <Link to="/settings">
                   <i className="fa fa-cog"></i>
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
