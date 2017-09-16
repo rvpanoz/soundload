@@ -22,14 +22,11 @@ export default class AppPlayer extends React.Component {
     this.updateProgress = this.updateProgress.bind(this);
     this.play = this.play.bind(this);
     this.seek = this.seek.bind(this);
-<<<<<<< HEAD
     this.seekForward = this.seekForward.bind(this);
     this.seekBackward = this.seekBackward.bind(this);
     this.stop = this.stop.bind(this);
     this.adjustVolume = this.adjustVolume.bind(this);
-=======
     this.setVolume = this.setVolume.bind(this);
->>>>>>> develop
   }
   play(e) {
     let audioSrc = this.refs.audioElement.src;
