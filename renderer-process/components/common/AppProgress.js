@@ -9,16 +9,8 @@ export default class AppProgress extends React.Component {
       size: 0,
       percentage: 0
     }
-  }
-  componentDidMount() {
-    //ipc events
-    ipcRenderer.on('download-file-error', (event, error_message) => {
-      console.error(error_message);
-      this.setState({is_visible: false, percentage: 0});
-    });
-    ipcRenderer.on('download-file-reply', (event) => {
-      this.setState({is_visible: false, percentage: 0});
-    });
+
+    // File progress events
     ipcRenderer.on('on-response-reply', (event, fileSize) => {
       this.setState((prevState) => {
         return {size: fileSize, is_visible: true}
