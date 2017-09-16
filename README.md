@@ -1,13 +1,11 @@
 # Soundload (WIP)
+work in progress
 
-Cross platform desktop app. Using electron and React for UI. It's a simple Soundcloud client for searching, downloading tracks and finding related items.
-via Soundcloud API.
+Cross platform desktop app. Using electron and React for UI. It's a simple Soundcloud client for searching, downloading tracks and finding related items.The application uses Soundcloud API.
 
-work in progress..
+![Soundload](http://104.236.58.95/media/soundload-track.png)
 
-![Soundload](http://104.236.58.95/media/soundload-v2.png)
-
-![Soundload](http://104.236.58.95/media/soundload-v3.png)
+![Soundload](http://104.236.58.95/media/soundload-related.png)
 
 ## Requirements
 
@@ -24,31 +22,6 @@ below.
 
     $ npm --version
     1.3.21
-
-#### Node installation on OS X
-
-You will need to use a Terminal. On OS X, you can find the default terminal in
-`/Applications/Utilities/Terminal.app`.
-
-Please install [Homebrew](http://brew.sh/) if it's not already done with the following command.
-
-    $ ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
-
-If everything when fine, you should run
-
-    brew install node
-
-#### Node installation on Linux
-
-    sudo apt-get install python-software-properties
-    sudo add-apt-repository ppa:chris-lea/node.js
-    sudo apt-get update
-    sudo apt-get install nodejs
-
-#### Node installation on Windows
-
-Just go on [official Node.js website](http://nodejs.org/) & grab the installer.
-Also, be sure to have `git` available in your PATH, `npm` might need it.
 
 ---
 
