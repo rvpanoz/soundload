@@ -61,10 +61,11 @@ a:focus, a:hover {
 }
 
 p {
-  font-size: 15px;
-  font-weight: 300;
-  line-height: 1.6;
-  margin-bottom: 1em;
+  margin: 2px 0px;
+    padding: 0px;
+    margin-bottom: 5px;
+    line-height: 28px;
+
 }
 
 button {
@@ -1422,80 +1423,61 @@ input[type="range"].round::-webkit-slider-thumb {
 
 /** TRACK CARD **/
 
-.track-card {
-  width: 100%;
-  display: inline-block;
-  margin: auto;
-  border-radius: 19px;
-  position: relative;
-  text-align: center;
-  box-shadow: -1px 15px 30px -12px black;
-}
-
-.track-card__image {
-  position: relative;
-  height: 300px;
-  margin-bottom: 35px;
-  border-top-left-radius: 14px;
-  border-top-right-radius: 14px;
-}
-
-.track-card__image>img {
-  border-radius: 50%;
-  margin-top: 20px;
-}
-
-.track-card__title {
-  text-transform: uppercase;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 3px;
-  color: #fff
-}
-
-.track-card__favorites {
-  font-size: 26px;
-  color: #fff;
-  font-weight: 900;
-  margin-bottom: 5px;
-}
-
-.track-card__genre {
-  color: #fff;
-}
-
-.track-card__stats {
-  background: #f50;
-  width: 100%;
-  height: 155px;
+.track-info .ui-item img {
   display: block;
-  position: relative;
-  margin-top: 15px;
-  color: white;
-  font-weight: 700;
-  border-bottom-left-radius: 14px;
-  border-bottom-right-radius: 14px;
-}
-
-.track-card__stats .one-third {
-  width: 25%;
+  max-height: 300px;
   float: left;
-  padding: 20px 15px;
 }
 
-.track-card__stats .one-third .stat {
-  position: relative;
-  font-size: 24pt;
-  font-family: 'Lato';
-  margin-bottom: 10px;
+.track-info .ui-item .ui-content {
+  margin: -25px 0px 20px 315px;
+  color: #fff;
 }
 
-.track-card__stats .one-third .stat-value {
-  text-transform: uppercase;
-  font-weight: 400;
-  font-size: 24pt;
+.ui-item .ui-content h3 {
+    font-size: 20px;
+    line-height: 30px;
+    font-weight: 400;
 }
 
+.ui-item .ui-content .ui-genre {
+  margin: 5px 0px;
+}
+
+.ui-item .ui-content .ui-genre span {
+    display: inline-block;
+    margin: 5px 0px;
+    margin-right: 5px;
+    font-size: 14pt;
+    background: #f24;
+    padding: 2px 7px;
+}
+
+.ui-content p {
+  font-size: 14px;
+  line-height: 20px;
+  color: #888;
+  border-bottom: 1px solid #444;
+  padding-bottom: 10px;
+}
+
+.ui-content .ui-stats {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 35px;
+}
+
+.ui-content .ui-stats i {
+  color: #f24;
+}
+
+.ui-content .ui-stats .stat {
+  font-size: 22pt;
+  font-family: 'Lato'
+}
 
 /** SETTINGS PANEL **/
 
