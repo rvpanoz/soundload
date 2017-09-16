@@ -1,9 +1,7 @@
 # Soundload (WIP)
+work in progress
 
-Cross platform desktop app. Using electron and React for UI. It's a simple Soundcloud client for searching, downloading tracks and finding related items.
-via Soundcloud API.
-
-work in progress..
+Cross platform desktop app. Using electron and React for UI. It's a simple Soundcloud client for searching, downloading tracks and finding related items.The application uses Soundcloud API.
 
 ![Soundload](http://104.236.58.95/media/soundload-v2.png)
 
