@@ -22,10 +22,14 @@ export default class AppPlayer extends React.Component {
     this.updateProgress = this.updateProgress.bind(this);
     this.play = this.play.bind(this);
     this.seek = this.seek.bind(this);
+<<<<<<< HEAD
     this.seekForward = this.seekForward.bind(this);
     this.seekBackward = this.seekBackward.bind(this);
     this.stop = this.stop.bind(this);
     this.adjustVolume = this.adjustVolume.bind(this);
+=======
+    this.setVolume = this.setVolume.bind(this);
+>>>>>>> develop
   }
   play(e) {
     let audioSrc = this.refs.audioElement.src;
@@ -110,6 +114,21 @@ export default class AppPlayer extends React.Component {
     let control = this.refs.backwardButton;
     this.seek(control);
   }
+  setVolume(e) {
+    let target = e.target;
+    let isMuted = target.classList.contains('fa-volume-off');
+    let audioRef = this.refs.audioElement;
+
+    if(isMuted) {
+      audioRef.volume = 1.0;
+      target.classList.remove('fa-volume-off');
+      target.classList.add('fa-volume-up');
+    } else {
+      audioRef.volume = 0;
+      target.classList.remove('fa-volume-up');
+      target.classList.add('fa-volume-off');
+    }
+  }
   stop() {
     this.refs.audioElement.pause();
     this.refs.audioElement.currentTime = 0;
@@ -164,9 +183,7 @@ export default class AppPlayer extends React.Component {
         <div className="current-track__options">
           <span className="controls">
             <div className="volume">
-              <i className="fa fa-volume-up" style={{
-                cursor: 'pointer'
-              }}></i>
+              <i className="fa fa-volume-up" style={{cursor: 'pointer'}} onClick={this.setVolume}></i>
             </div>
           </span>
         </div>

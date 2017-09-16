@@ -1427,6 +1427,7 @@ input[type="range"].round::-webkit-slider-thumb {
   display: block;
   max-height: 300px;
   float: left;
+  border-radius: 50%;
 }
 
 .track-info .ui-item .ui-content {

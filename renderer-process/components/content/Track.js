@@ -17,27 +17,21 @@ export default class Track extends React.Component {
       percentage: 0,
       show_progress: false
     }
-    //bind methods
+
+    // Bind method's context to this
     this.parseDate = this.parseDate.bind(this);
     this.parseDuration = this.parseDuration.bind(this);
     this.parseArtworkUrl = this.parseArtworkUrl.bind(this);
     this.download = this.download.bind(this);
   }
   componentDidMount() {
+    // Register listeners
     ipcRenderer.on('download-file-error', (event, error_message) => {
-      this.downloadBtn.disabled = false;
+      console.error(error_message);
     });
     ipcRenderer.on('download-file-reply', (event) => {
-      this.downloadBtn.disabled = false;
+      console.info('Download completed');
     });
-  }
-  componentDidUpdate(prevProps, prevState) {
-    let itemCenter = this.refs.center;
-    if (itemCenter) {
-      setTimeout(() => {
-        itemCenter.style.left = '50%';
-      }, 1000)
-    }
   }
   componentWillUnmount() {
     ipcRenderer.removeAllListeners(['download-file', 'download-file-reply', 'download-file-error']);
@@ -51,11 +45,12 @@ export default class Track extends React.Component {
     //disable button until download has finished
     this.downloadBtn.disabled = true;
 
-    if (!title || !id)
-      return;
-    title = title.replace(/[^a-zA-Z]+/, ' ');
+    if (!title || !id) {
+      throw new Error('Download failed: title or id not defined');
+    }
+
+    title = title.replace(/[^a-zA-Z]+/, '');
     ipcRenderer.send('download-file', title, id);
-    return false;
   }
   parseArtworkUrl(w, h) {
     let url = this.props.track.artwork_url;
@@ -77,9 +72,12 @@ export default class Track extends React.Component {
   render() {
     let styleCenter,
       track = this.props.track;
+
     if (!track) {
       return null;
     }
+
+    //seet background image from artwork_url
     styleCenter = {
       backgroundImage: 'url(' + track.artwork_url + ')'
     }

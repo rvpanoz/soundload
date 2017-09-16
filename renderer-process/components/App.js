@@ -23,8 +23,6 @@ const config = remote.getGlobal('config');
 class App extends React.Component {
   constructor(props) {
     super(props);
-
-    //set initial state
     this.state = {
       show_loader: false,
       show_settings: false,
@@ -53,49 +51,46 @@ class App extends React.Component {
     this.setState({
       show_loader: false,
       show_settings: false,
-      active_track: null,
+      active_track: null
     }, () => {
-      console.log('state cleared');
+      console.info('state cleared');
     });
+  }
+  componentWillUnmount() {
+    ipcRenderer.send('clear-cache');
   }
   componentDidMount() {
     //dev==================
-    this.resolve();
     require('../dev/imports');
-    window.addEventListener('beforeunload', function() {
-      ipcRenderer.send('clear-cache');
-    });
     //dev==================
   }
   resolve(e) {
-    let url,
-      form;
-    if (e) {
-      e.preventDefault();
-      form = e.target;
-      url = form.querySelector('input').value;
-    }
-    if (!url || !url.length)
-      url = config.testUrl;
+    e.preventDefault();
+    let form = e.target;
+    let url = form.querySelector('input').value;
 
+    if (!url || !url.length) {
+      console.info('Resolve: Url is missing');
+      return;
+    }
     this.setState({show_loader: true, active_track: null, show_settings: false});
     ipcRenderer.send('resolve', url);
   }
   setActiveTrack(track) {
-    if(!track) return;
+    if (!track) {
+      throw new Error('setActiveTrack failed: Track is undefined');
+    }
     this.setState({
       active_track: track
     }, () => {
       ipcRenderer.send('fetch-related', track.id);
-      $('.content').animate({
-        scrollTop: 0
-      }, 1000);
+      window.scrollTo(0, 0);
     });
   }
   showSettings(e) {
     e.preventDefault();
     this.setState((prevState) => {
-      show_settings: !prevState.show_settings
+      show_settings : !prevState.show_settings
     });
   }
   render() {
