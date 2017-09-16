@@ -122,50 +122,33 @@ export default class Track extends React.Component {
           <div className="tab-content">
             <div role="tabpanel" className="tab-pane active" id="track-overview">
               <div className="track-info">
-                <div className="track-card">
-                  <div className="track-card__image">
-                    <img src={this.parseArtworkUrl(300, 300)} alt={track.title}/>
-                  </div>
-                  <div className="track-card__title">
-                    {track.title}
-                  </div>
-                  <div className="track-card__favorites">
-                    <i className="fa fa-heart-o"></i>&nbsp;{track.favoritings_count}
-                  </div>
-                  <div className="track-card__genre">
-                    {track.genre}
-                  </div>
-                  <div className="track-card__stats">
-                    <div className="one-third">
-                      <div className="stat">
-                        <i className="fa fa-retweet"></i>
-                      </div>
-                      <div className="stat-value">
-                        {track.reposts_count}
-                      </div>
-                    </div>
-                    <div className="one-third">
-                      <div className="stat">
-                        <i className="fa fa-download"></i>
-                      </div>
-                      <div className="stat-value">
-                        {track.download_count}
-                      </div>
-                    </div>
-                    <div className="one-third">
-                      <div className="stat">
-                        <i className="fa fa-clock-o"></i>
-                      </div>
-                      <div className="stat-value">
-                        {this.parseDuration().min}&nbsp;min
-                      </div>
-                    </div>
-                    <div className="one-third no-border">
-                      <div className="stat">
-                        <i className="fa fa-comment"></i>
-                      </div>
-                      <div className="stat-value">
-                        {track.comment_count}
+                <div className="row">
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div className="ui-item clearfix">
+                      <img src={this.parseArtworkUrl(300, 300)} alt={track.title}/>
+                      <div className="ui-content">
+                        <h3>{track.title}</h3>
+                        <div className="ui-genre">
+                          <span>{track.genre}</span>
+                        </div>
+                        <p>{track.description}</p>
+                        <div className="ui-stats">
+                          <div className="stat">
+                            <i className="fa fa-heart"></i>&nbsp;{track.favoritings_count}
+                          </div>
+                          <div className="stat">
+                            <i className="fa fa-retweet"></i>&nbsp;{track.reposts_count}
+                          </div>
+                          <div className="stat">
+                            <i className="fa fa-comment"></i>&nbsp;{track.comment_count}
+                          </div>
+                          <div className="stat">
+                            <i className="fa fa-download"></i>&nbsp;{track.download_count}
+                          </div>
+                          <div className="stat">
+                            <i className="fa fa-clock-o"></i>&nbsp;{this.parseDuration().min}min
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
