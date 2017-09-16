@@ -4,19 +4,6 @@ import moment from 'moment';
 
 const config = remote.getGlobal('config');
 
-class RangeVolume extends React.Component {
-  onChange(e) {
-
-  }
-  render() {
-    return (
-      <div>
-        <input onChange={this.onChange} className="range horizontal-lowest-first" type="range" min="0" max="1" step="0.1" value="1"/>
-      </div>
-    )
-  }
-}
-
 export default class AppPlayer extends React.Component {
   constructor(props) {
     super(props);
@@ -177,10 +164,9 @@ export default class AppPlayer extends React.Component {
         <div className="current-track__options">
           <span className="controls">
             <div className="volume">
-              <i className="fa fa-volume-up" onClick={this.adjustVolume} style={{
+              <i className="fa fa-volume-up" style={{
                 cursor: 'pointer'
               }}></i>
-              <RangeVolume/>
             </div>
           </span>
         </div>
