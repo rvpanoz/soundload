@@ -59,11 +59,6 @@ class App extends React.Component {
   componentWillUnmount() {
     ipcRenderer.send('clear-cache');
   }
-  componentDidMount() {
-    //dev==================
-    require('../dev/imports');
-    //dev==================
-  }
   resolve(e) {
     e.preventDefault();
     let form = e.target;
