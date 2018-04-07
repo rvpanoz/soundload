@@ -6,10 +6,6 @@ Cross platform desktop app. Using electron and React for UI. It's a simple Sound
 
 ![Soundload](http://104.236.58.95/media/soundload-related.png)
 
-## Requirements
-
-For development, you will only need Node.js installed on your environement.
-
 ## Install
 
     $ git clone https://github.com/rvpanoz/soundload.git
